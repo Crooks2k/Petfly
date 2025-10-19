@@ -1,0 +1,72 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "save": "Guardar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "clear": "Limpiar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "close": "Cerrar"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "dashboard": "Panel",
+    "profile": "Perfil",
+    "settings": "Configuración",
+    "logout": "Cerrar Sesión"
+  },
+  "validation": {
+    "required": "Este campo es requerido",
+    "email": "Ingrese un email válido",
+    "minLength": "Mínimo {{min}} caracteres",
+    "maxLength": "Máximo {{max}} caracteres",
+    "pattern": "Formato inválido"
+  },
+  "errors": {
+    "generic": "Ha ocurrido un error inesperado",
+    "network": "Error de conexión",
+    "notFound": "Página no encontrada",
+    "unauthorized": "No autorizado",
+    "forbidden": "Acceso denegado",
+    "serverError": "Error del servidor"
+  },
+  "example": {
+    "title": "Página de Ejemplo",
+    "subtitle": "Demostración de Clean Architecture con Angular",
+    "loadButton": "Cargar Ejemplos",
+    "createdAt": "Creado el",
+    "noDataMessage": "No hay elementos para mostrar. Haz clic en 'Cargar Ejemplos' para ver los datos.",
+    "sections": {
+      "list": "Lista de Ejemplos"
+    },
+    "list": {
+      "title": "Lista de Ejemplos",
+      "subtitle": "Gestiona tus elementos de ejemplo",
+      "searchPlaceholder": "Buscar elementos...",
+      "addButton": "Cargar Ejemplos",
+      "noDataMessage": "No hay elementos para mostrar",
+      "confirmDelete": "¿Estás seguro de eliminar este elemento?"
+    },
+    "categories": {
+      "technology": "Tecnología",
+      "business": "Negocios",
+      "education": "Educación",
+      "health": "Salud",
+      "other": "Otro"
+    },
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo",
+      "pending": "Pendiente",
+      "completed": "Completado"
+    }
+  }
+}

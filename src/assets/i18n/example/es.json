@@ -1,0 +1,58 @@
+{
+  "title": "Página de Ejemplo",
+  "subtitle": "Demostración de Clean Architecture con Angular",
+  "loadButton": "Cargar Ejemplos",
+  "createdAt": "Creado el",
+  "noDataMessage": "No hay elementos para mostrar. Haz clic en 'Cargar Ejemplos' para ver los datos.",
+  "sections": {
+    "list": "Lista de Ejemplos"
+  },
+  "list": {
+    "title": "Lista de Ejemplos",
+    "subtitle": "Gestiona tus elementos de ejemplo",
+    "searchPlaceholder": "Buscar elementos...",
+    "addButton": "Cargar Ejemplos",
+    "noDataMessage": "No hay elementos para mostrar",
+    "confirmDelete": "¿Estás seguro de eliminar este elemento?"
+  },
+  "form": {
+    "title": "Formulario de Ejemplo",
+    "subtitle": "Crear o editar elemento",
+    "nameLabel": "Nombre",
+    "descriptionLabel": "Descripción",
+    "categoryLabel": "Categoría",
+    "statusLabel": "Estado",
+    "backToListLink": "Volver a la lista"
+  },
+  "categories": {
+    "technology": "Tecnología",
+    "business": "Negocios",
+    "education": "Educación",
+    "health": "Salud",
+    "other": "Otro"
+  },
+  "status": {
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "pending": "Pendiente",
+    "completed": "Completado"
+  },
+  "messages": {
+    "createSuccess": "Elemento creado exitosamente",
+    "updateSuccess": "Elemento actualizado exitosamente",
+    "deleteSuccess": "Elemento eliminado exitosamente",
+    "createError": "Error al crear el elemento",
+    "updateError": "Error al actualizar el elemento",
+    "deleteError": "Error al eliminar el elemento",
+    "loadError": "Error al cargar los datos"
+  },
+  "validation": {
+    "nameRequired": "El nombre es requerido",
+    "nameMinLength": "El nombre debe tener al menos 3 caracteres",
+    "nameMaxLength": "El nombre no puede exceder 50 caracteres",
+    "descriptionRequired": "La descripción es requerida",
+    "descriptionMinLength": "La descripción debe tener al menos 10 caracteres",
+    "categoryRequired": "La categoría es requerida",
+    "statusRequired": "El estado es requerido"
+  }
+}
