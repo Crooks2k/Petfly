@@ -1,0 +1,51 @@
+<header class="petfly-header">
+  <div class="header-container">
+    <div class="logo-section">
+      <img src="assets/images/petfly-logo.png" alt="Petfly - Viaja con tu mascota" class="logo" />
+    </div>
+
+    <div class="nav-icons">
+      <button 
+        class="nav-icon-btn" 
+        type="button" 
+        (click)="op.toggle($event)"
+        aria-label="Cambiar idioma"
+      >
+        <i class="pi pi-globe"></i>
+      </button>
+
+      <button 
+        class="nav-icon-btn" 
+        type="button" 
+        (click)="openWhatsApp()" 
+        aria-label="WhatsApp"
+      >
+        <i class="pi pi-whatsapp"></i>
+      </button>
+
+      <button 
+        class="nav-icon-btn" 
+        type="button" 
+        aria-label="Precios"
+      >
+        <i class="pi pi-dollar"></i>
+      </button>
+
+      <p-overlayPanel #op [style]="{ width: '200px' }">
+        <div class="language-menu">
+          <button
+            *ngFor="let lang of languages"
+            class="language-option"
+            type="button"
+            [class.active]="lang.code === currentLanguage"
+            (click)="changeLanguage(lang.code); op.hide()"
+          >
+            <span class="language-flag">{{ lang.flag }}</span>
+            <span class="language-name">{{ lang.name }}</span>
+            <i class="pi pi-check" *ngIf="lang.code === currentLanguage"></i>
+          </button>
+        </div>
+      </p-overlayPanel>
+    </div>
+  </div>
+</header>

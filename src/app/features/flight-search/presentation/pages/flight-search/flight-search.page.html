@@ -1,0 +1,186 @@
+<app-header></app-header>
+<div class="flight-search-page">
+  <div class="main-title">
+    <h1>{{ texts.title }}</h1>
+    <p>{{ texts.subtitle }}</p>
+  </div>
+
+  <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="search-form">
+    <div class="trip-type-section">
+      <petfly-select-button
+        formControlName="tipoViaje"
+        [options]="tripType"
+        [allowDeselect]="false"
+        styleClass="trip-type-buttons"
+      >
+      </petfly-select-button>
+    </div>
+
+    <div class="cities-section">
+      <div class="input-group">
+        <petfly-input-select
+          formControlName="origen"
+          [options]="ciudades"
+          [filter]="true"
+          [placeholder]="texts.originLabel"
+          [filterPlaceholder]="texts.cityFilterPlaceholder"
+          styleClass="search-input"
+        >
+        </petfly-input-select>
+      </div>
+
+      <div class="input-group">
+        <petfly-input-select
+          formControlName="destino"
+          [options]="ciudades"
+          [filter]="true"
+          [placeholder]="texts.destinationLabel"
+          [filterPlaceholder]="texts.cityFilterPlaceholder"
+          styleClass="search-input"
+        >
+        </petfly-input-select>
+      </div>
+    </div>
+
+    <div class="dates-section">
+      <div class="input-group" [class.full-width]="searchForm.get('tipoViaje')?.value === 'oneway'">
+        <petfly-input-calendar
+          formControlName="fechaSalida"
+          [placeholder]="texts.departureDateLabel"
+          [showIcon]="true"
+          iconDisplay="input"
+          dateFormat="dd/mm/yy"
+          [minDate]="today"
+          styleClass="search-input"
+        >
+        </petfly-input-calendar>
+      </div>
+
+      <div
+        class="input-group"
+        *ngIf="searchForm.get('tipoViaje')?.value === 'roundtrip'"
+        [@slideInOut]
+      >
+        <petfly-input-calendar
+          formControlName="fechaRegreso"
+          [placeholder]="texts.returnDateLabel"
+          [showIcon]="true"
+          iconDisplay="input"
+          dateFormat="dd/mm/yy"
+          [minDate]="getMinReturnDate()"
+          styleClass="search-input"
+        >
+        </petfly-input-calendar>
+      </div>
+
+      <div class="input-group">
+        <petfly-passenger-selector
+          formControlName="pasajeros"
+          [placeholder]="texts.passengersPlaceholder"
+          [adultsLabel]="texts.passengerSelectorAdults"
+          [adultsSubLabel]="texts.passengerSelectorAdultsSubLabel"
+          [childrenLabel]="texts.passengerSelectorChildren"
+          [childrenSubLabel]="texts.passengerSelectorChildrenSubLabel"
+          [classLabel]="texts.passengerSelectorClass"
+          [economyLabel]="texts.passengerSelectorEconomy"
+          [businessLabel]="texts.passengerSelectorBusiness"
+          [passengerLabel]="texts.passengerSelectorPassenger"
+          [passengersLabel]="texts.passengerSelectorPassengers"
+          [cancelLabel]="texts.passengerSelectorCancel"
+          [saveLabel]="texts.passengerSelectorSave"
+        >
+        </petfly-passenger-selector>
+      </div>
+    </div>
+
+    <div class="pet-details-section">
+      <div class="pet-header">
+        <span>{{ texts.petDetailsTitle }}</span>
+      </div>
+
+      <div class="pet-type-buttons">
+        <button
+          type="button"
+          class="pet-type-btn"
+          [class.active]="selectedPetType === 'dog'"
+          (click)="selectPetType('dog')"
+        >
+          <span>{{ texts.dogLabel }}</span>
+        </button>
+        <button
+          type="button"
+          class="pet-type-btn"
+          [class.active]="selectedPetType === 'cat'"
+          (click)="selectPetType('cat')"
+        >
+          <span>{{ texts.catLabel }}</span>
+        </button>
+      </div>
+
+      <div class="pet-info-section">
+        <div class="input-group">
+          <label class="input-label">{{ texts.petAgeLabel }}</label>
+          <petfly-input-number
+            formControlName="edadMascota"
+            [min]="1"
+            [max]="300"
+            styleClass="search-input"
+          >
+          </petfly-input-number>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label">
+            {{ texts.petWeightLabel }}
+            <i
+              class="pi pi-info-circle"
+              [pTooltip]="texts.petWeightSubtitle"
+              tooltipPosition="top"
+              tooltipEvent="focus"
+              [tooltipOptions]="{
+                tooltipStyleClass: 'custom-tooltip',
+                showDelay: 0,
+                hideDelay: 300,
+              }"
+              tabindex="0"
+            ></i>
+          </label>
+          <petfly-input-number
+            formControlName="pesoMascota"
+            [min]="0.5"
+            [max]="50"
+            [step]="0.1"
+            styleClass="search-input"
+          >
+          </petfly-input-number>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">{{ texts.petBreedLabel }}</label>
+        <petfly-input-select
+          formControlName="razaMascota"
+          [options]="razasOptions"
+          [placeholder]="texts.petBreedPlaceholder"
+          [filter]="true"
+          [filterPlaceholder]="texts.petBreedFilterPlaceholder"
+          styleClass="search-input"
+        >
+        </petfly-input-select>
+      </div>
+    </div>
+
+    <div class="policy-search-section">
+      <div class="policy-title">
+        <p>{{ texts.policysTitle }}</p>
+      </div>
+
+      <div class="search-button-container">
+        <button type="submit" class="search-button" [disabled]="searchForm.invalid || isSearching">
+          <i class="pi pi-spin pi-spinner" *ngIf="isSearching"></i>
+          {{ isSearching ? texts.searchingFlights : texts.searchButton }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

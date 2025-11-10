@@ -1,0 +1,132 @@
+<div class="example-page">
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">{{ texts.title }}</h1>
+      <p class="page-subtitle">{{ texts.subtitle }}</p>
+    </div>
+
+    <div class="language-selector">
+      <p-dropdown
+        [options]="availableLanguages"
+        [(ngModel)]="currentLanguage"
+        (onChange)="changeLanguage($event.value)"
+        optionLabel="name"
+        optionValue="code"
+        [showClear]="false"
+        placeholder="Idioma"
+      >
+        <ng-template pTemplate="selectedItem" let-selectedOption>
+          <div class="language-option">
+            <span>{{ selectedOption.flag }}</span>
+            <span>{{ selectedOption.name }}</span>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="item" let-option>
+          <div class="language-option">
+            <span>{{ option.flag }}</span>
+            <span>{{ option.name }}</span>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <div class="section-header">
+      <h2>{{ texts.listTitle }}</h2>
+      <p-button
+        [label]="isLoading ? texts.loading : texts.loadButton"
+        [loading]="isLoading"
+        (onClick)="loadExamples()"
+        icon="pi pi-refresh"
+      ></p-button>
+    </div>
+
+    <div class="examples-list" *ngIf="examples.length > 0">
+      <div class="example-card" *ngFor="let example of examples">
+        <h3>{{ example.name }}</h3>
+        <p>{{ example.description }}</p>
+        <div class="example-meta">
+          <span class="category">{{ getCategoryText(example.category) }}</span>
+          <span class="status" [class]="'status-' + example.status">
+            {{ getStatusText(example.status) }}
+          </span>
+        </div>
+        <small>{{ texts.createdAtLabel }}: {{ example.createdAt | date: 'short' }}</small>
+      </div>
+    </div>
+
+    <div class="no-data" *ngIf="examples.length === 0 && !isLoading">
+      <p>{{ texts.noDataMessage }}</p>
+    </div>
+  </div>
+
+  <!-- Sección de prueba de componentes Petfly -->
+  <div class="components-test">
+    <h2>Prueba de Componentes Petfly</h2>
+
+    <div class="component-item">
+      <label>Input Select:</label>
+      <petfly-input-select [options]="ciudades" placeholder="Selecciona una ciudad" [filter]="true">
+      </petfly-input-select>
+    </div>
+
+    <div class="component-item">
+      <label>Input Calendar:</label>
+      <petfly-input-calendar
+        placeholder="Fecha de salida"
+        [showIcon]="true"
+        iconDisplay="input"
+        dateFormat="dd/mm/yy"
+      >
+      </petfly-input-calendar>
+    </div>
+
+    <div class="component-item">
+      <label>Select Button (Deseleccionable):</label>
+      <petfly-select-button [options]="tipoViaje" [allowDeselect]="true"> </petfly-select-button>
+    </div>
+
+    <div class="component-item">
+      <label>Select Button (Siempre seleccionado):</label>
+      <petfly-select-button [options]="tipoViaje" [allowDeselect]="false"> </petfly-select-button>
+    </div>
+
+    <div class="component-item">
+      <label>Input Number:</label>
+      <petfly-input-number
+        [showButtons]="true"
+        [min]="1"
+        [max]="9"
+        placeholder="Número de pasajeros"
+      >
+      </petfly-input-number>
+    </div>
+
+    <div class="component-item">
+      <label>Listbox:</label>
+      <petfly-listbox
+        [options]="aerolineas"
+        [filter]="true"
+        [listStyle]="{ 'max-height': '200px' }"
+      >
+      </petfly-listbox>
+    </div>
+
+    <div class="component-item">
+      <label>Split Button:</label>
+      <petfly-split-button
+        label="Buscar Vuelos"
+        icon="pi pi-search"
+        [model]="opcionesBusqueda"
+        severity="primary"
+      >
+      </petfly-split-button>
+    </div>
+  </div>
+
+  <div class="debug-info">
+    <h3>Current Language:</h3>
+    <p>{{ currentLanguage }}</p>
+  </div>
+</div>
