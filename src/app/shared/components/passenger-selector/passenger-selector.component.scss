@@ -1,0 +1,371 @@
+.passenger-selector {
+  width: 100%;
+
+  .selector-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover:not(.disabled) {
+      border-color: #3b82f6;
+    }
+
+    &.disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: #f3f4f6;
+    }
+
+    .selector-label {
+      font-size: 0.875rem;
+      color: #374151;
+      font-weight: 500;
+    }
+
+    i {
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+  }
+
+  .mobile-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+
+    .mobile-dialog-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .mobile-dialog-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    .mobile-dialog-header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      background: white;
+
+      .cancel-btn {
+        background: none;
+        border: none;
+        color: #457dd0;
+        font-size: 20px;
+        font-weight: 500;
+        cursor: pointer;
+        padding: 0;
+      }
+    }
+
+    .mobile-dialog-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+
+      .section-title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #000000;
+        margin: 0 0 1rem 0;
+        text-align: center;
+      }
+    }
+
+    .mobile-dialog-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid #e5e7eb;
+      background: white;
+
+      .save-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 1rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        }
+      }
+    }
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+// Shared styles for mobile dialog body
+.mobile-dialog-body {
+  .passenger-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+
+    .passenger-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+
+      .passenger-label {
+        font-size: 15px;
+        font-weight: 700;
+        color: #000000;
+      }
+
+      .passenger-sublabel {
+        font-size: 0.875rem;
+        color: #6b7280;
+        font-weight: 400;
+      }
+    }
+
+    .passenger-controls {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+
+      .control-btn {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        border: none;
+        background: #3b82f6;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover:not(:disabled) {
+          background: #2563eb;
+          transform: scale(1.05);
+        }
+
+        &:disabled {
+          background: #d1d5db;
+          cursor: not-allowed;
+        }
+
+        i {
+          font-size: 0.75rem;
+          font-weight: bold;
+        }
+      }
+
+      .passenger-count {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1f2937;
+        min-width: 35px;
+        text-align: center;
+      }
+    }
+  }
+
+  .divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 1rem 0;
+  }
+
+  .class-buttons {
+    display: grid;
+    grid-template-columns: 130px 130px;
+    gap: 0.75rem;
+    margin-top: 1rem;
+
+    .class-btn {
+      width: 130px;
+      height: 40px;
+      padding: 0;
+      border: 2px solid #d1d5db;
+      border-radius: 8px;
+      background: white;
+      color: #374151;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        border-color: #3b82f6;
+      }
+
+      &.active {
+        border-color: #3b82f6;
+        background: white;
+        color: #1f2937;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// Desktop overlay styles - usando ::ng-deep sin :host para que funcione en el body
+::ng-deep .passenger-overlay {
+  .p-overlaypanel-content {
+    padding: 0;
+  }
+
+  .overlay-content {
+    padding: 1.5rem;
+    min-width: 320px;
+
+    .overlay-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #000000;
+      margin: 0 0 1rem 0;
+    }
+
+    .passenger-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+
+      .passenger-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        .passenger-label {
+          font-size: 15px;
+          font-weight: 700;
+          color: #000000;
+        }
+
+        .passenger-sublabel {
+          font-size: 0.875rem;
+          color: #6b7280;
+          font-weight: 400;
+        }
+      }
+
+      .passenger-controls {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+
+        .control-btn {
+          width: 22px;
+          height: 22px;
+          border-radius: 50%;
+          border: none;
+          background: #3b82f6;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          &:hover:not(:disabled) {
+            background: #2563eb;
+            transform: scale(1.05);
+          }
+
+          &:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+          }
+
+          i {
+            font-size: 0.75rem;
+            font-weight: bold;
+          }
+        }
+
+        .passenger-count {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #1f2937;
+          min-width: 35px;
+          text-align: center;
+        }
+      }
+    }
+
+    .divider {
+      height: 1px;
+      background: #e5e7eb;
+      margin: 1rem 0;
+    }
+
+    .class-buttons {
+      display: grid;
+      grid-template-columns: 130px 130px;
+      gap: 0.75rem;
+      margin-top: 1rem;
+
+      .class-btn {
+        width: 130px;
+        height: 40px;
+        padding: 0;
+        border: 2px solid #d1d5db;
+        border-radius: 8px;
+        background: white;
+        color: #374151;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          border-color: #3b82f6;
+        }
+
+        &.active {
+          border-color: #3b82f6;
+          background: white;
+          color: #1f2937;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}

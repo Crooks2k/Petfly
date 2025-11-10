@@ -1,0 +1,206 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+::ng-deep {
+  .p-dropdown {
+    width: 100%;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    min-height: 48px;
+
+    &:hover {
+      border-color: #d1d5db;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    &.p-focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      outline: none;
+    }
+
+    .p-dropdown-label {
+      padding: 0.875rem 1rem;
+      font-size: 0.95rem;
+      color: #374151;
+      font-weight: 500;
+      line-height: 1.5;
+      
+      &.p-placeholder {
+        color: #9ca3af;
+        font-weight: 400;
+      }
+    }
+
+    .p-dropdown-clear-icon {
+      position: absolute;
+      right: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        color: #6b7280;
+        background-color: #f3f4f6;
+      }
+    }
+
+    .p-dropdown-trigger {
+      width: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      padding: 0;
+      
+      .p-dropdown-trigger-icon {
+        color: #6b7280;
+        font-size: 0.875rem;
+        transition: transform 0.2s ease;
+      }
+    }
+
+    &.p-dropdown-open {
+      .p-dropdown-trigger {
+        .p-dropdown-trigger-icon {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    // Cuando tiene clear button habilitado
+    &.p-dropdown-clearable {
+      .p-dropdown-label {
+        padding-right: 80px; // Espacio para clear + trigger
+      }
+    }
+
+    &.p-disabled {
+      background-color: #f9fafb;
+      border-color: #e5e7eb;
+      opacity: 0.6;
+      cursor: not-allowed;
+
+      .p-dropdown-label {
+        color: #9ca3af;
+      }
+
+      .p-dropdown-trigger-icon {
+        color: #d1d5db;
+      }
+
+      .p-dropdown-clear-icon {
+        color: #d1d5db;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .p-dropdown-panel {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    margin-top: 4px;
+    background: white;
+    overflow: hidden;
+
+    .p-dropdown-items-wrapper {
+      .p-dropdown-items {
+        padding: 0.5rem 0;
+
+        .p-dropdown-item {
+          padding: 0.75rem 1rem;
+          font-size: 0.95rem;
+          color: #374151;
+          transition: all 0.15s ease;
+          border: none;
+          margin: 0;
+
+          &:hover {
+            background-color: #f3f4f6;
+            color: #111827;
+          }
+
+          &.p-highlight {
+            background-color: #3b82f6;
+            color: white;
+            font-weight: 500;
+          }
+
+          &:focus {
+            outline: none;
+            background-color: #f3f4f6;
+          }
+        }
+      }
+    }
+
+    .p-dropdown-filter-container {
+      padding: 0 0.875rem;
+      border-bottom: 1px solid #f3f4f6;
+      background: #fafbfc;
+
+      .p-dropdown-filter {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 0.875rem;
+        background: white;
+        color: #374151;
+        transition: all 0.2s ease;
+        
+        &::placeholder {
+          color: #9ca3af;
+        }
+        
+        &:focus {
+          outline: none;
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        &:hover {
+          border-color: #d1d5db;
+        }
+      }
+
+      .p-dropdown-filter-icon {
+        display: none;
+      }
+    }
+  }
+
+  // Estilos específicos para diferentes tamaños
+  &.compact {
+    .p-dropdown {
+      min-height: 40px;
+      
+      .p-dropdown-label {
+        padding: 0.625rem 0.875rem;
+        font-size: 0.875rem;
+      }
+    }
+  }
+
+  &.large {
+    .p-dropdown {
+      min-height: 56px;
+      
+      .p-dropdown-label {
+        padding: 1rem 1.25rem;
+        font-size: 1rem;
+      }
+    }
+  }
+}

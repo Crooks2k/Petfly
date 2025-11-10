@@ -1,0 +1,369 @@
+.flight-search-page {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 0;
+  margin: 0;
+}
+
+.flight-search-page {
+  padding: 0 10px 0 10px;
+}
+
+.main-title {
+  margin: 0 1rem 2rem 1rem;
+  text-align: left;
+
+  h1 {
+    font-weight: 700;
+    font-size: 15px;
+    color: #000000;
+  }
+
+  p {
+    font-weight: 300;
+    font-size: 13px;
+    color: #000000;
+    margin-top: -5px;
+  }
+}
+
+.search-form {
+  padding: 1rem 1rem 0rem 1rem;
+  margin: 0 1rem 2rem 1rem;
+  background-color: #ffffff;
+  border: 1px solid #dfdfdf;
+}
+
+.trip-type-section {
+  margin-bottom: 1rem;
+}
+
+.cities-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.dates-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  margin-bottom: 1rem;
+
+  .input-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #515151;
+    font-size: 1rem;
+
+    i.pi-info-circle {
+      color: #6b7280;
+      font-size: 0.875rem;
+      cursor: pointer;
+      outline: none;
+      transition: color 0.2s ease;
+
+      &:hover,
+      &:focus {
+        color: #3b82f6;
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+
+  .input-subtitle {
+    font-size: 12px;
+    color: #6b7280;
+    margin: -10px 0 0.5rem 0;
+  }
+}
+
+.pet-details-section {
+  background: white;
+  border-radius: 12px;
+  margin: 1.5rem 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 15px;
+
+  .pet-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.3rem;
+
+    span {
+      font-weight: 600;
+      color: #515151;
+      font-size: 1rem;
+    }
+  }
+
+  .pet-type-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+
+    .pet-type-btn {
+      background: #e2eeff;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 0.5rem 0rem;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: #457dd0;
+      &:hover {
+        border-color: #cbd5e1;
+      }
+
+      &.active {
+        border-color: #3b82f6;
+        color: #457dd0;
+
+        span {
+          font-weight: 600;
+          color: #457dd0;
+          font-size: 15px;
+        }
+      }
+
+      i {
+        font-size: 1.5rem;
+        color: #64748b;
+      }
+
+      span {
+        font-size: 0.875rem;
+        color: #475569;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .pet-info-section {
+    display: flex;
+    flex-direction: column;
+
+    + .input-group {
+      margin-top: 0.5rem;
+    }
+  }
+}
+
+.policy-search-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.policy-title {
+  margin: 0 1rem 2rem 1rem;
+  text-align: left;
+
+  p {
+    font-weight: 300;
+    font-size: 12px;
+    color: #000000;
+    margin: -1rem 0 -1rem 0;
+  }
+}
+
+.search-button-container {
+  margin: 2rem 0 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .search-button {
+    width: 90%;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 56px;
+    margin-top: -2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    &:hover:not(:disabled) {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    i {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .flight-search-page {
+    padding: 0 6rem 2rem 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: flex-start;
+  }
+
+  .app-header {
+    max-width: 300px;
+    width: 100%;
+    border-radius: 12px;
+  }
+
+  .search-form {
+    padding: 2rem 2rem 0.5rem 2rem;
+  }
+
+  .trip-type-section {
+    width: 500px;
+  }
+
+  .main-title {
+    max-width: 850px;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 2rem 2rem 0.7rem 2rem;
+    margin-bottom: -1.5rem;
+    text-align: left;
+    border-radius: 16px;
+
+    h1 {
+      font-size: 20px;
+    }
+
+    p {
+      font-size: 15px;
+    }
+  }
+
+  .search-form {
+    max-width: 800px;
+    width: 100%;
+    background: white;
+    border-radius: 16px;
+    padding: 2rem 2rem 0.5rem 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .cities-section {
+    flex-direction: row;
+    gap: 1rem;
+
+    .input-group {
+      flex: 1;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .dates-section {
+    flex-direction: column;
+    gap: 1rem;
+
+    .input-group {
+      flex: 1;
+      margin-bottom: 0;
+
+      &.full-width {
+        flex: 1;
+      }
+    }
+  }
+
+  .pet-details-section {
+    .pet-type-buttons {
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      width: 300px;
+    }
+
+    .pet-info-section {
+      flex-direction: row;
+      gap: 1rem;
+
+      .input-group {
+        flex: 1;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .policy-search-section {
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+    max-width: 700px;
+    width: 100%;
+    margin-top: -1rem;
+
+    .policy-title {
+      flex: 1;
+      margin: 0;
+      p {
+        margin: -1rem 0 0 0;
+        font-size: 11px;
+      }
+    }
+
+    .search-button-container {
+      margin-top: 3rem;
+      flex-shrink: 0;
+
+      .search-button {
+        width: 200px;
+        height: 35px;
+        min-height: 35px;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        border-radius: 4px;
+      }
+    }
+  }
+}
+
+@media (min-width: 1000px) {
+  .dates-section {
+    flex-direction: row !important;
+  }
+}
+
+::ng-deep .custom-tooltip {
+  max-width: 300px !important;
+
+  .p-tooltip-text {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+  }
+}
+
+@media (min-width: 1000px) {
+  ::ng-deep .p-datepicker {
+    min-width: 500px !important;
+  }
+}

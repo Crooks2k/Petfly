@@ -27,10 +27,10 @@
       "@shared/*": ["src/app/shared/*"],
       "@core/*": ["src/app/core/*"],
       "@core/config/*": ["src/app/core/config/*"],
-      "@example/*": ["src/app/features/example-feature/*"],
-      "@example/core/*": ["src/app/features/example-feature/core/*"],
-      "@example/data/*": ["src/app/features/example-feature/data/*"],
-      "@example/presentation/*": ["src/app/features/example-feature/presentation/*"]
+      "@flight-search/*": ["src/app/features/flight-search/*"],
+      "@flight-search/core/*": ["src/app/features/flight-search/core/*"],
+      "@flight-search/data/*": ["src/app/features/flight-search/data/*"],
+      "@flight-search/presentation/*": ["src/app/features/flight-search/presentation/*"]
     }
   },
   "angularCompilerOptions": {

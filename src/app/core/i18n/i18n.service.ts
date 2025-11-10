@@ -82,11 +82,8 @@ export class I18nService {
    */
   private initializeLanguage(): void {
     const savedLanguage = this.getSavedLanguage();
-    const browserLanguage = this.getBrowserLanguage();
-
-    const defaultLanguage =
-      savedLanguage ||
-      (this.isValidLanguage(browserLanguage) ? browserLanguage : I18N_CONSTANTS.DEFAULT_LANGUAGE);
+    
+    const defaultLanguage = savedLanguage || I18N_CONSTANTS.DEFAULT_LANGUAGE;
 
     this.setLanguage(defaultLanguage);
   }

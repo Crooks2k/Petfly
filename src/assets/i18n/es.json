@@ -1,43 +1,4 @@
 {
-  "common": {
-    "loading": "Cargando...",
-    "error": "Error",
-    "success": "Éxito",
-    "cancel": "Cancelar",
-    "confirm": "Confirmar",
-    "save": "Guardar",
-    "edit": "Editar",
-    "delete": "Eliminar",
-    "search": "Buscar",
-    "filter": "Filtrar",
-    "clear": "Limpiar",
-    "back": "Volver",
-    "next": "Siguiente",
-    "previous": "Anterior",
-    "close": "Cerrar"
-  },
-  "navigation": {
-    "home": "Inicio",
-    "dashboard": "Panel",
-    "profile": "Perfil",
-    "settings": "Configuración",
-    "logout": "Cerrar Sesión"
-  },
-  "validation": {
-    "required": "Este campo es requerido",
-    "email": "Ingrese un email válido",
-    "minLength": "Mínimo {{min}} caracteres",
-    "maxLength": "Máximo {{max}} caracteres",
-    "pattern": "Formato inválido"
-  },
-  "errors": {
-    "generic": "Ha ocurrido un error inesperado",
-    "network": "Error de conexión",
-    "notFound": "Página no encontrada",
-    "unauthorized": "No autorizado",
-    "forbidden": "Acceso denegado",
-    "serverError": "Error del servidor"
-  },
   "example": {
     "title": "Página de Ejemplo",
     "subtitle": "Demostración de Clean Architecture con Angular",
@@ -68,5 +29,89 @@
       "pending": "Pendiente",
       "completed": "Completado"
     }
+  },
+  "header": {
+    "languageLabel": "Language",
+    "whatsappLabel": "WhatsApp",
+    "pricesLabel": "Prices"
+  },
+  "flightSearch": {
+    "title": "Encuentra vuelos para ti y tu mascota",
+    "subtitle": "Compara precios, requisitos y políticas antes de reservar.",
+    "tripTypeLabel": "Tipo de viaje",
+    "oneWay": "Solo ida",
+    "roundTrip": "Ida y vuelta",
+    "originLabel": "Ciudad de origen",
+    "destinationLabel": "Ciudad de destino",
+    "departureDateLabel": "Elige la fecha",
+    "returnDateLabel": "Fecha de regreso",
+    "passengersLabel": "Pasajeros",
+    "petDetailsTitle": "Detalles de la mascota",
+    "dogLabel": "Perro",
+    "catLabel": "Gato",
+    "petAgeLabel": "Edad de la mascota (meses)",
+    "petWeightLabel": "Peso de la mascota (kg)",
+    "petWeightSubtitle": "Incluye el transportador (si aplica)",
+    "petBreedLabel": "Raza",
+    "petBreedPlaceholder": "Seleccionar raza",
+    "petBreedFilterPlaceholder": "Buscar raza...",
+    "cityFilterPlaceholder": "Buscar ciudad...",
+    "passengersPlaceholder": "1 Adulto, Económica",
+    "passengerSelectorAdults": "Adultos",
+    "passengerSelectorAdultsSubLabel": "18 años o más",
+    "passengerSelectorChildren": "Niños",
+    "passengerSelectorChildrenSubLabel": "0 a 17 años",
+    "passengerSelectorClass": "Clase",
+    "passengerSelectorEconomy": "Económica",
+    "passengerSelectorBusiness": "Negocios",
+    "passengerSelectorPassenger": "Pasajero",
+    "passengerSelectorPassengers": "Pasajeros",
+    "passengerSelectorCancel": "Cancelar",
+    "passengerSelectorSave": "Guardar",
+    "passengers": {
+      "1AdultEconomy": "1 Adulto, Económica",
+      "2AdultsEconomy": "2 Adultos, Económica",
+      "1Adult1ChildEconomy": "1 Adulto, 1 Niño, Económica",
+      "1AdultPremium": "1 Adulto, Premium"
+    },
+    "breeds": {
+      "labrador": "Labrador",
+      "golden": "Golden Retriever",
+      "bulldogFrances": "Bulldog Francés",
+      "pastorAleman": "Pastor Alemán",
+      "chihuahua": "Chihuahua",
+      "poodle": "Poodle",
+      "persa": "Persa",
+      "siames": "Siamés",
+      "maineCoon": "Maine Coon",
+      "other": "Otra"
+    },
+    "policiesTitle": "Al continuar, verás resultados con el precio total para humano + mascota.",
+    "searchButton": "Buscar vuelos",
+    "searchingFlights": "Buscando vuelos...",
+    "adults": "Adultos",
+    "children": "Niños (2-11 años)",
+    "infants": "Bebés (0-2 años)"
+  },
+  "flightResults": {
+    "title": "Resultados de Búsqueda",
+    "subtitle": "Vuelos disponibles para tu viaje",
+    "modifySearch": "Modificar búsqueda",
+    "sortBy": "Ordenar por",
+    "priceLabel": "Precio",
+    "durationLabel": "Duración",
+    "departureLabel": "Salida",
+    "arrivalLabel": "Llegada",
+    "airlineLabel": "Aerolínea",
+    "selectFlight": "Seleccionar",
+    "withPet": "Con mascota",
+    "withoutPet": "Sin mascota",
+    "petCertificate": "Certificado de Mascota de Compañía",
+    "requestCertificate": "Solicitar por WhatsApp",
+    "noResults": "No se encontraron vuelos",
+    "loading": "Buscando vuelos disponibles...",
+    "stops": "Escalas",
+    "direct": "Directo",
+    "oneStop": "1 escala"
   }
 }

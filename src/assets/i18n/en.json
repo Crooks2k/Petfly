@@ -1,42 +1,8 @@
 {
-  "common": {
-    "loading": "Loading...",
-    "error": "Error",
-    "success": "Success",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "save": "Save",
-    "edit": "Edit",
-    "delete": "Delete",
-    "search": "Search",
-    "filter": "Filter",
-    "clear": "Clear",
-    "back": "Back",
-    "next": "Next",
-    "previous": "Previous",
-    "close": "Close"
-  },
-  "navigation": {
-    "home": "Home",
-    "dashboard": "Dashboard",
-    "profile": "Profile",
-    "settings": "Settings",
-    "logout": "Logout"
-  },
-  "validation": {
-    "required": "This field is required",
-    "email": "Please enter a valid email",
-    "minLength": "Minimum {{min}} characters",
-    "maxLength": "Maximum {{max}} characters",
-    "pattern": "Invalid format"
-  },
-  "errors": {
-    "generic": "An unexpected error occurred",
-    "network": "Connection error",
-    "notFound": "Page not found",
-    "unauthorized": "Unauthorized",
-    "forbidden": "Access denied",
-    "serverError": "Server error"
+  "header": {
+    "languageLabel": "Language",
+    "whatsappLabel": "WhatsApp",
+    "pricesLabel": "Prices"
   },
   "example": {
     "title": "Example Page",
@@ -68,5 +34,84 @@
       "pending": "Pending",
       "completed": "Completed"
     }
+  },
+  "flightSearch": {
+    "title": "Find flights for you and your pet",
+    "subtitle": "Compare prices, requirements and policies before booking.",
+    "tripTypeLabel": "Trip type",
+    "oneWay": "One way",
+    "roundTrip": "Round trip",
+    "originLabel": "Origin city",
+    "destinationLabel": "Destination city",
+    "departureDateLabel": "Choose date",
+    "returnDateLabel": "Return date",
+    "passengersLabel": "Passengers",
+    "petDetailsTitle": "Pet details",
+    "dogLabel": "Dog",
+    "catLabel": "Cat",
+    "petAgeLabel": "Pet age (months)",
+    "petWeightLabel": "Pet weight (kg)",
+    "petWeightSubtitle": "Includes carrier (if applicable)",
+    "petBreedLabel": "Breed",
+    "petBreedPlaceholder": "Select breed",
+    "petBreedFilterPlaceholder": "Search breed...",
+    "cityFilterPlaceholder": "Search city...",
+    "passengersPlaceholder": "1 Adult, Economy",
+    "passengerSelectorAdults": "Adults",
+    "passengerSelectorAdultsSubLabel": "18 years or older",
+    "passengerSelectorChildren": "Children",
+    "passengerSelectorChildrenSubLabel": "0 to 17 years",
+    "passengerSelectorClass": "Class",
+    "passengerSelectorEconomy": "Economy",
+    "passengerSelectorBusiness": "Business",
+    "passengerSelectorPassenger": "Passenger",
+    "passengerSelectorPassengers": "Passengers",
+    "passengerSelectorCancel": "Cancel",
+    "passengerSelectorSave": "Save",
+    "passengers": {
+      "1AdultEconomy": "1 Adult, Economy",
+      "2AdultsEconomy": "2 Adults, Economy",
+      "1Adult1ChildEconomy": "1 Adult, 1 Child, Economy",
+      "1AdultPremium": "1 Adult, Premium"
+    },
+    "breeds": {
+      "labrador": "Labrador",
+      "golden": "Golden Retriever",
+      "bulldogFrances": "French Bulldog",
+      "pastorAleman": "German Shepherd",
+      "chihuahua": "Chihuahua",
+      "poodle": "Poodle",
+      "persa": "Persian",
+      "siames": "Siamese",
+      "maineCoon": "Maine Coon",
+      "other": "Other"
+    },
+    "policiesTitle": "By continuing, you will see results with the total price for human + pet.",
+    "searchButton": "Search flights",
+    "searchingFlights": "Searching flights...",
+    "adults": "Adults",
+    "children": "Children (2-11 years)",
+    "infants": "Infants (0-2 years)"
+  },
+  "flightResults": {
+    "title": "Search Results",
+    "subtitle": "Available flights for your trip",
+    "modifySearch": "Modify search",
+    "sortBy": "Sort by",
+    "priceLabel": "Price",
+    "durationLabel": "Duration",
+    "departureLabel": "Departure",
+    "arrivalLabel": "Arrival",
+    "airlineLabel": "Airline",
+    "selectFlight": "Select",
+    "withPet": "With pet",
+    "withoutPet": "Without pet",
+    "petCertificate": "Pet Companion Certificate",
+    "requestCertificate": "Request via WhatsApp",
+    "noResults": "No flights found",
+    "loading": "Searching available flights...",
+    "stops": "Stops",
+    "direct": "Direct",
+    "oneStop": "1 stop"
   }
 }

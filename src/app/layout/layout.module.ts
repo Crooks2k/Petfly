@@ -6,24 +6,21 @@ import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 //Import component reutilizables
 import { FooterComponent } from '@shared/components/footer/footer.component';
-import { HeaderComponent } from '@shared/components/header/header.component';
 import { PageNotFoundComponent } from '@shared/components/page-not-found/page-not-found.component';
 import { LayoutComponent } from './layout.component';
 //Import modules
 import { ServiceProviderModule } from '../core/service-providers/service-provider.module';
 import { LayoutRoutingModule } from './layout-routing.module';
-//Import i18n
 import { I18nService } from '@core/i18n/i18n.service';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ApiService } from '@shared/services/api/api.service';
 
-// Factory function for TranslateHttpLoader
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
-  declarations: [LayoutComponent, FooterComponent, HeaderComponent, PageNotFoundComponent],
+  declarations: [LayoutComponent, FooterComponent, PageNotFoundComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

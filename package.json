@@ -1,26 +1,26 @@
 {
-  "name": "angular-clean-architecture",
+  "name": "petfly",
   "version": "1.0.0",
-  "description": "Angular Clean Architecture Boilerplate with i18n, TypeScript and best practices",
+  "description": "Petfly - Pet management application built with Angular Clean Architecture",
   "author": "Your Name <your.email@example.com>",
   "license": "MIT",
   "keywords": [
     "angular",
-    "clean-architecture",
+    "petfly",
+    "pet-management",
     "typescript",
     "i18n",
-    "boilerplate",
     "primeng",
     "rxjs"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/angular-clean-architecture.git"
+    "url": "https://github.com/your-username/petfly.git"
   },
   "bugs": {
-    "url": "https://github.com/your-username/angular-clean-architecture/issues"
+    "url": "https://github.com/your-username/petfly/issues"
   },
-  "homepage": "https://github.com/your-username/angular-clean-architecture#readme",
+  "homepage": "https://github.com/your-username/petfly#readme",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --configuration=dev",
@@ -41,12 +41,9 @@
     "format": "prettier --write --ignore-unknown ./src",
     "format:check": "prettier --check --ignore-unknown ./src",
     "type-check": "tsc --noEmit",
-    "generate:feature": "ng generate ./schematics/feature:feature",
     "i18n:extract": "ng extract-i18n",
     "i18n:build": "ng build --localize",
-    "build:schematics": "tsc -p schematics/tsconfig.json",
-    "pre-commit": "npm run format && npm run type-check",
-    "postinstall": "npm run build:schematics"
+    "pre-commit": "npm run format && npm run type-check"
   },
   "private": true,
   "dependencies": {

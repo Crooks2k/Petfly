@@ -5,14 +5,8 @@ import { PageNotFoundComponent } from '@shared/components/page-not-found/page-no
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/example',
-    pathMatch: 'full',
-  },
-
-  {
-    path: 'example',
     loadChildren: () =>
-      import('@example/presentation/example-feature.module').then(m => m.ExampleFeatureModule),
+      import('../features/flight-search/presentation/flight-search.module').then(m => m.FlightSearchModule),
   },
   {
     path: '**',
