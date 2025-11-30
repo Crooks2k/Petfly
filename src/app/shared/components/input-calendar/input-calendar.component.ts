@@ -40,6 +40,7 @@ export class InputCalendarComponent implements ControlValueAccessor {
   @Input() styleClass: string = '';
   @Input() inputStyleClass: string = '';
   @Input() panelStyleClass: string = '';
+  @Input() appendTo: any = null;
 
   @Output() dateSelect = new EventEmitter<any>();
   @Output() dateChange = new EventEmitter<any>();

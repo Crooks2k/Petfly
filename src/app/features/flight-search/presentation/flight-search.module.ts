@@ -23,13 +23,17 @@ import { FlightSearchRoutingModule } from './flight-search-routing.module';
 import { FlightSearchPage } from './pages/flight-search/flight-search.page';
 import { FlightResultsPage } from './pages/flight-results/flight-results.page';
 
+// Components
+import { FiltersAsideComponent } from './components/filters-aside/filters-aside.component';
+
 // Core
 import { ExampleInteractor } from '@flight-search/core/interactor/example.interactor';
 
 @NgModule({
   declarations: [
     FlightSearchPage,
-    FlightResultsPage
+    FlightResultsPage,
+    FiltersAsideComponent
   ],
   imports: [
     CommonModule,

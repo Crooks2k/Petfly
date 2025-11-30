@@ -1,0 +1,64 @@
+<app-header></app-header>
+
+<div class="flight-results-page">
+  <div class="results-container">
+    
+    <!-- Aside Menu (Solo Desktop) -->
+    <aside class="filters-aside">
+      <div class="filters-content">
+        <app-filters-aside
+          [filtersForm]="filtersForm"
+          [selectedPetType]="selectedPetType"
+          [today]="today"
+          (petTypeSelected)="selectPetType($event)"
+          (certificateToggled)="toggleCertificate($event)"
+          (filtersApplied)="onFiltersApplied()">
+        </app-filters-aside>
+      </div>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main class="results-content">
+      <!-- TODO: Aquí irá el contenido de resultados de búsqueda -->
+    </main>
+  </div>
+
+  <!-- Botón flotante de filtros (Solo Mobile) -->
+  <button class="mobile-filter-button" (click)="openFiltersModal()">
+    <i class="pi pi-filter"></i>
+    <span>{{ texts.filtersLabel || 'Filtros' }}</span>
+  </button>
+
+  <!-- Modal de filtros (Solo Mobile) -->
+  <div class="filters-modal" [class.active]="isFiltersModalOpen">
+    <div class="modal-overlay" (click)="closeFiltersModal()"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>{{ texts.filtersLabel || 'Filtros' }}</h2>
+        <button class="close-button" (click)="closeFiltersModal()">
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="filters-content">
+          <app-filters-aside
+            [filtersForm]="filtersForm"
+            [selectedPetType]="selectedPetType"
+            [today]="today"
+            [showUpdateButton]="false"
+            (petTypeSelected)="selectPetType($event)"
+            (certificateToggled)="toggleCertificate($event)"
+            (filtersApplied)="applyFilters()">
+          </app-filters-aside>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="apply-filters-button" (click)="applyFilters()">
+          {{ texts.applyFiltersLabel || 'Aplicar filtros' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

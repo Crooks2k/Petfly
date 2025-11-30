@@ -1,6 +1,6 @@
 import { I18nConfigEntity } from '@core/i18n/config';
 
-export const FlightResultsConfig: I18nConfigEntity = {
+export const FlightResultsConfig = {
   i18n: {
     title: 'flightResults.title',
     subtitle: 'flightResults.subtitle',
@@ -20,28 +20,58 @@ export const FlightResultsConfig: I18nConfigEntity = {
     loading: 'flightResults.loading',
     stops: 'flightResults.stops',
     direct: 'flightResults.direct',
-    oneStop: 'flightResults.oneStop'
-  }
-};
+    oneStop: 'flightResults.oneStop',
+    petDetailsTitle: 'flightResults.petDetailsTitle',
+    dogLabel: 'flightResults.dogLabel',
+    catLabel: 'flightResults.catLabel',
+    petTypeLabel: 'flightResults.petTypeLabel',
+    petWeightLabel: 'flightResults.petWeightLabel',
+    petWeightSubtitle: 'flightResults.petWeightSubtitle',
+    petDimensionsLabel: 'flightResults.petDimensionsLabel',
+    heightLabel: 'flightResults.heightLabel',
+    lengthLabel: 'flightResults.lengthLabel',
+    widthLabel: 'flightResults.widthLabel',
+    noCarrierLabel: 'flightResults.noCarrierLabel',
+    yesLabel: 'flightResults.yesLabel',
+    noLabel: 'flightResults.noLabel',
+    travelDetailsTitle: 'flightResults.travelDetailsTitle',
+    routeLabel: 'flightResults.routeLabel',
+    datesLabel: 'flightResults.datesLabel',
+    departureDateLabel: 'flightResults.departureDateLabel',
+    returnDateLabel: 'flightResults.returnDateLabel',
+    passengerLabel: 'flightResults.passengerLabel',
+    passengerAndCabinClassLabel: 'flightResults.passengerAndCabinClassLabel',
+    cabinClassLabel: 'flightResults.cabinClassLabel',
+    economyClass: 'flightResults.economyClass',
+    premiumEconomyClass: 'flightResults.premiumEconomyClass',
+    businessClass: 'flightResults.businessClass',
+    firstClass: 'flightResults.firstClass',
+    certificatesLabel: 'flightResults.certificatesLabel',
+    emotionalSupport: 'flightResults.emotionalSupport',
+    serviceAnimal: 'flightResults.serviceAnimal',
+    airlinesStopsLabel: 'flightResults.airlinesStopsLabel',
+    allowStops: 'flightResults.allowStops',
+    noStops: 'flightResults.noStops',
+    updateButton: 'flightResults.updateButton',
+    baggageFareLabel: 'flightResults.baggageFareLabel',
+    airlinesLabel: 'flightResults.airlinesLabel',
+    petFriendlyAirlinesLabel: 'flightResults.petFriendlyAirlinesLabel',
+    travelTimeLabel: 'flightResults.travelTimeLabel',
+    stopoverAirportLabel: 'flightResults.stopoverAirportLabel',
+    stopoverTimeLabel: 'flightResults.stopoverTimeLabel',
+    adultsLabel: 'flightResults.adultsLabel',
+    adultsSubLabel: 'flightResults.adultsSubLabel',
+    childrenLabel: 'flightResults.childrenLabel',
+    childrenSubLabel: 'flightResults.childrenSubLabel',
+    passengerSingular: 'flightResults.passengerSingular',
+    passengerPlural: 'flightResults.passengerPlural',
+    cancelLabel: 'flightResults.cancelLabel',
+    saveLabel: 'flightResults.saveLabel',
+    filtersLabel: 'flightResults.filtersLabel',
+    applyFiltersLabel: 'flightResults.applyFiltersLabel',
+  },
+} as const satisfies I18nConfigEntity;
 
-export interface ResolvedFlightResultsTexts {
-  title: string;
-  subtitle: string;
-  modifySearch: string;
-  sortBy: string;
-  priceLabel: string;
-  durationLabel: string;
-  departureLabel: string;
-  arrivalLabel: string;
-  airlineLabel: string;
-  selectFlight: string;
-  withPet: string;
-  withoutPet: string;
-  petCertificate: string;
-  requestCertificate: string;
-  noResults: string;
-  loading: string;
-  stops: string;
-  direct: string;
-  oneStop: string;
-}
+export type ResolvedFlightResultsTexts = {
+  [K in keyof typeof FlightResultsConfig.i18n]: string;
+};
