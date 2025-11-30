@@ -11,7 +11,7 @@ export interface PassengerSelection {
 @Component({
   selector: 'petfly-passenger-selector',
   templateUrl: './passenger-selector.component.html',
-  styleUrls: ['./passenger-selector.component.scss'],
+  styleUrl: './passenger-selector.component.scss',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -21,18 +21,18 @@ export interface PassengerSelection {
   ],
 })
 export class PassengerSelectorComponent implements ControlValueAccessor {
-  @Input() placeholder = 'Seleccionar pasajeros';
-  @Input() adultsLabel = 'Adultos';
-  @Input() adultsSubLabel = '18 años o más';
-  @Input() childrenLabel = 'Niños';
-  @Input() childrenSubLabel = '0 a 17 años';
-  @Input() classLabel = 'Clase';
-  @Input() economyLabel = 'Económica';
-  @Input() businessLabel = 'Negocios';
-  @Input() passengerLabel = 'Pasajero';
-  @Input() passengersLabel = 'Pasajeros';
-  @Input() cancelLabel = 'Cancelar';
-  @Input() saveLabel = 'Guardar';
+  @Input() placeholder = '';
+  @Input() adultsLabel = '';
+  @Input() adultsSubLabel = '';
+  @Input() childrenLabel = '';
+  @Input() childrenSubLabel = '';
+  @Input() classLabel = '';
+  @Input() economyLabel = '';
+  @Input() businessLabel = '';
+  @Input() passengerLabel = '';
+  @Input() passengersLabel = '';
+  @Input() cancelLabel = '';
+  @Input() saveLabel = '';
 
   @ViewChild('overlayPanel') overlayPanel!: OverlayPanel;
 

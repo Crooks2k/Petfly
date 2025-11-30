@@ -1,35 +1,4 @@
 {
-  "example": {
-    "title": "Página de Ejemplo",
-    "subtitle": "Demostración de Clean Architecture con Angular",
-    "loadButton": "Cargar Ejemplos",
-    "createdAt": "Creado el",
-    "noDataMessage": "No hay elementos para mostrar. Haz clic en 'Cargar Ejemplos' para ver los datos.",
-    "sections": {
-      "list": "Lista de Ejemplos"
-    },
-    "list": {
-      "title": "Lista de Ejemplos",
-      "subtitle": "Gestiona tus elementos de ejemplo",
-      "searchPlaceholder": "Buscar elementos...",
-      "addButton": "Cargar Ejemplos",
-      "noDataMessage": "No hay elementos para mostrar",
-      "confirmDelete": "¿Estás seguro de eliminar este elemento?"
-    },
-    "categories": {
-      "technology": "Tecnología",
-      "business": "Negocios",
-      "education": "Educación",
-      "health": "Salud",
-      "other": "Otro"
-    },
-    "status": {
-      "active": "Activo",
-      "inactive": "Inactivo",
-      "pending": "Pendiente",
-      "completed": "Completado"
-    }
-  },
   "header": {
     "languageLabel": "Language",
     "whatsappLabel": "WhatsApp",
@@ -49,7 +18,10 @@
     "petDetailsTitle": "Detalles de la mascota",
     "dogLabel": "Perro",
     "catLabel": "Gato",
-    "petAgeLabel": "Edad de la mascota (meses)",
+    "petAgeLabel": "Edad de la mascota (semanas)",
+    "petAgeQuestion": "¿Tu mascota tiene 24+ semanas?",
+    "petAgeYes": "Sí",
+    "petAgeNo": "No",
     "petWeightLabel": "Peso de la mascota (kg)",
     "petWeightSubtitle": "Incluye el transportador (si aplica)",
     "petBreedLabel": "Raza",
@@ -113,5 +85,11 @@
     "stops": "Escalas",
     "direct": "Directo",
     "oneStop": "1 escala"
+  },
+  "pageNotFound": {
+    "title": "¡Vuelo no encontrado!",
+    "description": "Parece que esta ruta no existe en nuestro sistema. No te preocupes, te ayudamos a volver al camino correcto.",
+    "homeButton": "Volver al inicio",
+    "backButton": "Regresar"
   }
 }

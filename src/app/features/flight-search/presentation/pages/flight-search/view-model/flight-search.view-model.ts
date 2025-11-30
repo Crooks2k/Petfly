@@ -23,6 +23,7 @@ export class FlightSearchViewModel {
   public searchForm!: FormGroup;
   public selectedPetType: PetType = null;
   public today = new Date();
+  public petAgeOver24Weeks: boolean | null = null;
 
   private readonly destroy$ = new Subject<void>();
 
@@ -44,7 +45,8 @@ export class FlightSearchViewModel {
       ],
       conMascota: [true],
       tipoMascota: [null],
-      edadMascota: [null, [Validators.min(1), Validators.max(300)]],
+      petAgeOver24Weeks: [null],
+      edadMascota: [null],
       pesoMascota: [null, [Validators.min(0.5), Validators.max(50)]],
       razaMascota: [''],
     });
@@ -53,6 +55,19 @@ export class FlightSearchViewModel {
   private setupFormSubscriptions(): void {
     this.setupTripTypeValidation();
     this.setupDepartureDateValidation();
+    this.setupPetAgeValidation();
+  }
+
+  private setupPetAgeValidation(): void {
+    this.searchForm.get('petAgeOver24Weeks')?.valueChanges.subscribe(isOver24Weeks => {
+      if (isOver24Weeks === true) {
+        this.petAgeOver24Weeks = true;
+        this.searchForm.patchValue({ edadMascota: 24 }, { emitEvent: false });
+      } else if (isOver24Weeks === false) {
+        this.petAgeOver24Weeks = false;
+        this.searchForm.patchValue({ edadMascota: null }, { emitEvent: false });
+      }
+    });
   }
 
   private setupTripTypeValidation(): void {
@@ -82,6 +97,8 @@ export class FlightSearchViewModel {
     this.selectedPetType = type;
     this.searchForm.patchValue({ tipoMascota: type });
   }
+
+
 
   public getMinReturnDate(): Date {
     const departureDate = this.searchForm.get('fechaSalida')?.value;
@@ -113,11 +130,13 @@ export class FlightSearchViewModel {
       pasajeros: { adults: 1, children: 0, travelClass: 'economy' } as PassengerSelection,
       conMascota: null,
       tipoMascota: null,
+      petAgeOver24Weeks: null,
       edadMascota: null,
       pesoMascota: null,
       razaMascota: '',
     });
     this.selectedPetType = null;
+    this.petAgeOver24Weeks = null;
   }
 
   public destroy(): void {

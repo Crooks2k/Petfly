@@ -119,11 +119,35 @@
 
       <div class="pet-info-section">
         <div class="input-group">
+          <label class="input-label">{{ texts.petAgeQuestion }}</label>
+          <div class="pet-age-radio-buttons">
+            <div class="radio-option">
+              <p-radioButton
+                name="petAgeOver24Weeks"
+                [value]="true"
+                formControlName="petAgeOver24Weeks"
+                inputId="petAgeYes"
+              ></p-radioButton>
+              <label for="petAgeYes" class="radio-label">{{ texts.petAgeYes }}</label>
+            </div>
+            <div class="radio-option">
+              <p-radioButton
+                name="petAgeOver24Weeks"
+                [value]="false"
+                formControlName="petAgeOver24Weeks"
+                inputId="petAgeNo"
+              ></p-radioButton>
+              <label for="petAgeNo" class="radio-label">{{ texts.petAgeNo }}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group" *ngIf="viewModel.petAgeOver24Weeks === false" [@slideInOut]>
           <label class="input-label">{{ texts.petAgeLabel }}</label>
           <petfly-input-number
             formControlName="edadMascota"
             [min]="1"
-            [max]="300"
+            [max]="24"
             styleClass="search-input"
           >
           </petfly-input-number>

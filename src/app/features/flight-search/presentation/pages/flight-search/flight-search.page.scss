@@ -1,6 +1,4 @@
 .flight-search-page {
-  min-height: 100vh;
-  background: #f8fafc;
   padding: 0;
   margin: 0;
 }
@@ -10,28 +8,27 @@
 }
 
 .main-title {
-  margin: 0 1rem 2rem 1rem;
+  margin: 0 1rem 0 1rem;
   text-align: left;
 
   h1 {
     font-weight: 700;
     font-size: 15px;
-    color: #000000;
+    color: var(--color-text-dark);
   }
 
   p {
     font-weight: 300;
     font-size: 13px;
-    color: #000000;
+    color: var(--color-text-dark);
     margin-top: -5px;
   }
 }
 
 .search-form {
   padding: 1rem 1rem 0rem 1rem;
-  margin: 0 1rem 2rem 1rem;
-  background-color: #ffffff;
-  border: 1px solid #dfdfdf;
+  margin: 1rem 1rem 0 1rem;
+  background-color: var(--color-bg-white);
 }
 
 .trip-type-section {
@@ -57,11 +54,11 @@
     font-weight: 500;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: #515151;
+    color: var(--color-text-gray);
     font-size: 1rem;
 
     i.pi-info-circle {
-      color: #6b7280;
+      color: var(--color-text-gray-medium);
       font-size: 0.875rem;
       cursor: pointer;
       outline: none;
@@ -69,7 +66,7 @@
 
       &:hover,
       &:focus {
-        color: #3b82f6;
+        color: var(--color-primary);
       }
 
       &:active {
@@ -80,16 +77,13 @@
 
   .input-subtitle {
     font-size: 12px;
-    color: #6b7280;
+    color: var(--color-text-gray-medium);
     margin: -10px 0 0.5rem 0;
   }
 }
 
 .pet-details-section {
-  background: white;
-  border-radius: 12px;
   margin: 1.5rem 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   font-weight: 700;
   font-style: Bold;
   font-size: 15px;
@@ -102,7 +96,7 @@
 
     span {
       font-weight: 600;
-      color: #515151;
+      color: var(--color-text-gray);
       font-size: 1rem;
     }
   }
@@ -114,8 +108,8 @@
     margin-bottom: 1rem;
 
     .pet-type-btn {
-      background: #e2eeff;
-      border: 2px solid #e2e8f0;
+      background: var(--color-bg-blue-pale);
+      border: 2px solid var(--color-border-lightest);
       border-radius: 8px;
       padding: 0.5rem 0rem;
       flex-direction: column;
@@ -123,31 +117,53 @@
       gap: 0.5rem;
       cursor: pointer;
       transition: all 0.2s ease;
-      color: #457dd0;
+      color: var(--color-primary-light);
       &:hover {
         border-color: #cbd5e1;
       }
 
       &.active {
-        border-color: #3b82f6;
-        color: #457dd0;
+        border-color: var(--color-primary);
+        color: var(--color-primary-light);
 
         span {
           font-weight: 600;
-          color: #457dd0;
+          color: var(--color-primary-light);
           font-size: 15px;
         }
       }
 
       i {
         font-size: 1.5rem;
-        color: #64748b;
+        color: var(--color-text-gray-slate);
       }
 
       span {
         font-size: 0.875rem;
-        color: #475569;
+        color: var(--color-text-gray-dark);
         font-weight: 500;
+      }
+    }
+  }
+
+  .pet-age-radio-buttons {
+    display: flex;
+    gap: 2rem;
+    margin-top: 0.5rem;
+    align-items: center;
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+
+      .radio-label {
+        font-size: 0.95rem;
+        color: var(--color-text-gray-dark);
+        font-weight: 500;
+        cursor: pointer;
+        user-select: none;
       }
     }
   }
@@ -155,6 +171,11 @@
   .pet-info-section {
     display: flex;
     flex-direction: column;
+    width: 100%;
+
+    .input-group {
+      width: 100%;
+    }
 
     + .input-group {
       margin-top: 0.5rem;
@@ -174,7 +195,7 @@
   p {
     font-weight: 300;
     font-size: 12px;
-    color: #000000;
+    color: var(--color-text-dark);
     margin: -1rem 0 -1rem 0;
   }
 }
@@ -187,7 +208,7 @@
 
   .search-button {
     width: 90%;
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
     color: white;
     border: none;
     border-radius: 12px;
@@ -204,9 +225,9 @@
     gap: 0.5rem;
 
     &:hover:not(:disabled) {
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary-darker) 100%);
       transform: translateY(-1px);
-      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+      box-shadow: 0 8px 25px var(--hover-surface);
     }
 
     &:disabled {
@@ -246,11 +267,10 @@
   }
 
   .main-title {
-    max-width: 850px;
+    max-width: 1200px;
     width: 100%;
-    background-color: #ffffff;
-    padding: 2rem 2rem 0.7rem 2rem;
-    margin-bottom: -1.5rem;
+    background-color: var(--color-bg-white);
+    padding: 1rem 2rem 0.7rem 2rem;
     text-align: left;
     border-radius: 16px;
 
@@ -266,10 +286,9 @@
   .search-form {
     max-width: 800px;
     width: 100%;
-    background: white;
+    background: var(--color-bg-white);
     border-radius: 16px;
     padding: 2rem 2rem 0.5rem 2rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   }
 
   .cities-section {
@@ -304,12 +323,12 @@
     }
 
     .pet-info-section {
-      flex-direction: row;
-      gap: 1rem;
+      flex-direction: column;
+      gap: 0;
 
       .input-group {
-        flex: 1;
-        margin-bottom: 0;
+        width: 100%;
+        margin-bottom: 1rem;
       }
     }
   }
@@ -317,10 +336,10 @@
   .policy-search-section {
     flex-direction: row;
     align-items: center;
-    gap: 2rem;
-    max-width: 700px;
+    max-width: 800px;
     width: 100%;
-    margin-top: -1rem;
+    margin-top: 1rem;
+    height: 50px;
 
     .policy-title {
       flex: 1;

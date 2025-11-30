@@ -1,4 +1,3 @@
-
 .petfly-header {
   width: 100%;
   background: transparent;
@@ -52,7 +51,7 @@
     width: 100%;
     text-align: left;
     font-size: 0.875rem;
-    color: #475569;
+    color: var(--color-text-gray-dark);
     position: relative;
 
     .language-flag {
@@ -66,24 +65,24 @@
     }
 
     .pi-check {
-      color: #457DD0;
+      color: var(--color-primary-light);
       font-size: 0.875rem;
       font-weight: 600;
     }
 
     &.active {
-      background: #eff6ff;
-      color: #1e40af;
+      background: var(--color-bg-blue-light);
+      color: var(--color-primary-navy);
       font-weight: 600;
     }
 
     &:hover {
-      background: #f1f5f9;
+      background: var(--color-surface-gray);
       color: #1e293b;
     }
 
     &:active {
-      background: #e2e8f0;
+      background: var(--color-border-lightest);
     }
   }
 }
@@ -93,8 +92,8 @@
   height: 20px;
   border-radius: 50%;
   border: none;
-  background: #f1f5f9;
-  color: #457DD0;
+  background: var(--color-surface-gray);
+  color: var(--color-primary-light);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -107,8 +106,8 @@
   }
 
   &:hover {
-    background: #e2e8f0;
-    color: #475569;
+    background: var(--color-border-lightest);
+    color: var(--color-text-gray-dark);
     transform: translateY(-1px);
   }
 
@@ -118,7 +117,7 @@
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 0 2px var(--hover-surface);
   }
 }
 

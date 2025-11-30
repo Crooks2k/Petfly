@@ -10,6 +10,7 @@ import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { TooltipModule } from 'primeng/tooltip';
 
 // Petfly Components Module
@@ -19,7 +20,6 @@ import { SharedComponentsModule } from '@shared/components';
 import { FlightSearchRoutingModule } from './flight-search-routing.module';
 
 // Pages
-import { ExamplePagePage } from './pages/example-page/example-page.page';
 import { FlightSearchPage } from './pages/flight-search/flight-search.page';
 import { FlightResultsPage } from './pages/flight-results/flight-results.page';
 
@@ -28,7 +28,6 @@ import { ExampleInteractor } from '@flight-search/core/interactor/example.intera
 
 @NgModule({
   declarations: [
-    ExamplePagePage,
     FlightSearchPage,
     FlightResultsPage
   ],
@@ -44,6 +43,7 @@ import { ExampleInteractor } from '@flight-search/core/interactor/example.intera
     DropdownModule,
     InputTextModule,
     InputTextareaModule,
+    RadioButtonModule,
     TooltipModule,
     SharedComponentsModule,
   ],

@@ -4,37 +4,6 @@
     "whatsappLabel": "WhatsApp",
     "pricesLabel": "Prices"
   },
-  "example": {
-    "title": "Example Page",
-    "subtitle": "Clean Architecture demonstration with Angular",
-    "loadButton": "Load Examples",
-    "createdAt": "Created on",
-    "noDataMessage": "No items to display. Click 'Load Examples' to see the data.",
-    "sections": {
-      "list": "Examples List"
-    },
-    "list": {
-      "title": "Examples List",
-      "subtitle": "Manage your example items",
-      "searchPlaceholder": "Search items...",
-      "addButton": "Load Examples",
-      "noDataMessage": "No items to display",
-      "confirmDelete": "Are you sure you want to delete this item?"
-    },
-    "categories": {
-      "technology": "Technology",
-      "business": "Business",
-      "education": "Education",
-      "health": "Health",
-      "other": "Other"
-    },
-    "status": {
-      "active": "Active",
-      "inactive": "Inactive",
-      "pending": "Pending",
-      "completed": "Completed"
-    }
-  },
   "flightSearch": {
     "title": "Find flights for you and your pet",
     "subtitle": "Compare prices, requirements and policies before booking.",
@@ -49,7 +18,10 @@
     "petDetailsTitle": "Pet details",
     "dogLabel": "Dog",
     "catLabel": "Cat",
-    "petAgeLabel": "Pet age (months)",
+    "petAgeLabel": "Pet age (weeks)",
+    "petAgeQuestion": "Is your pet 24+ weeks old?",
+    "petAgeYes": "Yes",
+    "petAgeNo": "No",
     "petWeightLabel": "Pet weight (kg)",
     "petWeightSubtitle": "Includes carrier (if applicable)",
     "petBreedLabel": "Breed",
@@ -113,5 +85,11 @@
     "stops": "Stops",
     "direct": "Direct",
     "oneStop": "1 stop"
+  },
+  "pageNotFound": {
+    "title": "Flight not found!",
+    "description": "It seems this route doesn't exist in our system. Don't worry, we'll help you get back on track.",
+    "homeButton": "Back to home",
+    "backButton": "Go back"
   }
 }
