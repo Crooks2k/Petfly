@@ -5,23 +5,29 @@
 
 .flight-search-page {
   padding: 0 10px 0 10px;
+  margin-top: 1rem;
 }
 
 .main-title {
-  margin: 0 1rem 0 1rem;
+  margin: 0 1rem 1rem 1rem;
   text-align: left;
+  background: var(--color-bg-white);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px var(--shadow-sm);
 
   h1 {
     font-weight: 700;
     font-size: 15px;
     color: var(--color-text-dark);
+    margin: 0;
   }
 
   p {
     font-weight: 300;
     font-size: 13px;
     color: var(--color-text-dark);
-    margin-top: -5px;
+    margin: 0.5rem 0 0 0;
   }
 }
 
@@ -346,7 +352,7 @@
       margin: 0;
       p {
         margin: -1rem 0 0 0;
-        font-size: 11px;
+        font-size: 12px;
       }
     }
 

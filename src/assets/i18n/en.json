@@ -132,7 +132,17 @@
     "cancelLabel": "Cancel",
     "saveLabel": "Save",
     "filtersLabel": "Filters",
-    "applyFiltersLabel": "Apply filters"
+    "applyFiltersLabel": "Apply filters",
+    "sortByPrice": "Price",
+    "sortByDuration": "Duration",
+    "petPriceInfoTitle": "Pet price (explanatory)",
+    "regularPetTitle": "Regular pet (no certificate)",
+    "regularPetSubtitle": "Pet without certificate",
+    "emotionalSupportTitle": "Emotional Support (with certificate)",
+    "serviceDogTitle": "Service Dog (with certificate)",
+    "searchResultsTitle": "Search results",
+    "flightsFound": "flights found",
+    "noResultsMessage": "No results to display"
   },
   "filtersAside": {
     "petDetailsTitle": "Pet details",

@@ -132,7 +132,17 @@
     "cancelLabel": "Cancelar",
     "saveLabel": "Guardar",
     "filtersLabel": "Filtros",
-    "applyFiltersLabel": "Aplicar filtros"
+    "applyFiltersLabel": "Aplicar filtros",
+    "sortByPrice": "Precio",
+    "sortByDuration": "Duración",
+    "petPriceInfoTitle": "Precio de mascota (explicativo)",
+    "regularPetTitle": "Mascota regular (sin certificado)",
+    "regularPetSubtitle": "Mascota sin certificado",
+    "emotionalSupportTitle": "Apoyo Emocional (con certificado)",
+    "serviceDogTitle": "Perro de Servicio (con certificado)",
+    "searchResultsTitle": "Resultados de búsqueda",
+    "flightsFound": "vuelos encontrados",
+    "noResultsMessage": "No hay resultados para mostrar"
   },
   "filtersAside": {
     "petDetailsTitle": "Detalles de la mascota",

@@ -2,34 +2,106 @@
 
 <div class="flight-results-page">
   <div class="results-container">
-    
-    <!-- Aside Menu (Solo Desktop) -->
     <aside class="filters-aside">
       <div class="filters-content">
         <app-filters-aside
           [filtersForm]="filtersForm"
           [selectedPetType]="selectedPetType"
           [today]="today"
+          [showUpdateButton]="false"
           (petTypeSelected)="selectPetType($event)"
           (certificateToggled)="toggleCertificate($event)"
-          (filtersApplied)="onFiltersApplied()">
+          (filtersApplied)="onFiltersApplied()"
+        >
         </app-filters-aside>
       </div>
     </aside>
 
-    <!-- Contenido Principal -->
     <main class="results-content">
-      <!-- TODO: Aquí irá el contenido de resultados de búsqueda -->
+      <div class="sort-container">
+        <button class="sort-button active">
+          <i class="pi pi-sort-amount-down"></i>
+          <span>{{ texts.sortByPrice }}</span>
+        </button>
+        <button class="sort-button">
+          <i class="pi pi-clock"></i>
+          <span>{{ texts.sortByDuration }}</span>
+        </button>
+      </div>
+
+      <div class="pet-price-info">
+        <h3 class="info-title">
+          <i class="pi pi-info-circle"></i>
+          {{ texts.petPriceInfoTitle }}
+        </h3>
+
+        <div class="price-options">
+          <details class="price-option">
+            <summary class="option-header">
+              <div class="option-left">
+                <span class="option-badge badge-blue">MR</span>
+                <div class="option-text">
+                  <span class="option-title">{{ texts.regularPetTitle }}</span>
+                </div>
+              </div>
+              <i class="pi pi-chevron-down"></i>
+            </summary>
+            <div class="option-content">
+              <span class="option-subtitle">{{ texts.regularPetSubtitle }}</span>
+            </div>
+          </details>
+
+          <details class="price-option">
+            <summary class="option-header">
+              <div class="option-left">
+                <span class="option-badge badge-orange">AE</span>
+                <div class="option-text">
+                  <span class="option-title">{{ texts.emotionalSupportTitle }}</span>
+                </div>
+              </div>
+              <i class="pi pi-chevron-down"></i>
+            </summary>
+            <div class="option-content">
+              <!-- TODO: Contenido expandible -->
+            </div>
+          </details>
+
+          <details class="price-option">
+            <summary class="option-header">
+              <div class="option-left">
+                <span class="option-badge badge-green">PS</span>
+                <div class="option-text">
+                  <span class="option-title">{{ texts.serviceDogTitle }}</span>
+                </div>
+              </div>
+              <i class="pi pi-chevron-down"></i>
+            </summary>
+            <div class="option-content">
+              <!-- TODO: Contenido expandible -->
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="search-results-container">
+        <div class="results-header">
+          <h3 class="results-title">{{ texts.searchResultsTitle }}</h3>
+          <span class="results-count">0 {{ texts.flightsFound }}</span>
+        </div>
+        
+        <div class="results-list">
+          <!-- TODO: Aquí irán las tarjetas de vuelos -->
+          <p class="no-results">{{ texts.noResultsMessage }}</p>
+        </div>
+      </div>
     </main>
   </div>
 
-  <!-- Botón flotante de filtros (Solo Mobile) -->
   <button class="mobile-filter-button" (click)="openFiltersModal()">
     <i class="pi pi-filter"></i>
     <span>{{ texts.filtersLabel || 'Filtros' }}</span>
   </button>
 
-  <!-- Modal de filtros (Solo Mobile) -->
   <div class="filters-modal" [class.active]="isFiltersModalOpen">
     <div class="modal-overlay" (click)="closeFiltersModal()"></div>
     <div class="modal-content">
@@ -39,7 +111,7 @@
           <i class="pi pi-times"></i>
         </button>
       </div>
-      
+
       <div class="modal-body">
         <div class="filters-content">
           <app-filters-aside
@@ -49,7 +121,8 @@
             [showUpdateButton]="false"
             (petTypeSelected)="selectPetType($event)"
             (certificateToggled)="toggleCertificate($event)"
-            (filtersApplied)="applyFilters()">
+            (filtersApplied)="applyFilters()"
+          >
           </app-filters-aside>
         </div>
       </div>

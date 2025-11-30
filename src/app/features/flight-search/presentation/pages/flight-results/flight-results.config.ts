@@ -69,6 +69,16 @@ export const FlightResultsConfig = {
     saveLabel: 'flightResults.saveLabel',
     filtersLabel: 'flightResults.filtersLabel',
     applyFiltersLabel: 'flightResults.applyFiltersLabel',
+    sortByPrice: 'flightResults.sortByPrice',
+    sortByDuration: 'flightResults.sortByDuration',
+    petPriceInfoTitle: 'flightResults.petPriceInfoTitle',
+    regularPetTitle: 'flightResults.regularPetTitle',
+    regularPetSubtitle: 'flightResults.regularPetSubtitle',
+    emotionalSupportTitle: 'flightResults.emotionalSupportTitle',
+    serviceDogTitle: 'flightResults.serviceDogTitle',
+    searchResultsTitle: 'flightResults.searchResultsTitle',
+    flightsFound: 'flightResults.flightsFound',
+    noResultsMessage: 'flightResults.noResultsMessage',
   },
 } as const satisfies I18nConfigEntity;
 
