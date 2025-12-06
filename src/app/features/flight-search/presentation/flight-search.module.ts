@@ -12,6 +12,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { TooltipModule } from 'primeng/tooltip';
 
 // Petfly Components Module
@@ -51,6 +52,7 @@ import { PetflyInteractor } from '@flight-search/core/interactor/petfly.interact
     InputTextModule,
     InputTextareaModule,
     RadioButtonModule,
+    SelectButtonModule,
     TooltipModule,
     SharedComponentsModule,
     InputAutocompleteComponent,

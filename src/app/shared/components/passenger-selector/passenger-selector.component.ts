@@ -1,13 +1,8 @@
 import { Component, forwardRef, HostListener, Input, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OverlayPanel } from 'primeng/overlaypanel';
-
-export interface PassengerSelection {
-  adults: number;
-  children: number;
-  childrenAges: number[];
-  travelClass: 'economy' | 'business';
-}
+import { PASSENGER_SELECTOR_CONSTANTS, TRAVEL_CLASS, TravelClass } from '../../constants';
+import { PassengerSelectionEntity } from '../../core/entities';
 
 @Component({
   selector: 'petfly-passenger-selector',
@@ -38,20 +33,23 @@ export class PassengerSelectorComponent implements ControlValueAccessor, AfterVi
 
   @ViewChild('overlayPanel') overlayPanel!: OverlayPanel;
 
-  public value: PassengerSelection = {
-    adults: 1,
-    children: 0,
+  public value: PassengerSelectionEntity = {
+    adults: PASSENGER_SELECTOR_CONSTANTS.MIN_ADULTS,
+    children: PASSENGER_SELECTOR_CONSTANTS.MIN_CHILDREN,
     childrenAges: [],
-    travelClass: 'economy',
+    travelClass: TRAVEL_CLASS.ECONOMY,
   };
 
-  public tempValue: PassengerSelection = { ...this.value };
-  public ageOptions = Array.from({ length: 18 }, (_, i) => ({ label: `${i}`, value: i }));
+  public tempValue: PassengerSelectionEntity = { ...this.value };
+  public ageOptions = Array.from(
+    { length: PASSENGER_SELECTOR_CONSTANTS.MAX_CHILD_AGE + 1 }, 
+    (_, i) => ({ label: `${i}`, value: i })
+  );
   public disabled = false;
   public isMobile = false;
   public showMobileDialog = false;
 
-  private onChange: (value: PassengerSelection) => void = () => {};
+  private onChange: (value: PassengerSelectionEntity) => void = () => {};
   private onTouched: () => void = () => {};
 
   constructor(private cdr: ChangeDetectorRef) {
@@ -59,13 +57,11 @@ export class PassengerSelectorComponent implements ControlValueAccessor, AfterVi
   }
 
   ngAfterViewInit(): void {
-    // Emitir cambios cuando el overlay se cierre
     if (this.overlayPanel) {
       this.overlayPanel.onHide.subscribe(() => {
-        // Usar setTimeout para evitar ExpressionChangedAfterItHasBeenCheckedError
         setTimeout(() => {
           this.emitChange();
-        }, 0);
+        }, PASSENGER_SELECTOR_CONSTANTS.CHANGE_DETECTION_DELAY);
       });
     }
   }
@@ -76,13 +72,13 @@ export class PassengerSelectorComponent implements ControlValueAccessor, AfterVi
   }
 
   private checkIfMobile(): void {
-    this.isMobile = window.innerWidth < 768;
+    this.isMobile = window.innerWidth < PASSENGER_SELECTOR_CONSTANTS.MOBILE_BREAKPOINT;
   }
 
   public get displayLabel(): string {
     const total = this.value.adults + this.value.children;
     const passengerText = total === 1 ? this.passengerLabel : this.passengersLabel;
-    const classText = this.value.travelClass === 'economy' ? this.economyLabel : this.businessLabel;
+    const classText = this.value.travelClass === TRAVEL_CLASS.ECONOMY ? this.economyLabel : this.businessLabel;
     return `${total} ${passengerText}, ${classText}`;
   }
 
@@ -108,69 +104,60 @@ export class PassengerSelectorComponent implements ControlValueAccessor, AfterVi
     this.showMobileDialog = false;
   }
 
-
-
   public incrementAdults(): void {
-    const target = this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
-    if (target.adults < 9) {
+    const target = this.getTargetValue();
+    if (target.adults < PASSENGER_SELECTOR_CONSTANTS.MAX_ADULTS) {
       target.adults++;
-      // No emitir cambio, se emitirá al cerrar el overlay
     }
   }
 
   public decrementAdults(): void {
-    const target = this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
-    if (target.adults > 1) {
+    const target = this.getTargetValue();
+    if (target.adults > PASSENGER_SELECTOR_CONSTANTS.MIN_ADULTS) {
       target.adults--;
-      // No emitir cambio, se emitirá al cerrar el overlay
     }
   }
 
   public incrementChildren(): void {
-    const target = this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
-    if (target.children < 9) {
+    const target = this.getTargetValue();
+    if (target.children < PASSENGER_SELECTOR_CONSTANTS.MAX_CHILDREN) {
       target.children++;
-      target.childrenAges.push(0); // Agregar edad por defecto
-      // No emitir cambio, se emitirá al cerrar el overlay
+      target.childrenAges.push(PASSENGER_SELECTOR_CONSTANTS.DEFAULT_CHILD_AGE);
     }
   }
 
   public decrementChildren(): void {
-    const target = this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
-    if (target.children > 0) {
+    const target = this.getTargetValue();
+    if (target.children > PASSENGER_SELECTOR_CONSTANTS.MIN_CHILDREN) {
       target.children--;
-      target.childrenAges.pop(); // Remover última edad
-      // No emitir cambio, se emitirá al cerrar el overlay
+      target.childrenAges.pop();
     }
   }
 
   public updateChildAge(index: number, age: number): void {
-    const target = this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
+    const target = this.getTargetValue();
     target.childrenAges[index] = age;
-    
-    // Usar detectChanges en lugar de markForCheck para forzar actualización inmediata
     this.cdr.detectChanges();
-    
-    // No emitir cambio inmediatamente para evitar cerrar el overlay
-    // El cambio se emitirá cuando se cierre el overlay o en mobile al guardar
   }
 
-  public selectClass(travelClass: 'economy' | 'business'): void {
-    const target = this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
+  public selectClass(travelClass: TravelClass): void {
+    const target = this.getTargetValue();
     target.travelClass = travelClass;
-    // No emitir cambio, se emitirá al cerrar el overlay
   }
 
-  public get currentValue(): PassengerSelection {
+  private getTargetValue(): PassengerSelectionEntity {
     return this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
+  }
+
+  public get currentValue(): PassengerSelectionEntity {
+    return this.getTargetValue();
   }
 
   private emitChange(): void {
     this.onChange(this.value);
   }
 
-  // ControlValueAccessor implementation
-  public writeValue(value: PassengerSelection): void {
+  public writeValue(value: PassengerSelectionEntity): void {
     if (value) {
       this.value = { 
         ...value,
@@ -179,7 +166,7 @@ export class PassengerSelectorComponent implements ControlValueAccessor, AfterVi
     }
   }
 
-  public registerOnChange(fn: (value: PassengerSelection) => void): void {
+  public registerOnChange(fn: (value: PassengerSelectionEntity) => void): void {
     this.onChange = fn;
   }
 

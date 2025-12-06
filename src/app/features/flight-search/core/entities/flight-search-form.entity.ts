@@ -1,5 +1,5 @@
 import { PetType } from '@flight-search/core/types';
-import { PassengerSelection } from '@shared/components/passenger-selector/passenger-selector.component';
+import { PassengerSelectionEntity } from '@shared/core/entities';
 import { CityEntity } from './get-cities-response.entity';
 
 export interface FlightSearchFormEntity {
@@ -10,7 +10,7 @@ export interface FlightSearchFormEntity {
   destinoCity: CityEntity | null;
   fechaSalida: Date;
   fechaRegreso: Date | null;
-  pasajeros: PassengerSelection;
+  pasajeros: PassengerSelectionEntity;
   conMascota: boolean;
   tipoMascota: PetType;
   edadMascota: number;

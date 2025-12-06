@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
+import { INPUT_SELECT_CONSTANTS, INPUT_SELECT_SIZE, InputSelectSize } from '../../constants';
 
 @Component({
   selector: 'petfly-input-select',
@@ -21,23 +22,23 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class InputSelectComponent implements ControlValueAccessor, OnInit, OnDestroy {
   @Input() options: unknown[] = [];
-  @Input() optionLabel: string = 'label';
-  @Input() optionValue: string = 'value';
-  @Input() placeholder: string = 'Seleccionar...';
-  @Input() disabled: boolean = false;
-  @Input() showClear: boolean = false;
-  @Input() filter: boolean = false;
-  @Input() filterBy: string = '';
-  @Input() styleClass: string = '';
-  @Input() panelStyleClass: string = '';
-  @Input() size: 'small' | 'normal' | 'large' = 'normal';
-  @Input() filterPlaceholder: string = 'Buscar...';
+  @Input() optionLabel = INPUT_SELECT_CONSTANTS.DEFAULT_OPTION_LABEL;
+  @Input() optionValue = INPUT_SELECT_CONSTANTS.DEFAULT_OPTION_VALUE;
+  @Input() placeholder = 'Seleccionar...';
+  @Input() disabled = false;
+  @Input() showClear = false;
+  @Input() filter = false;
+  @Input() filterBy = '';
+  @Input() styleClass = '';
+  @Input() panelStyleClass = '';
+  @Input() size: InputSelectSize = INPUT_SELECT_SIZE.NORMAL;
+  @Input() filterPlaceholder = 'Buscar...';
 
   @Output() selectionChange = new EventEmitter<unknown>();
 
   public value: unknown = null;
-  public noResultsText: string = 'No se encontraron resultados';
-  public emptyMessageText: string = 'No hay opciones disponibles';
+  public noResultsText = 'No se encontraron resultados';
+  public emptyMessageText = 'No hay opciones disponibles';
 
   private readonly destroy$ = new Subject<void>();
 
@@ -92,9 +93,9 @@ export class InputSelectComponent implements ControlValueAccessor, OnInit, OnDes
 
   getSizeClass(): string {
     switch (this.size) {
-    case 'small':
+    case INPUT_SELECT_SIZE.SMALL:
       return 'compact';
-    case 'large':
+    case INPUT_SELECT_SIZE.LARGE:
       return 'large';
     default:
       return '';

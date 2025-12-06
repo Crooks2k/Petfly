@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/cor
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { INPUT_AUTOCOMPLETE_CONSTANTS } from '../../constants';
 
 @Component({
   selector: 'petfly-input-autocomplete',
@@ -18,29 +19,28 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
   ],
 })
 export class InputAutocompleteComponent implements ControlValueAccessor {
-  @Input() suggestions: any[] = [];
-  @Input() field: string = 'label';
-  @Input() placeholder: string = 'Buscar...';
-  @Input() disabled: boolean = false;
-  @Input() forceSelection: boolean = true;
-  @Input() optionValue: string = 'value';
-  @Input() minLength: number = 2;
-  @Input() delay: number = 300;
-  @Input() styleClass: string = '';
+  @Input() suggestions: unknown[] = [];
+  @Input() field = INPUT_AUTOCOMPLETE_CONSTANTS.DEFAULT_FIELD;
+  @Input() placeholder = 'Buscar...';
+  @Input() disabled = false;
+  @Input() forceSelection = true;
+  @Input() optionValue = INPUT_AUTOCOMPLETE_CONSTANTS.DEFAULT_OPTION_VALUE;
+  @Input() minLength = INPUT_AUTOCOMPLETE_CONSTANTS.DEFAULT_MIN_LENGTH;
+  @Input() delay = INPUT_AUTOCOMPLETE_CONSTANTS.DEFAULT_DELAY;
+  @Input() styleClass = '';
 
   @Output() completeMethod = new EventEmitter<{ query: string }>();
-  @Output() selectionChange = new EventEmitter<any>();
+  @Output() selectionChange = new EventEmitter<unknown>();
 
-  public value: any = null;
+  public value: unknown = null;
 
-  private onChange = (value: any) => {};
+  private onChange = (value: unknown) => {};
   private onTouched = () => {};
 
-  writeValue(value: any): void {
-    // Si el valor es un string (código), buscar el objeto completo en suggestions
+  writeValue(value: unknown): void {
     if (value && typeof value === 'string' && this.suggestions.length > 0) {
       const found = this.suggestions.find(item => 
-        item && typeof item === 'object' && item[this.optionValue] === value
+        item && typeof item === 'object' && (item as Record<string, unknown>)[this.optionValue] === value
       );
       this.value = found || null;
     } else if (value && typeof value === 'object') {
@@ -50,7 +50,7 @@ export class InputAutocompleteComponent implements ControlValueAccessor {
     }
   }
 
-  registerOnChange(fn: (value: any) => void): void {
+  registerOnChange(fn: (value: unknown) => void): void {
     this.onChange = fn;
   }
 
@@ -66,10 +66,9 @@ export class InputAutocompleteComponent implements ControlValueAccessor {
     this.completeMethod.emit(event);
   }
 
-  onSelect(event: any): void {
-    // Extraer el valor para el formulario
+  onSelect(event: unknown): void {
     const selectedValue = event && typeof event === 'object' && this.optionValue 
-      ? event[this.optionValue] 
+      ? (event as Record<string, unknown>)[this.optionValue] 
       : event;
     
     this.onChange(selectedValue);

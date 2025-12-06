@@ -2,35 +2,26 @@ import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { PetType } from '@flight-search/core/types';
-import { PassengerSelection } from '@shared/components/passenger-selector/passenger-selector.component';
+import { PassengerSelectionEntity } from '@shared/core/entities';
 
 export interface FlightFiltersData {
-  // Detalles de la mascota
   tipoMascota: PetType;
   pesoMascota: number | null;
   altura: number | null;
   largo: number | null;
   ancho: number | null;
   sinTransportador: boolean;
-
-  // Detalles del viaje
   origen: string;
   destino: string;
   fechaSalida: Date | null;
   fechaRegreso: Date | null;
-  pasajeros: PassengerSelection;
+  pasajeros: PassengerSelectionEntity;
   clasesCabina: string[];
-
-  // Certificados
   certificados: string[];
-
-  // Aerolíneas y escalas
   permitirEscalas: boolean;
   equipajeTarifa: string[];
   aerolineas: string[];
   aerolineasAceptanMascotas: string[];
-
-  // Otros filtros
   tiempoViaje: { min: number; max: number } | null;
   aeropuertoEscalas: string[];
   precio: { min: number; max: number } | null;
@@ -51,7 +42,6 @@ export class FlightResultsViewModel {
   constructor(private readonly fb: FormBuilder) {
     this.initializeForm();
     this.setupFormSubscriptions();
-    console.log('✅ FlightResultsViewModel inicializado - autoApplyFilters:', this.autoApplyFilters);
   }
 
   private initializeForm(): void {
@@ -69,7 +59,7 @@ export class FlightResultsViewModel {
       destino: [''],
       fechaSalida: [null],
       fechaRegreso: [null],
-      pasajeros: [{ adults: 1, children: 0, travelClass: 'economy' } as PassengerSelection],
+      pasajeros: [{ adults: 1, children: 0, childrenAges: [], travelClass: 'economy' } as PassengerSelectionEntity],
       clasesCabina: [[]],
 
       // Certificados
@@ -105,47 +95,40 @@ export class FlightResultsViewModel {
   private setupImmediateFilters(): void {
     this.filtersForm.get('tipoMascota')?.valueChanges.subscribe(value => {
       if (this.autoApplyFilters) {
-        console.log('🐾 Filtro aplicado - Tipo de mascota:', value);
         this.applyFilter({ tipoMascota: value });
       }
     });
 
     this.filtersForm.get('sinTransportador')?.valueChanges.subscribe(value => {
       if (this.autoApplyFilters) {
-        console.log('📦 Filtro aplicado - Sin transportador:', value);
         this.applyFilter({ sinTransportador: value });
       }
     });
 
     this.filtersForm.get('permitirEscalas')?.valueChanges.subscribe(value => {
       if (this.autoApplyFilters) {
-        console.log('✈️ Filtro aplicado - Permitir escalas:', value);
         this.applyFilter({ permitirEscalas: value });
       }
     });
 
     this.filtersForm.get('clasesCabina')?.valueChanges.subscribe(value => {
       if (this.autoApplyFilters) {
-        console.log('💺 Filtro aplicado - Clases de cabina:', value);
         this.applyFilter({ clasesCabina: value });
       }
     });
 
     this.filtersForm.get('certificados')?.valueChanges.subscribe(value => {
       if (this.autoApplyFilters) {
-        console.log('📋 Filtro aplicado - Certificados:', value);
         this.applyFilter({ certificados: value });
       }
     });
   }
 
   private onFiltersChange(filters: FlightFiltersData): void {
-    console.log('🔍 Filtros aplicados (con debounce):', filters);
-    // TODO: Aquí se llamará al API para obtener resultados filtrados
+    this.filterChange$.next(filters);
   }
 
   private applyFilter(filter: Partial<FlightFiltersData>): void {
-    // TODO: Aquí se llamará al API inmediatamente para este filtro específico
     this.filterChange$.next(filter);
   }
 
@@ -214,7 +197,7 @@ export class FlightResultsViewModel {
       destino: '',
       fechaSalida: null,
       fechaRegreso: null,
-      pasajeros: { adults: 1, children: 0, travelClass: 'economy' } as PassengerSelection,
+      pasajeros: { adults: 1, children: 0, childrenAges: [], travelClass: 'economy' } as PassengerSelectionEntity,
       clasesCabina: [],
       certificados: [],
       permitirEscalas: true,

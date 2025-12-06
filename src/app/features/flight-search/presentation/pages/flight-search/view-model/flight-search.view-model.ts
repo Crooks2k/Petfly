@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { PetType } from '@flight-search/core/types';
-import { PassengerSelection } from '@shared/components/passenger-selector/passenger-selector.component';
+import { PassengerSelectionEntity } from '@shared/core/entities';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { FlightSearchFormEntity } from '@flight-search/core/entities';
 
@@ -33,7 +33,7 @@ export class FlightSearchViewModel {
       fechaSalida: [null, Validators.required],
       fechaRegreso: [null],
       pasajeros: [
-        { adults: 1, children: 0, childrenAges: [], travelClass: 'economy' } as PassengerSelection,
+        { adults: 1, children: 0, childrenAges: [], travelClass: 'economy' } as PassengerSelectionEntity,
         Validators.required,
       ],
       conMascota: [true],
@@ -122,7 +122,7 @@ export class FlightSearchViewModel {
       destinoCity: null,
       fechaSalida: null,
       fechaRegreso: null,
-      pasajeros: { adults: 1, children: 0, childrenAges: [], travelClass: 'economy' } as PassengerSelection,
+      pasajeros: { adults: 1, children: 0, childrenAges: [], travelClass: 'economy' } as PassengerSelectionEntity,
       conMascota: null,
       tipoMascota: null,
       petAgeOver24Weeks: null,

@@ -8,6 +8,7 @@ import { tripType, PetType } from '@flight-search/core/types';
 import { FlightSearchViewModel } from './view-model/flight-search.view-model';
 import { PetflyInteractor } from '@flight-search/core/interactor/petfly.interactor';
 import { CurrencyService } from '@shared/services/currency/currency.service';
+import { FLIGHT_SEARCH_CONSTANTS } from '@flight-search/core/constants';
 
 @Component({
   selector: 'app-flight-search',
@@ -67,16 +68,13 @@ export class FlightSearchPage implements OnInit, OnDestroy {
 
       const formData = this.viewModel.getFormData();
       
-      // Asegurar que las ciudades estén guardadas
       const origenCode = typeof formData.origen === 'string' ? formData.origen : (formData.origen as any)?.value;
       const destinoCode = typeof formData.destino === 'string' ? formData.destino : (formData.destino as any)?.value;
       
-      // Buscar los objetos completos de las ciudades si no están guardados
       if (!formData.origenCity && origenCode) {
         const origenOption = this.ciudadesOrigenOptions.find(opt => opt.value === origenCode);
         if (origenOption?.city) {
           formData.origenCity = origenOption.city;
-          console.log('✅ Ciudad origen recuperada:', origenOption.city);
         }
       }
       
@@ -84,23 +82,18 @@ export class FlightSearchPage implements OnInit, OnDestroy {
         const destinoOption = this.ciudadesDestinoOptions.find(opt => opt.value === destinoCode);
         if (destinoOption?.city) {
           formData.destinoCity = destinoOption.city;
-          console.log('✅ Ciudad destino recuperada:', destinoOption.city);
         }
       }
 
       const currency = this.currencyService.getCurrentCurrencyCode();
       const locale = this.i18nService.getCurrentLanguage();
 
-      console.log('📤 FormData antes de enviar:', formData);
-
       this.petflyInteractor
         .searchFlights(formData, currency, locale)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: response => {
-            console.log('✅ Vuelos encontrados:', response);
             this.isSearching = false;
-
             this.router.navigate([FlightSearchConfig.routes.flightResults], {
               state: { 
                 flightTickets: response.flightTickets, 
@@ -147,12 +140,12 @@ export class FlightSearchPage implements OnInit, OnDestroy {
     this.razasOptions = [];
     
     const breedControl = this.searchForm.get('razaMascota');
-    
     breedControl?.disable();
-    
     this.searchForm.patchValue({ razaMascota: '' }, { emitEvent: false });
 
-    const petTypeId = petType === 'dog' ? 1 : 2;
+    const petTypeId = petType === 'dog' 
+      ? FLIGHT_SEARCH_CONSTANTS.PET_TYPE.DOG_ID 
+      : FLIGHT_SEARCH_CONSTANTS.PET_TYPE.CAT_ID;
 
     this.petflyInteractor
       .getBreeds({ petTypeId })
@@ -164,14 +157,11 @@ export class FlightSearchPage implements OnInit, OnDestroy {
             value: breed.name,
           }));
           this.isLoadingBreeds = false;
-          
           breedControl?.enable();
         },
-        error: error => {
-          console.error('Error loading breeds:', error);
+        error: () => {
           this.razasOptions = [];
           this.isLoadingBreeds = false;
-          
           breedControl?.enable();
         },
       });
@@ -205,16 +195,19 @@ export class FlightSearchPage implements OnInit, OnDestroy {
   private setupCitiesSearch(): void {
     this.origenSearchSubject
       .pipe(
-        debounceTime(500),
+        debounceTime(FLIGHT_SEARCH_CONSTANTS.SEARCH.DEBOUNCE_TIME),
         distinctUntilChanged(),
         switchMap(query => {
-          if (!query || query.length < 2) {
+          if (!query || query.length < FLIGHT_SEARCH_CONSTANTS.SEARCH.MIN_QUERY_LENGTH) {
             this.ciudadesOrigenOptions = [];
             this.isLoadingCitiesOrigen = false;
             return of([]);
           }
           this.isLoadingCitiesOrigen = true;
-          return this.petflyInteractor.getCities({ query, limit: 10 }).pipe(
+          return this.petflyInteractor.getCities({ 
+            query, 
+            limit: FLIGHT_SEARCH_CONSTANTS.SEARCH.CITIES_LIMIT 
+          }).pipe(
             catchError(() => {
               this.isLoadingCitiesOrigen = false;
               return of([]);
@@ -225,31 +218,32 @@ export class FlightSearchPage implements OnInit, OnDestroy {
       )
       .subscribe({
         next: response => {
-          if (response.length > 0) {
-            this.ciudadesOrigenOptions = response.map(city => ({
-              label: city.displayName,
-              value: city.cityCode,
-              city: city,
-            }));
-          } else {
-            this.ciudadesOrigenOptions = [];
-          }
+          this.ciudadesOrigenOptions = response.length > 0
+            ? response.map(city => ({
+                label: city.displayName,
+                value: city.cityCode,
+                city: city,
+              }))
+            : [];
           this.isLoadingCitiesOrigen = false;
         },
       });
 
     this.destinoSearchSubject
       .pipe(
-        debounceTime(500),
+        debounceTime(FLIGHT_SEARCH_CONSTANTS.SEARCH.DEBOUNCE_TIME),
         distinctUntilChanged(),
         switchMap(query => {
-          if (!query || query.length < 2) {
+          if (!query || query.length < FLIGHT_SEARCH_CONSTANTS.SEARCH.MIN_QUERY_LENGTH) {
             this.ciudadesDestinoOptions = [];
             this.isLoadingCitiesDestino = false;
             return of([]);
           }
           this.isLoadingCitiesDestino = true;
-          return this.petflyInteractor.getCities({ query, limit: 10 }).pipe(
+          return this.petflyInteractor.getCities({ 
+            query, 
+            limit: FLIGHT_SEARCH_CONSTANTS.SEARCH.CITIES_LIMIT 
+          }).pipe(
             catchError(() => {
               this.isLoadingCitiesDestino = false;
               return of([]);
@@ -260,15 +254,13 @@ export class FlightSearchPage implements OnInit, OnDestroy {
       )
       .subscribe({
         next: response => {
-          if (response.length > 0) {
-            this.ciudadesDestinoOptions = response.map(city => ({
-              label: city.displayName,
-              value: city.cityCode,
-              city: city,
-            }));
-          } else {
-            this.ciudadesDestinoOptions = [];
-          }
+          this.ciudadesDestinoOptions = response.length > 0
+            ? response.map(city => ({
+                label: city.displayName,
+                value: city.cityCode,
+                city: city,
+              }))
+            : [];
           this.isLoadingCitiesDestino = false;
         },
       });
@@ -283,46 +275,32 @@ export class FlightSearchPage implements OnInit, OnDestroy {
   }
 
   public onOrigenSelect(event: any): void {
-    console.log('🔍 onOrigenSelect event:', event);
-    // El evento ya contiene el objeto completo con la ciudad
-    if (event && event.city) {
+    if (event?.city) {
       this.searchForm.patchValue({ origenCity: event.city }, { emitEvent: false });
-      console.log('✅ Ciudad origen guardada:', event.city);
-    } else {
-      console.warn('⚠️ No se encontró city en el evento:', event);
     }
   }
 
   public onDestinoSelect(event: any): void {
-    console.log('🔍 onDestinoSelect event:', event);
-    // El evento ya contiene el objeto completo con la ciudad
-    if (event && event.city) {
+    if (event?.city) {
       this.searchForm.patchValue({ destinoCity: event.city }, { emitEvent: false });
-      console.log('✅ Ciudad destino guardada:', event.city);
-    } else {
-      console.warn('⚠️ No se encontró city en el evento:', event);
     }
   }
 
   private setupCitiesValidation(): void {
-    // Validar cuando cambia el origen
     this.searchForm.get('origen')?.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(origenValue => {
         const destinoValue = this.searchForm.get('destino')?.value;
         if (origenValue && destinoValue && origenValue === destinoValue) {
-          // Si son iguales, resetear el destino
           this.searchForm.patchValue({ destino: null }, { emitEvent: false });
         }
       });
 
-    // Validar cuando cambia el destino
     this.searchForm.get('destino')?.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(destinoValue => {
         const origenValue = this.searchForm.get('origen')?.value;
         if (origenValue && destinoValue && origenValue === destinoValue) {
-          // Si son iguales, resetear el destino
           this.searchForm.patchValue({ destino: null }, { emitEvent: false });
         }
       });

@@ -7,13 +7,13 @@
 
   <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="search-form">
     <div class="trip-type-section">
-      <petfly-select-button
+      <p-selectButton
         formControlName="tipoViaje"
         [options]="tripType"
-        [allowDeselect]="false"
+        optionLabel="label"
+        optionValue="value"
         styleClass="trip-type-buttons"
-      >
-      </petfly-select-button>
+      ></p-selectButton>
     </div>
 
     <div class="cities-section">
@@ -130,42 +130,42 @@
         </button>
       </div>
 
-      <div class="pet-info-section">
-        <div class="input-group">
-          <label class="input-label">{{ texts.petAgeQuestion }}</label>
-          <div class="pet-age-radio-buttons">
-            <div class="radio-option">
-              <p-radioButton
-                name="petAgeOver24Weeks"
-                [value]="true"
-                formControlName="petAgeOver24Weeks"
-                inputId="petAgeYes"
-              ></p-radioButton>
-              <label for="petAgeYes" class="radio-label">{{ texts.petAgeYes }}</label>
-            </div>
-            <div class="radio-option">
-              <p-radioButton
-                name="petAgeOver24Weeks"
-                [value]="false"
-                formControlName="petAgeOver24Weeks"
-                inputId="petAgeNo"
-              ></p-radioButton>
-              <label for="petAgeNo" class="radio-label">{{ texts.petAgeNo }}</label>
-            </div>
+      <div class="input-group full-width">
+        <label class="input-label">{{ texts.petAgeQuestion }}</label>
+        <div class="pet-age-radio-buttons">
+          <div class="radio-option">
+            <p-radioButton
+              name="petAgeOver24Weeks"
+              [value]="true"
+              formControlName="petAgeOver24Weeks"
+              inputId="petAgeYes"
+            ></p-radioButton>
+            <label for="petAgeYes" class="radio-label">{{ texts.petAgeYes }}</label>
+          </div>
+          <div class="radio-option">
+            <p-radioButton
+              name="petAgeOver24Weeks"
+              [value]="false"
+              formControlName="petAgeOver24Weeks"
+              inputId="petAgeNo"
+            ></p-radioButton>
+            <label for="petAgeNo" class="radio-label">{{ texts.petAgeNo }}</label>
           </div>
         </div>
+      </div>
 
-        <div class="input-group" *ngIf="viewModel.petAgeOver24Weeks === false" [@slideInOut]>
-          <label class="input-label">{{ texts.petAgeLabel }}</label>
-          <petfly-input-number
-            formControlName="edadMascota"
-            [min]="1"
-            [max]="24"
-            styleClass="search-input"
-          >
-          </petfly-input-number>
-        </div>
+      <div class="input-group full-width" *ngIf="viewModel.petAgeOver24Weeks === false" [@slideInOut]>
+        <label class="input-label">{{ texts.petAgeLabel }}</label>
+        <petfly-input-number
+          formControlName="edadMascota"
+          [min]="1"
+          [max]="24"
+          styleClass="search-input"
+        >
+        </petfly-input-number>
+      </div>
 
+      <div class="pet-weight-breed-section">
         <div class="input-group">
           <label class="input-label">
             {{ texts.petWeightLabel }}
@@ -191,19 +191,19 @@
           >
           </petfly-input-number>
         </div>
-      </div>
 
-      <div class="input-group">
-        <label class="input-label">{{ texts.petBreedLabel }}</label>
-        <petfly-input-select
-          formControlName="razaMascota"
-          [options]="razasOptions"
-          [placeholder]="isLoadingBreeds ? 'Cargando razas...' : texts.petBreedPlaceholder"
-          [filter]="true"
-          [filterPlaceholder]="texts.petBreedFilterPlaceholder"
-          styleClass="search-input"
-        >
-        </petfly-input-select>
+        <div class="input-group">
+          <label class="input-label">{{ texts.petBreedLabel }}</label>
+          <petfly-input-select
+            formControlName="razaMascota"
+            [options]="razasOptions"
+            [placeholder]="isLoadingBreeds ? 'Cargando razas...' : texts.petBreedPlaceholder"
+            [filter]="true"
+            [filterPlaceholder]="texts.petBreedFilterPlaceholder"
+            styleClass="search-input"
+          >
+          </petfly-input-select>
+        </div>
       </div>
     </div>
 
