@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 // PrimeNG Modules
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
@@ -15,6 +16,7 @@ import { TooltipModule } from 'primeng/tooltip';
 
 // Petfly Components Module
 import { SharedComponentsModule } from '@shared/components';
+import { InputAutocompleteComponent } from '@shared/components/input-autocomplete';
 
 // Routing
 import { FlightSearchRoutingModule } from './flight-search-routing.module';
@@ -27,7 +29,7 @@ import { FlightResultsPage } from './pages/flight-results/flight-results.page';
 import { FiltersAsideComponent } from './components/filters-aside/filters-aside.component';
 
 // Core
-import { ExampleInteractor } from '@flight-search/core/interactor/example.interactor';
+import { PetflyInteractor } from '@flight-search/core/interactor/petfly.interactor';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import { ExampleInteractor } from '@flight-search/core/interactor/example.intera
     FormsModule,
     TranslateModule,
     FlightSearchRoutingModule,
+    AutoCompleteModule,
     ButtonModule,
     CardModule,
     DropdownModule,
@@ -50,7 +53,8 @@ import { ExampleInteractor } from '@flight-search/core/interactor/example.intera
     RadioButtonModule,
     TooltipModule,
     SharedComponentsModule,
+    InputAutocompleteComponent,
   ],
-  providers: [ExampleInteractor],
+  providers: [PetflyInteractor],
 })
 export class FlightSearchModule {}

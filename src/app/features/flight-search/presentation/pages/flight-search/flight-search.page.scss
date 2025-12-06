@@ -53,6 +53,9 @@
 
 .input-group {
   margin-bottom: 1rem;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 
   .input-label {
     display: block;
@@ -390,5 +393,35 @@
 @media (min-width: 1000px) {
   ::ng-deep .p-datepicker {
     min-width: 500px !important;
+  }
+}
+
+// Estilos globales para el dropdown de razas
+::ng-deep {
+  .p-dropdown-panel {
+    z-index: 1100 !important;
+    
+    .p-dropdown-items-wrapper {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .p-dropdown-item {
+      white-space: normal !important;
+      word-wrap: break-word !important;
+      line-height: 1.4 !important;
+    }
+  }
+  
+  // Asegurar que el input-select no se desborde
+  petfly-input-select {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    
+    .p-dropdown {
+      width: 100% !important;
+      max-width: 100%;
+    }
   }
 }

@@ -1,11 +1,13 @@
 :host {
   display: block;
   width: 100%;
+  max-width: 100%;
 }
 
 ::ng-deep {
   .p-dropdown {
-    width: 100%;
+    width: 100% !important;
+    max-width: 100%;
     background: white;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
@@ -107,24 +109,34 @@
   }
 
   .p-dropdown-panel {
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    margin-top: 4px;
-    background: white;
-    overflow: hidden;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+    margin-top: 4px !important;
+    background: white !important;
+    min-width: 200px !important;
 
     .p-dropdown-items-wrapper {
+      max-height: 300px !important;
+      overflow-y: auto !important;
+      
       .p-dropdown-items {
-        padding: 0.5rem 0;
+        padding: 0.5rem 0 !important;
 
         .p-dropdown-item {
-          padding: 0.75rem 1rem;
-          font-size: 0.95rem;
-          color: #374151;
+          padding: 0.75rem 1rem !important;
+          font-size: 0.95rem !important;
+          color: #374151 !important;
           transition: all 0.15s ease;
-          border: none;
+          border: none !important;
           margin: 0;
+          white-space: normal !important;
+          word-wrap: break-word !important;
+          
+          @media (max-width: 768px) {
+            font-size: 0.875rem !important;
+            padding: 0.625rem 0.875rem !important;
+          }
 
           &:hover {
             background-color: #f3f4f6;

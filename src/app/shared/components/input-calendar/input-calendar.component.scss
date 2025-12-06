@@ -7,6 +7,7 @@
   .p-calendar {
     width: 100%;
     position: relative;
+    z-index: 1;
     
     .p-inputtext {
       width: 100%;
@@ -19,6 +20,9 @@
       color: #374151;
       transition: all 0.2s ease;
       min-height: 48px;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
 
       &::placeholder {
         color: #9ca3af;
@@ -36,25 +40,35 @@
     }
 
     .p-datepicker-trigger {
-      position: absolute;
-      right: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      background: transparent;
-      border: none;
-      color: #6b7280;
-      width: auto;
-      height: auto;
-      padding: 0.25rem;
+      position: absolute !important;
+      right: 0.75rem !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      background: transparent !important;
+      border: none !important;
+      color: #6b7280 !important;
+      width: auto !important;
+      height: auto !important;
+      padding: 0.25rem !important;
+      z-index: 10 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
       
       &:hover {
-        background-color: #f3f4f6;
-        color: #374151;
-        border-radius: 4px;
+        background-color: #f3f4f6 !important;
+        color: #374151 !important;
+        border-radius: 4px !important;
       }
 
       .p-button-icon {
-        font-size: 1rem;
+        font-size: 1rem !important;
+        display: block !important;
+      }
+      
+      svg {
+        width: 1rem !important;
+        height: 1rem !important;
       }
     }
   }
@@ -65,6 +79,7 @@
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     margin-top: 8px;
     max-width: 100%;
+    z-index: 1200 !important;
     
     @media (max-width: 480px) {
       width: 100vw;
@@ -177,6 +192,36 @@
         padding: 0.5rem 1rem;
         font-size: 0.875rem;
         border-radius: 6px;
+      }
+    }
+  }
+}
+
+// Asegurar que el calendario sea clickeable y el icono visible
+::ng-deep {
+  .p-calendar-w-btn {
+    position: relative !important;
+    
+    .p-inputtext {
+      pointer-events: auto !important;
+    }
+    
+    .p-datepicker-trigger {
+      pointer-events: auto !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    
+    button.p-datepicker-trigger {
+      position: absolute !important;
+      right: 0.75rem !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      z-index: 10 !important;
+      
+      .pi, .p-icon {
+        display: inline-block !important;
+        font-size: 1rem !important;
       }
     }
   }

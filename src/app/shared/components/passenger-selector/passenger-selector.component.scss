@@ -199,6 +199,61 @@
     }
   }
 
+  .children-ages {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .age-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .age-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-text-gray-darker);
+        flex: 1;
+      }
+
+      ::ng-deep .age-dropdown {
+        width: 110px;
+
+        .p-dropdown {
+          height: 38px;
+          border-radius: 8px;
+          border: 1px solid var(--color-border-light);
+          transition: all 0.2s ease;
+
+          &:hover {
+            border-color: var(--color-primary);
+          }
+
+          &:focus,
+          &.p-focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.1);
+          }
+
+          .p-dropdown-label {
+            font-weight: 500;
+            color: var(--color-text-gray-darkest);
+          }
+        }
+
+        .p-dropdown-panel {
+          z-index: 10000 !important;
+        }
+      }
+    }
+  }
+
   .divider {
     height: 1px;
     background: var(--color-border-lighter);
@@ -240,6 +295,11 @@
       }
     }
   }
+}
+
+// Asegurar que los dropdowns de edad tengan z-index alto
+::ng-deep .p-dropdown-panel {
+  z-index: 10000 !important;
 }
 
 ::ng-deep .passenger-overlay {
@@ -322,6 +382,61 @@
           color: var(--color-text-gray-darkest);
           min-width: 35px;
           text-align: center;
+        }
+      }
+    }
+
+    .children-ages {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+
+      .age-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .age-label {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: var(--color-text-gray-darker);
+          flex: 1;
+        }
+
+        ::ng-deep .age-dropdown {
+          width: 110px;
+
+          .p-dropdown {
+            height: 38px;
+            border-radius: 8px;
+            border: 1px solid var(--color-border-light);
+            transition: all 0.2s ease;
+
+            &:hover {
+              border-color: var(--color-primary);
+            }
+
+            &:focus,
+            &.p-focus {
+              border-color: var(--color-primary);
+              box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.1);
+            }
+
+            .p-dropdown-label {
+              font-weight: 500;
+              color: var(--color-text-gray-darkest);
+            }
+          }
+
+          .p-dropdown-panel {
+            z-index: 10000 !important;
+          }
         }
       }
     }

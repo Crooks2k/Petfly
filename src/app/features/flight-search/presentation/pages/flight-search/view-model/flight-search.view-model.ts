@@ -3,20 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { PetType } from '@flight-search/core/types';
 import { PassengerSelection } from '@shared/components/passenger-selector/passenger-selector.component';
-
-export interface FlightSearchFormData {
-  tipoViaje: string;
-  origen: string;
-  destino: string;
-  fechaSalida: Date;
-  fechaRegreso: Date | null;
-  pasajeros: PassengerSelection;
-  conMascota: boolean;
-  tipoMascota: PetType;
-  edadMascota: number;
-  pesoMascota: number;
-  razaMascota: string;
-}
+import { CurrencyService } from '@shared/services/currency/currency.service';
+import { FlightSearchFormEntity } from '@flight-search/core/entities';
 
 @Injectable()
 export class FlightSearchViewModel {
@@ -27,7 +15,10 @@ export class FlightSearchViewModel {
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private readonly fb: FormBuilder) {
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly currencyService: CurrencyService
+  ) {
     this.initializeForm();
     this.setupFormSubscriptions();
   }
@@ -36,11 +27,13 @@ export class FlightSearchViewModel {
     this.searchForm = this.fb.group({
       tipoViaje: ['roundtrip', Validators.required],
       origen: ['', Validators.required],
+      origenCity: [null],
       destino: ['', Validators.required],
+      destinoCity: [null],
       fechaSalida: [null, Validators.required],
       fechaRegreso: [null],
       pasajeros: [
-        { adults: 1, children: 0, travelClass: 'economy' } as PassengerSelection,
+        { adults: 1, children: 0, childrenAges: [], travelClass: 'economy' } as PassengerSelection,
         Validators.required,
       ],
       conMascota: [true],
@@ -108,7 +101,7 @@ export class FlightSearchViewModel {
     return this.today;
   }
 
-  public getFormData(): FlightSearchFormData {
+  public getFormData(): FlightSearchFormEntity {
     return this.searchForm.value;
   }
 
@@ -124,10 +117,12 @@ export class FlightSearchViewModel {
     this.searchForm.reset({
       tipoViaje: 'roundtrip',
       origen: '',
+      origenCity: null,
       destino: '',
+      destinoCity: null,
       fechaSalida: null,
       fechaRegreso: null,
-      pasajeros: { adults: 1, children: 0, travelClass: 'economy' } as PassengerSelection,
+      pasajeros: { adults: 1, children: 0, childrenAges: [], travelClass: 'economy' } as PassengerSelection,
       conMascota: null,
       tipoMascota: null,
       petAgeOver24Weeks: null,

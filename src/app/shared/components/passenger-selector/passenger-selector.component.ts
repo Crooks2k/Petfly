@@ -1,10 +1,11 @@
-import { Component, forwardRef, HostListener, Input, ViewChild } from '@angular/core';
+import { Component, forwardRef, HostListener, Input, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OverlayPanel } from 'primeng/overlaypanel';
 
 export interface PassengerSelection {
   adults: number;
   children: number;
+  childrenAges: number[];
   travelClass: 'economy' | 'business';
 }
 
@@ -20,7 +21,7 @@ export interface PassengerSelection {
     },
   ],
 })
-export class PassengerSelectorComponent implements ControlValueAccessor {
+export class PassengerSelectorComponent implements ControlValueAccessor, AfterViewInit {
   @Input() placeholder = '';
   @Input() adultsLabel = '';
   @Input() adultsSubLabel = '';
@@ -33,16 +34,19 @@ export class PassengerSelectorComponent implements ControlValueAccessor {
   @Input() passengersLabel = '';
   @Input() cancelLabel = '';
   @Input() saveLabel = '';
+  @Input() childAgeLabel = 'Edad niño';
 
   @ViewChild('overlayPanel') overlayPanel!: OverlayPanel;
 
   public value: PassengerSelection = {
     adults: 1,
     children: 0,
+    childrenAges: [],
     travelClass: 'economy',
   };
 
   public tempValue: PassengerSelection = { ...this.value };
+  public ageOptions = Array.from({ length: 18 }, (_, i) => ({ label: `${i}`, value: i }));
   public disabled = false;
   public isMobile = false;
   public showMobileDialog = false;
@@ -50,8 +54,20 @@ export class PassengerSelectorComponent implements ControlValueAccessor {
   private onChange: (value: PassengerSelection) => void = () => {};
   private onTouched: () => void = () => {};
 
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
     this.checkIfMobile();
+  }
+
+  ngAfterViewInit(): void {
+    // Emitir cambios cuando el overlay se cierre
+    if (this.overlayPanel) {
+      this.overlayPanel.onHide.subscribe(() => {
+        // Usar setTimeout para evitar ExpressionChangedAfterItHasBeenCheckedError
+        setTimeout(() => {
+          this.emitChange();
+        }, 0);
+      });
+    }
   }
 
   @HostListener('window:resize')
@@ -92,13 +108,13 @@ export class PassengerSelectorComponent implements ControlValueAccessor {
     this.showMobileDialog = false;
   }
 
+
+
   public incrementAdults(): void {
     const target = this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
     if (target.adults < 9) {
       target.adults++;
-      if (!this.isMobile || !this.showMobileDialog) {
-        this.emitChange();
-      }
+      // No emitir cambio, se emitirá al cerrar el overlay
     }
   }
 
@@ -106,9 +122,7 @@ export class PassengerSelectorComponent implements ControlValueAccessor {
     const target = this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
     if (target.adults > 1) {
       target.adults--;
-      if (!this.isMobile || !this.showMobileDialog) {
-        this.emitChange();
-      }
+      // No emitir cambio, se emitirá al cerrar el overlay
     }
   }
 
@@ -116,9 +130,8 @@ export class PassengerSelectorComponent implements ControlValueAccessor {
     const target = this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
     if (target.children < 9) {
       target.children++;
-      if (!this.isMobile || !this.showMobileDialog) {
-        this.emitChange();
-      }
+      target.childrenAges.push(0); // Agregar edad por defecto
+      // No emitir cambio, se emitirá al cerrar el overlay
     }
   }
 
@@ -126,18 +139,26 @@ export class PassengerSelectorComponent implements ControlValueAccessor {
     const target = this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
     if (target.children > 0) {
       target.children--;
-      if (!this.isMobile || !this.showMobileDialog) {
-        this.emitChange();
-      }
+      target.childrenAges.pop(); // Remover última edad
+      // No emitir cambio, se emitirá al cerrar el overlay
     }
+  }
+
+  public updateChildAge(index: number, age: number): void {
+    const target = this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
+    target.childrenAges[index] = age;
+    
+    // Usar detectChanges en lugar de markForCheck para forzar actualización inmediata
+    this.cdr.detectChanges();
+    
+    // No emitir cambio inmediatamente para evitar cerrar el overlay
+    // El cambio se emitirá cuando se cierre el overlay o en mobile al guardar
   }
 
   public selectClass(travelClass: 'economy' | 'business'): void {
     const target = this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
     target.travelClass = travelClass;
-    if (!this.isMobile || !this.showMobileDialog) {
-      this.emitChange();
-    }
+    // No emitir cambio, se emitirá al cerrar el overlay
   }
 
   public get currentValue(): PassengerSelection {
@@ -151,7 +172,10 @@ export class PassengerSelectorComponent implements ControlValueAccessor {
   // ControlValueAccessor implementation
   public writeValue(value: PassengerSelection): void {
     if (value) {
-      this.value = { ...value };
+      this.value = { 
+        ...value,
+        childrenAges: value.childrenAges || []
+      };
     }
   }
 
@@ -165,5 +189,9 @@ export class PassengerSelectorComponent implements ControlValueAccessor {
 
   public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+  }
+
+  public trackByIndex(index: number): number {
+    return index;
   }
 }

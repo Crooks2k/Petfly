@@ -1,7 +1,9 @@
-import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, forwardRef, OnInit, OnDestroy } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
+import { TranslateService } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'petfly-input-select',
@@ -17,7 +19,7 @@ import { DropdownModule } from 'primeng/dropdown';
     },
   ],
 })
-export class InputSelectComponent implements ControlValueAccessor {
+export class InputSelectComponent implements ControlValueAccessor, OnInit, OnDestroy {
   @Input() options: unknown[] = [];
   @Input() optionLabel: string = 'label';
   @Input() optionValue: string = 'value';
@@ -34,9 +36,36 @@ export class InputSelectComponent implements ControlValueAccessor {
   @Output() selectionChange = new EventEmitter<unknown>();
 
   public value: unknown = null;
+  public noResultsText: string = 'No se encontraron resultados';
+  public emptyMessageText: string = 'No hay opciones disponibles';
+
+  private readonly destroy$ = new Subject<void>();
 
   private onChange = (value: unknown) => {};
   private onTouched = () => {};
+
+  constructor(private readonly translateService: TranslateService) {}
+
+  ngOnInit(): void {
+    this.loadTranslations();
+    this.translateService.onLangChange.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.loadTranslations();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private loadTranslations(): void {
+    this.translateService.get('inputSelect.noResultsFound').subscribe(text => {
+      this.noResultsText = text;
+    });
+    this.translateService.get('inputSelect.emptyFilterMessage').subscribe(text => {
+      this.emptyMessageText = text;
+    });
+  }
 
   writeValue(value: unknown): void {
     this.value = value;

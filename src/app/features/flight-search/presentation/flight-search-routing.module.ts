@@ -5,7 +5,7 @@ import { FlightResultsPage } from './pages/flight-results/flight-results.page';
 
 const routes: Routes = [
   { path: '', component: FlightSearchPage },
-  { path: 'results', component: FlightResultsPage }
+  { path: 'flight-results', component: FlightResultsPage }
 ];
 
 @NgModule({

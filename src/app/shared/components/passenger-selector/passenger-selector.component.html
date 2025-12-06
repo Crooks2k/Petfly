@@ -69,6 +69,20 @@
           </div>
         </div>
 
+        <!-- Children Ages -->
+        <div class="children-ages" *ngIf="currentValue.children > 0">
+          <div class="age-row" *ngFor="let age of currentValue.childrenAges; let i = index; trackBy: trackByIndex">
+            <label class="age-label">{{ childAgeLabel }} {{ i + 1 }}</label>
+            <p-dropdown
+              [options]="ageOptions"
+              [ngModel]="currentValue.childrenAges[i]"
+              (ngModelChange)="updateChildAge(i, $event)"
+              [placeholder]="'0'"
+              styleClass="age-dropdown"
+            ></p-dropdown>
+          </div>
+        </div>
+
         <div class="divider"></div>
 
         <h3 class="section-title">{{ classLabel }}</h3>
@@ -102,7 +116,7 @@
   </div>
 
   <!-- Desktop Overlay -->
-  <p-overlayPanel #overlayPanel [dismissable]="true" styleClass="passenger-overlay">
+  <p-overlayPanel #overlayPanel styleClass="passenger-overlay">
     <div class="overlay-content">
       <h3 class="overlay-title">{{ passengersLabel }}</h3>
 
@@ -155,6 +169,24 @@
           >
             <i class="pi pi-plus"></i>
           </button>
+        </div>
+      </div>
+
+      <!-- Children Ages -->
+      <div class="children-ages" *ngIf="currentValue.children > 0">
+        <div class="age-row" *ngFor="let age of currentValue.childrenAges; let i = index; trackBy: trackByIndex">
+          <label class="age-label">{{ childAgeLabel }} {{ i + 1 }}</label>
+          <p-dropdown
+            [options]="ageOptions"
+            [ngModel]="currentValue.childrenAges[i]"
+            (ngModelChange)="updateChildAge(i, $event)"
+            [placeholder]="'0'"
+            [appendTo]="'body'"
+            [autoZIndex]="true"
+            [baseZIndex]="10000"
+            styleClass="age-dropdown"
+            (onClick)="$event.stopPropagation()"
+          ></p-dropdown>
         </div>
       </div>
 

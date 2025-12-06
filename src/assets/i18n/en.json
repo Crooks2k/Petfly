@@ -2,7 +2,8 @@
   "header": {
     "languageLabel": "Language",
     "whatsappLabel": "WhatsApp",
-    "pricesLabel": "Prices"
+    "pricesLabel": "Prices",
+    "whatsappMessage": "Hi! I found an ideal flight on the search tool and need a certificate to travel with my pet in the cabin."
   },
   "flightSearch": {
     "title": "Find flights for you and your pet",
@@ -40,6 +41,7 @@
     "passengerSelectorPassengers": "Passengers",
     "passengerSelectorCancel": "Cancel",
     "passengerSelectorSave": "Save",
+    "passengerSelectorChildAge": "Child age",
     "passengers": {
       "1AdultEconomy": "1 Adult, Economy",
       "2AdultsEconomy": "2 Adults, Economy",
@@ -142,7 +144,13 @@
     "serviceDogTitle": "Service Dog (with certificate)",
     "searchResultsTitle": "Search results",
     "flightsFound": "flights found",
-    "noResultsMessage": "No results to display"
+    "noResultsMessage": "No results to display",
+    "regularPetBadge": "MR",
+    "emotionalSupportBadge": "AE",
+    "serviceDogBadge": "PS",
+    "regularPetDescription": "Pet without certificate",
+    "emotionalSupportDescription": "Pet with emotional support animal certificate",
+    "serviceDogDescription": "Pet with service dog certificate"
   },
   "filtersAside": {
     "petDetailsTitle": "Pet details",
@@ -196,5 +204,9 @@
     "description": "It seems this route doesn't exist in our system. Don't worry, we'll help you get back on track.",
     "homeButton": "Back to home",
     "backButton": "Go back"
+  },
+  "inputSelect": {
+    "noResultsFound": "No results found",
+    "emptyFilterMessage": "No options available"
   }
 }

@@ -102,3 +102,118 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+// ============================================
+// PrimeNG Dropdown Global Overrides
+// ============================================
+.p-dropdown-panel {
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+  background: white !important;
+  z-index: 1100 !important;
+  width: auto !important;
+  min-width: 200px !important;
+
+  .p-dropdown-items-wrapper {
+    max-height: 300px !important;
+    overflow-y: auto !important;
+
+    /* Scroll personalizado azul */
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #e2e8f0;
+      border-radius: 10px;
+      margin: 4px 0;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #3b82f6;
+      border-radius: 10px;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: #2563eb;
+      }
+
+      &:active {
+        background: #1e40af;
+      }
+    }
+
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: #3b82f6 #e2e8f0;
+  }
+
+  .p-dropdown-items {
+    padding: 0.5rem 0 !important;
+  }
+
+  .p-dropdown-item {
+    padding: 0.75rem 1rem !important;
+    font-size: 0.95rem !important;
+    color: #374151 !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    line-height: 1.4 !important;
+    transition: all 0.15s ease !important;
+
+    &:hover:not(.p-highlight) {
+      background-color: #f3f4f6 !important;
+      color: #111827 !important;
+    }
+
+    &.p-highlight {
+      background-color: #3b82f6 !important;
+      color: #ffffff !important;
+      font-weight: 600 !important;
+    }
+
+    &.p-focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+  }
+
+  .p-dropdown-filter-container {
+    padding: 0.75rem !important;
+    border-bottom: 1px solid #f3f4f6 !important;
+    background: #fafbfc !important;
+
+    .p-dropdown-filter {
+      width: 100% !important;
+      padding: 0.75rem 1rem !important;
+      border: 1px solid #e5e7eb !important;
+      border-radius: 8px !important;
+      font-size: 0.875rem !important;
+      background: white !important;
+      color: #374151 !important;
+
+      &:focus {
+        outline: none !important;
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+      }
+    }
+  }
+}
+
+
+// ============================================
+// PrimeNG Calendar Global Overrides
+// ============================================
+.p-datepicker {
+  z-index: 1200 !important; // Mayor que el dropdown (1100)
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+  background: white !important;
+}
+
+.p-datepicker-trigger {
+  z-index: 1 !important;
+}

@@ -1,6 +1,6 @@
 <header class="petfly-header">
   <div class="header-container">
-    <div class="logo-section">
+    <div class="logo-section" (click)="navigateToHome()" role="button" tabindex="0" (keydown.enter)="navigateToHome()">
       <img src="assets/images/petfly-logo.png" alt="Petfly - Viaja con tu mascota" class="logo" />
     </div>
 
@@ -26,12 +26,14 @@
       <button 
         class="nav-icon-btn" 
         type="button" 
-        aria-label="Precios"
+        (click)="opCurrency.toggle($event)"
+        aria-label="Cambiar divisa"
       >
         <i class="pi pi-dollar"></i>
       </button>
 
-      <p-overlayPanel #op [style]="{ width: '200px' }">
+      <!-- Overlay Panel para idiomas -->
+      <p-overlayPanel #op [style]="{ width: config.styles.overlayPanelWidth }">
         <div class="language-menu">
           <button
             *ngFor="let lang of languages"
@@ -43,6 +45,22 @@
             <span class="language-flag">{{ lang.flag }}</span>
             <span class="language-name">{{ lang.name }}</span>
             <i class="pi pi-check" *ngIf="lang.code === currentLanguage"></i>
+          </button>
+        </div>
+      </p-overlayPanel>
+
+      <!-- Overlay Panel para divisas -->
+      <p-overlayPanel #opCurrency>
+        <div class="currency-menu">
+          <button
+            *ngFor="let currency of currencies"
+            class="currency-option"
+            type="button"
+            [class.active]="currency.code === currentCurrency.code"
+            (click)="changeCurrency(currency.code); opCurrency.hide()"
+          >
+            <span class="currency-name">{{ currency.name }} ({{ currency.code }})</span>
+            <i class="pi pi-check" *ngIf="currency.code === currentCurrency.code"></i>
           </button>
         </div>
       </p-overlayPanel>
