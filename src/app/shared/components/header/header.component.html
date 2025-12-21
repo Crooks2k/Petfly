@@ -1,31 +1,32 @@
 <header class="petfly-header">
   <div class="header-container">
-    <div class="logo-section" (click)="navigateToHome()" role="button" tabindex="0" (keydown.enter)="navigateToHome()">
+    <div
+      class="logo-section"
+      (click)="navigateToHome()"
+      role="button"
+      tabindex="0"
+      (keydown.enter)="navigateToHome()"
+    >
       <img src="assets/images/petfly-logo.png" alt="Petfly - Viaja con tu mascota" class="logo" />
     </div>
 
     <div class="nav-icons">
-      <button 
-        class="nav-icon-btn" 
-        type="button" 
+      <button
+        class="nav-icon-btn"
+        type="button"
         (click)="op.toggle($event)"
         aria-label="Cambiar idioma"
       >
         <i class="pi pi-globe"></i>
       </button>
 
-      <button 
-        class="nav-icon-btn" 
-        type="button" 
-        (click)="openWhatsApp()" 
-        aria-label="WhatsApp"
-      >
+      <button class="nav-icon-btn" type="button" (click)="openWhatsApp()" aria-label="WhatsApp">
         <i class="pi pi-whatsapp"></i>
       </button>
 
-      <button 
-        class="nav-icon-btn" 
-        type="button" 
+      <button
+        class="nav-icon-btn"
+        type="button"
         (click)="opCurrency.toggle($event)"
         aria-label="Cambiar divisa"
       >

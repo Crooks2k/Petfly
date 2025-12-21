@@ -8,6 +8,7 @@ import {
   GetBreedsResponseEntity,
   FlightSearchFormEntity,
   SearchFlightsResponseEntity,
+  FilterFlightsResponseEntity,
 } from '../entities';
 
 export abstract class PetflyRepository {
@@ -19,6 +20,14 @@ export abstract class PetflyRepository {
   abstract searchFlights(
     formData: FlightSearchFormEntity,
     currency: string,
-    locale: string
+    locale: string,
+    options?: { useDefaults?: boolean }
   ): Observable<SearchFlightsResponseEntity>;
+  abstract filterFlights(
+    formData: FlightSearchFormEntity,
+    searchId: string,
+    currency: string,
+    locale: string,
+    options?: { useDefaults?: boolean }
+  ): Observable<FilterFlightsResponseEntity>;
 }

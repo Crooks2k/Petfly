@@ -82,7 +82,7 @@ export class I18nService {
    */
   private initializeLanguage(): void {
     const savedLanguage = this.getSavedLanguage();
-    
+
     const defaultLanguage = savedLanguage || I18N_CONSTANTS.DEFAULT_LANGUAGE;
 
     this.setLanguage(defaultLanguage);

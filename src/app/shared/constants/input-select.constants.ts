@@ -9,4 +9,4 @@ export const INPUT_SELECT_SIZE = {
   LARGE: 'large',
 } as const;
 
-export type InputSelectSize = typeof INPUT_SELECT_SIZE[keyof typeof INPUT_SELECT_SIZE];
+export type InputSelectSize = (typeof INPUT_SELECT_SIZE)[keyof typeof INPUT_SELECT_SIZE];

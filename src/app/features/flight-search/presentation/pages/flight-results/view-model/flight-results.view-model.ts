@@ -1,220 +1,146 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
-import { PetType } from '@flight-search/core/types';
-import { PassengerSelectionEntity } from '@shared/core/entities';
+import { FormBuilder } from '@angular/forms';
+import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
+import { FlightFormBaseViewModel } from '@shared/view-models/flight-form-base.view-model';
+import { PetflyInteractor } from '@flight-search/core/interactor/petfly.interactor';
+import { CurrencyService } from '@shared/services/currency/currency.service';
+import { I18nService } from '@core/i18n/i18n.service';
+import { FlightSearchFormEntity, SearchFlightsResponseEntity } from '@flight-search/core/entities';
 
-export interface FlightFiltersData {
-  tipoMascota: PetType;
-  pesoMascota: number | null;
+export interface FlightFiltersData extends FlightSearchFormEntity {
   altura: number | null;
   largo: number | null;
   ancho: number | null;
-  sinTransportador: boolean;
-  origen: string;
-  destino: string;
-  fechaSalida: Date | null;
-  fechaRegreso: Date | null;
-  pasajeros: PassengerSelectionEntity;
-  clasesCabina: string[];
+  sinTransportador: boolean | null;
   certificados: string[];
-  permitirEscalas: boolean;
-  equipajeTarifa: string[];
-  aerolineas: string[];
-  aerolineasAceptanMascotas: string[];
-  tiempoViaje: { min: number; max: number } | null;
-  aeropuertoEscalas: string[];
-  precio: { min: number; max: number } | null;
-  tiempoEscalas: { min: number; max: number } | null;
-  sinTransportadorPerros: boolean;
+  permitirEscalas: boolean | null;
 }
 
+/**
+ * ViewModel para la página de resultados de vuelos con filtros
+ * Extiende del ViewModel base SIN validaciones required (todos los campos opcionales)
+ */
 @Injectable()
-export class FlightResultsViewModel {
-  public filtersForm!: FormGroup;
-  public selectedPetType: PetType = null;
-  public today = new Date();
-  public autoApplyFilters = true;
+export class FlightResultsViewModel extends FlightFormBaseViewModel {
+  // Alias para mantener compatibilidad con el código existente
+  public get filtersForm() {
+    return this.form;
+  }
 
-  private readonly destroy$ = new Subject<void>();
+  public autoApplyFilters = true;
+  public isLoadingResults = false;
+  public flightResults: SearchFlightsResponseEntity | null = null;
+  private searchId: string | null = null;
+
   private readonly filterChange$ = new Subject<Partial<FlightFiltersData>>();
 
-  constructor(private readonly fb: FormBuilder) {
-    this.initializeForm();
-    this.setupFormSubscriptions();
-  }
-
-  private initializeForm(): void {
-    this.filtersForm = this.fb.group({
-      // Detalles de la mascota
-      tipoMascota: [null],
-      pesoMascota: [null],
-      altura: [null],
-      largo: [null],
-      ancho: [null],
-      sinTransportador: [null],
-
-      // Detalles del viaje
-      origen: [''],
-      destino: [''],
-      fechaSalida: [null],
-      fechaRegreso: [null],
-      pasajeros: [{ adults: 1, children: 0, childrenAges: [], travelClass: 'economy' } as PassengerSelectionEntity],
-      clasesCabina: [[]],
-
-      // Certificados
-      certificados: [[]],
-
-      // Aerolíneas y escalas
-      permitirEscalas: [null],
-      equipajeTarifa: [[]],
-      aerolineas: [[]],
-      aerolineasAceptanMascotas: [[]],
-
-      // Otros filtros
-      tiempoViaje: [null],
-      aeropuertoEscalas: [[]],
-      precio: [null],
-      tiempoEscalas: [null],
-      sinTransportadorPerros: [false],
-    });
-  }
-
-  private setupFormSubscriptions(): void {
-    this.filtersForm.valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe(filters => {
-        if (this.autoApplyFilters) {
-          this.onFiltersChange(filters);
-        }
-      });
-
-    this.setupImmediateFilters();
-  }
-
-  private setupImmediateFilters(): void {
-    this.filtersForm.get('tipoMascota')?.valueChanges.subscribe(value => {
-      if (this.autoApplyFilters) {
-        this.applyFilter({ tipoMascota: value });
-      }
+  constructor(
+    fb: FormBuilder,
+    currencyService: CurrencyService,
+    i18nService: I18nService,
+    private readonly petflyInteractor: PetflyInteractor
+  ) {
+    // Configuración SIN validaciones required para filtros
+    super(fb, currencyService, i18nService, {
+      requireOrigin: false,
+      requireDestination: false,
+      requireDepartureDate: false,
+      requireReturnDate: false,
+      requirePassengers: false,
+      requirePetType: false,
+      requirePetWeight: false,
+      requirePetBreed: false,
+      enableTripTypeValidation: false, // No validar tipo de viaje en filtros
+      enableDepartureDateValidation: true,
+      enablePetAgeValidation: true,
     });
 
-    this.filtersForm.get('sinTransportador')?.valueChanges.subscribe(value => {
-      if (this.autoApplyFilters) {
-        this.applyFilter({ sinTransportador: value });
-      }
-    });
-
-    this.filtersForm.get('permitirEscalas')?.valueChanges.subscribe(value => {
-      if (this.autoApplyFilters) {
-        this.applyFilter({ permitirEscalas: value });
-      }
-    });
-
-    this.filtersForm.get('clasesCabina')?.valueChanges.subscribe(value => {
-      if (this.autoApplyFilters) {
-        this.applyFilter({ clasesCabina: value });
-      }
-    });
-
-    this.filtersForm.get('certificados')?.valueChanges.subscribe(value => {
-      if (this.autoApplyFilters) {
-        this.applyFilter({ certificados: value });
-      }
-    });
+    this.setupFilterSubscriptions();
   }
 
-  private onFiltersChange(filters: FlightFiltersData): void {
-    this.filterChange$.next(filters);
+  /**
+   * Establece el searchId recibido de la búsqueda original
+   */
+  public setSearchId(searchId: string): void {
+    this.searchId = searchId;
+    console.log('🔑 Search ID establecido:', searchId);
   }
 
-  private applyFilter(filter: Partial<FlightFiltersData>): void {
-    this.filterChange$.next(filter);
+  private setupFilterSubscriptions(): void {
+    // Ya no aplicamos filtros automáticamente
+    // El usuario debe hacer clic en el botón "Filtrar"
+    console.log('📋 Filtros inicializados - Aplicación manual solamente');
   }
 
-  public selectPetType(type: Exclude<PetType, null>): void {
-    this.selectedPetType = type;
-    this.filtersForm.patchValue({ tipoMascota: type });
-  }
-
-  public toggleCabinClass(className: string): void {
-    const current = this.filtersForm.get('clasesCabina')?.value || [];
-    const index = current.indexOf(className);
-    
-    if (index > -1) {
-      current.splice(index, 1);
-    } else {
-      current.push(className);
+  /**
+   * Aplica los filtros llamando al servicio de filtros con valores por defecto
+   * Los servicios de currency e i18n se obtienen automáticamente del ViewModel base
+   */
+  public applyFiltersToSearch(): void {
+    if (!this.searchId) {
+      console.error('❌ No se puede aplicar filtros sin searchId');
+      return;
     }
-    
-    this.filtersForm.patchValue({ clasesCabina: [...current] });
+
+    this.isLoadingResults = true;
+    const formData = this.getFormData();
+    const currency = this.getCurrentCurrency();
+    const locale = this.getCurrentLocale();
+
+    console.log('🚀 Aplicando filtros al servicio de filtros...');
+    console.log('  🔍 Search ID:', this.searchId);
+    console.log('  📋 Datos del formulario:', formData);
+    console.log('  💰 Moneda:', currency);
+    console.log('  🌍 Idioma:', locale);
+
+    this.petflyInteractor
+      .filterFlights(formData, this.searchId, currency, locale, { useDefaults: true })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: response => {
+          this.flightResults = response;
+          this.isLoadingResults = false;
+          console.log('✅ Resultados filtrados obtenidos:', response);
+          console.log('  📊 Total de vuelos:', response.flightTickets.length);
+        },
+        error: error => {
+          this.isLoadingResults = false;
+          console.error('❌ Error al filtrar vuelos:', error);
+        },
+      });
   }
 
   public toggleCertificate(certificate: string): void {
-    const current = this.filtersForm.get('certificados')?.value || [];
+    const current = this.form.get('certificados')?.value || [];
     const index = current.indexOf(certificate);
-    
+
     if (index > -1) {
       current.splice(index, 1);
     } else {
       current.push(certificate);
     }
-    
-    this.filtersForm.patchValue({ certificados: [...current] });
-  }
 
-  public isCabinClassSelected(className: string): boolean {
-    const classes = this.filtersForm.get('clasesCabina')?.value || [];
-    return classes.includes(className);
+    this.form.patchValue({ certificados: [...current] });
   }
 
   public isCertificateSelected(certificate: string): boolean {
-    const certificates = this.filtersForm.get('certificados')?.value || [];
+    const certificates = this.form.get('certificados')?.value || [];
     return certificates.includes(certificate);
   }
 
-  public getMinReturnDate(): Date {
-    const departureDate = this.filtersForm.get('fechaSalida')?.value;
-    if (departureDate && departureDate instanceof Date) {
-      return departureDate;
-    }
-    return this.today;
-  }
-
   public getFiltersData(): FlightFiltersData {
-    return this.filtersForm.value;
+    return this.form.value;
   }
 
   public resetFilters(): void {
-    this.filtersForm.reset({
+    this.resetForm({
       tipoMascota: null,
-      pesoMascota: null,
       altura: null,
       largo: null,
       ancho: null,
-      sinTransportador: false,
-      origen: '',
-      destino: '',
-      fechaSalida: null,
-      fechaRegreso: null,
-      pasajeros: { adults: 1, children: 0, childrenAges: [], travelClass: 'economy' } as PassengerSelectionEntity,
-      clasesCabina: [],
+      sinTransportador: null,
       certificados: [],
-      permitirEscalas: true,
-      equipajeTarifa: [],
-      aerolineas: [],
-      aerolineasAceptanMascotas: [],
-      tiempoViaje: null,
-      aeropuertoEscalas: [],
-      precio: null,
-      tiempoEscalas: null,
-      sinTransportadorPerros: false,
+      permitirEscalas: null,
     });
-    this.selectedPetType = null;
-  }
-
-  public destroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

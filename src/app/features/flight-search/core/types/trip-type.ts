@@ -1,4 +1,4 @@
 export interface tripType {
-    label: string;
-    value: string;
+  label: string;
+  value: string;
 }

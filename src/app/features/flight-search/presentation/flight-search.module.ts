@@ -28,6 +28,9 @@ import { FlightResultsPage } from './pages/flight-results/flight-results.page';
 
 // Components
 import { FiltersAsideComponent } from './components/filters-aside/filters-aside.component';
+import { FlightCardComponent } from './components/flight-card/flight-card.component';
+import { FlightCardMobileComponent } from './components/flight-card-mobile/flight-card-mobile.component';
+import { FlightCardDesktopComponent } from './components/flight-card-desktop/flight-card-desktop.component';
 
 // Core
 import { PetflyInteractor } from '@flight-search/core/interactor/petfly.interactor';
@@ -36,7 +39,10 @@ import { PetflyInteractor } from '@flight-search/core/interactor/petfly.interact
   declarations: [
     FlightSearchPage,
     FlightResultsPage,
-    FiltersAsideComponent
+    FiltersAsideComponent,
+    FlightCardComponent,
+    FlightCardMobileComponent,
+    FlightCardDesktopComponent,
   ],
   imports: [
     CommonModule,

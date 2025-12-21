@@ -1,0 +1,467 @@
+<div class="flight-card" [class.expanded]="isExpanded">
+  <!-- Header: Siempre visible (cerrado por defecto) -->
+  <div class="flight-card-header" (click)="toggleExpanded()">
+    <!-- MOBILE VERSION -->
+    <div class="flights-summary mobile-only">
+      <!-- Vuelo de ida -->
+      <div class="flight-row">
+        <img
+          [src]="outboundFlight.flightItems[0].imageUrl"
+          [alt]="outboundFlight.flightItems[0].airlineName"
+          class="airline-logo"
+        />
+
+        <div class="flight-info">
+          <div class="flight-times">
+            <span class="time">{{ formatTime(outboundFlight.flightItems[0].departureTime) }}</span>
+            <span class="duration">{{ formatDuration(getTotalDuration(outboundFlight)) }}</span>
+            <span class="time">
+              {{
+                formatTime(
+                  outboundFlight.flightItems[outboundFlight.flightItems.length - 1].arrivalTime
+                )
+              }}
+              <span
+                class="day-offset"
+                *ngIf="
+                  getArrivalDayOffset(
+                    outboundFlight.flightItems[0].departureTime,
+                    outboundFlight.flightItems[outboundFlight.flightItems.length - 1].arrivalTime
+                  )
+                "
+              >
+                {{
+                  getArrivalDayOffset(
+                    outboundFlight.flightItems[0].departureTime,
+                    outboundFlight.flightItems[outboundFlight.flightItems.length - 1].arrivalTime
+                  )
+                }}
+              </span>
+            </span>
+          </div>
+          <div class="flight-route">
+            <span class="stops-info"
+              >{{ getStopsText()
+              }}<span *ngIf="flightTicket.maxStops > 0"
+                >, {{ getStopsCodes(outboundFlight) }}</span
+              ></span
+            >
+          </div>
+          <div class="flight-airports">
+            <span class="airport">{{ outboundFlight.flightItems[0].departure }}</span>
+            <span class="airport">{{
+              outboundFlight.flightItems[outboundFlight.flightItems.length - 1].arrival
+            }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vuelo de regreso (si existe) -->
+      <div class="flight-row" *ngIf="returnFlight">
+        <img
+          [src]="returnFlight.flightItems[0].imageUrl"
+          [alt]="returnFlight.flightItems[0].airlineName"
+          class="airline-logo"
+        />
+
+        <div class="flight-info">
+          <div class="flight-times">
+            <span class="time">{{ formatTime(returnFlight.flightItems[0].departureTime) }}</span>
+            <span class="duration">{{ formatDuration(getTotalDuration(returnFlight)) }}</span>
+            <span class="time">
+              {{
+                formatTime(
+                  returnFlight.flightItems[returnFlight.flightItems.length - 1].arrivalTime
+                )
+              }}
+              <span
+                class="day-offset"
+                *ngIf="
+                  getArrivalDayOffset(
+                    returnFlight.flightItems[0].departureTime,
+                    returnFlight.flightItems[returnFlight.flightItems.length - 1].arrivalTime
+                  )
+                "
+              >
+                {{
+                  getArrivalDayOffset(
+                    returnFlight.flightItems[0].departureTime,
+                    returnFlight.flightItems[returnFlight.flightItems.length - 1].arrivalTime
+                  )
+                }}
+              </span>
+            </span>
+          </div>
+          <div class="flight-route">
+            <span class="stops-info"
+              >{{ getStopsText()
+              }}<span *ngIf="flightTicket.maxStops > 0"
+                >, {{ getStopsCodes(returnFlight) }}</span
+              ></span
+            >
+          </div>
+          <div class="flight-airports">
+            <span class="airport">{{ returnFlight.flightItems[0].departure }}</span>
+            <span class="airport">{{
+              returnFlight.flightItems[returnFlight.flightItems.length - 1].arrival
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP VERSION -->
+    <div class="flights-summary desktop-only">
+      <!-- Vuelo de ida -->
+      <div class="flight-compact">
+        <img
+          [src]="outboundFlight.flightItems[0].imageUrl"
+          [alt]="outboundFlight.flightItems[0].airlineName"
+          class="airline-logo"
+        />
+        <div class="flight-times-compact">
+          <span class="time">{{ formatTime(outboundFlight.flightItems[0].departureTime) }}</span>
+          <div class="flight-duration-line">
+            <span class="duration-text">{{
+              formatDuration(getTotalDuration(outboundFlight))
+            }}</span>
+            <div class="duration-line"></div>
+            <i class="pi pi-send"></i>
+          </div>
+          <span class="time">
+            {{
+              formatTime(
+                outboundFlight.flightItems[outboundFlight.flightItems.length - 1].arrivalTime
+              )
+            }}
+            <span
+              class="day-offset"
+              *ngIf="
+                getArrivalDayOffset(
+                  outboundFlight.flightItems[0].departureTime,
+                  outboundFlight.flightItems[outboundFlight.flightItems.length - 1].arrivalTime
+                )
+              "
+            >
+              {{
+                getArrivalDayOffset(
+                  outboundFlight.flightItems[0].departureTime,
+                  outboundFlight.flightItems[outboundFlight.flightItems.length - 1].arrivalTime
+                )
+              }}
+            </span>
+          </span>
+        </div>
+        <div class="flight-route-compact">
+          <span class="airport-code">{{ outboundFlight.flightItems[0].departure }}</span>
+          <span class="stops-compact"
+            >{{ getStopsText()
+            }}<span *ngIf="flightTicket.maxStops > 0"
+              >, {{ getStopsCodes(outboundFlight) }}</span
+            ></span
+          >
+          <span class="airport-code">{{
+            outboundFlight.flightItems[outboundFlight.flightItems.length - 1].arrival
+          }}</span>
+        </div>
+      </div>
+
+      <!-- Vuelo de regreso (si existe) -->
+      <div class="flight-compact" *ngIf="returnFlight">
+        <img
+          [src]="returnFlight.flightItems[0].imageUrl"
+          [alt]="returnFlight.flightItems[0].airlineName"
+          class="airline-logo"
+        />
+        <div class="flight-times-compact">
+          <span class="time">{{ formatTime(returnFlight.flightItems[0].departureTime) }}</span>
+          <div class="flight-duration-line">
+            <span class="duration-text">{{ formatDuration(getTotalDuration(returnFlight)) }}</span>
+            <div class="duration-line"></div>
+            <i class="pi pi-send"></i>
+          </div>
+          <span class="time">
+            {{
+              formatTime(returnFlight.flightItems[returnFlight.flightItems.length - 1].arrivalTime)
+            }}
+            <span
+              class="day-offset"
+              *ngIf="
+                getArrivalDayOffset(
+                  returnFlight.flightItems[0].departureTime,
+                  returnFlight.flightItems[returnFlight.flightItems.length - 1].arrivalTime
+                )
+              "
+            >
+              {{
+                getArrivalDayOffset(
+                  returnFlight.flightItems[0].departureTime,
+                  returnFlight.flightItems[returnFlight.flightItems.length - 1].arrivalTime
+                )
+              }}
+            </span>
+          </span>
+        </div>
+        <div class="flight-route-compact">
+          <span class="airport-code">{{ returnFlight.flightItems[0].departure }}</span>
+          <span class="stops-compact"
+            >{{ getStopsText()
+            }}<span *ngIf="flightTicket.maxStops > 0"
+              >, {{ getStopsCodes(returnFlight) }}</span
+            ></span
+          >
+          <span class="airport-code">{{
+            returnFlight.flightItems[returnFlight.flightItems.length - 1].arrival
+          }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Precio resumen (derecha) - MOBILE -->
+    <div class="price-summary mobile-only">
+      <div class="price-label">{{ texts.pricePerPerson }}</div>
+      <div class="price-value">${{ formatPrice(flightTicket.price) }}</div>
+
+      <div class="price-label total-label">{{ texts.totalPrice }}</div>
+      <div class="price-subtitle">{{ texts.totalPriceSubtitle }}</div>
+      <div class="price-value total-value">
+        ${{ formatPrice(flightTicket.total.min) }}-{{ formatPrice(flightTicket.total.max) }}
+      </div>
+    </div>
+
+    <!-- Precio resumen (derecha) - DESKTOP -->
+    <div class="price-summary-desktop desktop-only">
+      <div class="price-column">
+        <div class="price-label">{{ texts.pricePerPerson }}</div>
+        <div class="price-value">${{ formatPrice(flightTicket.price) }}</div>
+      </div>
+      <div class="price-column pet-column">
+        <div class="price-label">{{ texts.petPrice }}</div>
+        <div class="price-value">
+          ${{ formatPrice(flightTicket.mrPrice?.min || 0) }}-{{
+            formatPrice(flightTicket.mrPrice?.max || 200)
+          }}
+        </div>
+        <div class="pet-badges-inline">
+          <span class="badge badge-mr">{{ texts.mrBadge }}</span>
+          <span class="badge badge-ps">{{ texts.psBadge }}</span>
+        </div>
+        <div class="ae-status" *ngIf="isAENotAccepted">{{ texts.aeNotAccepted }}</div>
+        <div class="pet-price-breakdown">
+          <div *ngIf="hasMRPrice">
+            {{ texts.mrLabel }}: ${{ formatPrice(flightTicket.mrPrice!.min) }}
+          </div>
+          <div>
+            {{ texts.aeLabel }}: ${{ formatPrice(flightTicket.aePrice.min) }}-{{
+              formatPrice(flightTicket.aePrice.max)
+            }}
+          </div>
+          <div>{{ texts.psLabel }}: ${{ formatPrice(flightTicket.psPrice.min) }}</div>
+        </div>
+      </div>
+      <div class="price-column total-column">
+        <div class="price-label">{{ texts.totalPrice }}</div>
+        <div class="price-subtitle">{{ texts.totalPriceSubtitle }}</div>
+        <div class="price-value">
+          ${{ formatPrice(flightTicket.total.min) }}-{{ formatPrice(flightTicket.total.max) }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Icono de expansión -->
+    <div class="expand-icon">
+      <i class="pi" [class.pi-chevron-down]="!isExpanded" [class.pi-chevron-up]="isExpanded"></i>
+    </div>
+  </div>
+
+  <!-- Contenido expandido -->
+  <div class="flight-card-body" *ngIf="isExpanded">
+    <!-- MOBILE: Pricing grid -->
+    <div class="pricing-details-grid mobile-only">
+      <!-- Precio por persona -->
+      <div class="pricing-detail-item">
+        <div class="detail-label">{{ texts.pricePerPerson }}</div>
+        <div class="detail-value">${{ formatPrice(flightTicket.price) }}</div>
+        <button class="select-button" (click)="onSelectFlight($event)">
+          <span>{{ texts.selectButton }}</span>
+        </button>
+      </div>
+
+      <!-- Precio mascota -->
+      <div class="pricing-detail-item pet-price">
+        <div class="detail-label">{{ texts.petPrice }}</div>
+        <div class="detail-value">
+          ${{ formatPrice(flightTicket.mrPrice?.min || 0) }}-{{
+            formatPrice(flightTicket.mrPrice?.max || 200)
+          }}
+        </div>
+
+        <div class="pet-badges">
+          <span class="badge badge-mr">{{ texts.mrBadge }}</span>
+          <span class="badge badge-ps">{{ texts.psBadge }}</span>
+        </div>
+
+        <div class="pet-price-details">
+          <div *ngIf="hasMRPrice">
+            {{ texts.mrLabel }}: ${{ formatPrice(flightTicket.mrPrice!.min) }}
+          </div>
+          <div>
+            {{ texts.aeLabel }}: ${{ formatPrice(flightTicket.aePrice.min) }}-{{
+              formatPrice(flightTicket.aePrice.max)
+            }}
+          </div>
+          <div>{{ texts.psLabel }}: ${{ formatPrice(flightTicket.psPrice.min) }}</div>
+          <div class="ae-not-accepted" *ngIf="isAENotAccepted">{{ texts.aeNotAccepted }}</div>
+        </div>
+      </div>
+
+      <!-- Precio total -->
+      <div class="pricing-detail-item">
+        <div class="detail-label">{{ texts.totalPrice }}</div>
+        <div class="detail-subtitle">{{ texts.totalPriceSubtitle }}</div>
+        <div class="detail-value total">
+          ${{ formatPrice(flightTicket.total.min) }}-{{ formatPrice(flightTicket.total.max) }}
+        </div>
+      </div>
+    </div>
+
+    <!-- DESKTOP: Flight timeline details -->
+    <div class="flight-timeline-container desktop-only">
+      <!-- Vuelo de ida -->
+      <div class="flight-timeline-section">
+        <h4 class="timeline-title">
+          {{ texts.outboundFlight }} {{ formatDate(outboundFlight.flightItems[0].departureTime) }}
+        </h4>
+
+        <div class="timeline" *ngFor="let segment of outboundFlight.flightItems; let i = index">
+          <!-- Segmento de vuelo -->
+          <div class="timeline-segment">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="segment-header">
+                <span class="segment-time">{{ formatTime(segment.departureTime) }}</span>
+                <span class="segment-airport"
+                  >{{ segment.departure }} {{ getAirportName(segment.departure) }}</span
+                >
+              </div>
+              <div class="segment-airline">
+                {{ segment.airlineName }} {{ segment.airlineCode }} | {{ texts.operatedBy }}
+                {{ segment.airlineName }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Duración del vuelo -->
+          <div class="timeline-duration">
+            <div class="timeline-line"></div>
+            <div class="duration-info">
+              <i class="pi pi-clock"></i>
+              <span>{{ formatDuration(segment.duration) }}</span>
+            </div>
+          </div>
+
+          <!-- Llegada -->
+          <div class="timeline-segment">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="segment-header">
+                <span class="segment-time">{{ formatTime(segment.arrivalTime) }}</span>
+                <span class="segment-airport"
+                  >{{ segment.arrival }} {{ getAirportName(segment.arrival) }}</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Escala (si no es el último segmento) -->
+          <div class="timeline-layover" *ngIf="i < outboundFlight.flightItems.length - 1">
+            <div class="layover-content">
+              <span class="layover-duration">{{
+                getLayoverDuration(
+                  segment.arrivalTime,
+                  outboundFlight.flightItems[i + 1].departureTime
+                )
+              }}</span>
+              <span class="layover-text">{{ texts.stopAtAirport }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vuelo de regreso (si existe) -->
+      <div class="flight-timeline-section" *ngIf="returnFlight">
+        <h4 class="timeline-title">
+          {{ texts.returnFlight }} {{ formatDate(returnFlight.flightItems[0].departureTime) }}
+        </h4>
+
+        <div class="timeline" *ngFor="let segment of returnFlight.flightItems; let i = index">
+          <!-- Segmento de vuelo -->
+          <div class="timeline-segment">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="segment-header">
+                <span class="segment-time">{{ formatTime(segment.departureTime) }}</span>
+                <span class="segment-airport"
+                  >{{ segment.departure }} {{ getAirportName(segment.departure) }}</span
+                >
+              </div>
+              <div class="segment-airline">
+                {{ segment.airlineName }} {{ segment.airlineCode }} | {{ texts.operatedBy }}
+                {{ segment.airlineName }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Duración del vuelo -->
+          <div class="timeline-duration">
+            <div class="timeline-line"></div>
+            <div class="duration-info">
+              <i class="pi pi-clock"></i>
+              <span>{{ formatDuration(segment.duration) }}</span>
+            </div>
+          </div>
+
+          <!-- Llegada -->
+          <div class="timeline-segment">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="segment-header">
+                <span class="segment-time">{{ formatTime(segment.arrivalTime) }}</span>
+                <span class="segment-airport"
+                  >{{ segment.arrival }} {{ getAirportName(segment.arrival) }}</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Escala (si no es el último segmento) -->
+          <div class="timeline-layover" *ngIf="i < returnFlight.flightItems.length - 1">
+            <div class="layover-content">
+              <span class="layover-duration">{{
+                getLayoverDuration(
+                  segment.arrivalTime,
+                  returnFlight.flightItems[i + 1].departureTime
+                )
+              }}</span>
+              <span class="layover-text">{{ texts.stopAtAirport }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botón de selección en desktop -->
+      <div class="desktop-select-section">
+        <button class="select-button-desktop" (click)="onSelectFlight($event)">
+          <span>{{ texts.selectButton }}</span>
+          <i class="pi pi-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Advertencia -->
+    <div class="price-warning">
+      <i class="pi pi-hand-paper"></i>
+      <span>{{ texts.priceEstimationWarning }}</span>
+    </div>
+  </div>
+</div>

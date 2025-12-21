@@ -2,7 +2,15 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { I18nService } from '@core/i18n/i18n.service';
-import { Subject, takeUntil, debounceTime, distinctUntilChanged, switchMap, of, catchError } from 'rxjs';
+import {
+  Subject,
+  takeUntil,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+  of,
+  catchError,
+} from 'rxjs';
 import { FlightSearchConfig, ResolvedFlightSearchTexts } from './flight-search.config';
 import { tripType, PetType } from '@flight-search/core/types';
 import { FlightSearchViewModel } from './view-model/flight-search.view-model';
@@ -29,7 +37,7 @@ export class FlightSearchPage implements OnInit, OnDestroy {
   public readonly ciudades = [...FlightSearchConfig.options.cities];
   public razasOptions: { label: string; value: string }[] = [];
   public isLoadingBreeds = false;
-  
+
   public ciudadesOrigenOptions: { label: string; value: string; city?: any }[] = [];
   public ciudadesDestinoOptions: { label: string; value: string; city?: any }[] = [];
   public isLoadingCitiesOrigen = false;
@@ -67,17 +75,19 @@ export class FlightSearchPage implements OnInit, OnDestroy {
       this.isSearching = true;
 
       const formData = this.viewModel.getFormData();
-      
-      const origenCode = typeof formData.origen === 'string' ? formData.origen : (formData.origen as any)?.value;
-      const destinoCode = typeof formData.destino === 'string' ? formData.destino : (formData.destino as any)?.value;
-      
+
+      const origenCode =
+        typeof formData.origen === 'string' ? formData.origen : (formData.origen as any)?.value;
+      const destinoCode =
+        typeof formData.destino === 'string' ? formData.destino : (formData.destino as any)?.value;
+
       if (!formData.origenCity && origenCode) {
         const origenOption = this.ciudadesOrigenOptions.find(opt => opt.value === origenCode);
         if (origenOption?.city) {
           formData.origenCity = origenOption.city;
         }
       }
-      
+
       if (!formData.destinoCity && destinoCode) {
         const destinoOption = this.ciudadesDestinoOptions.find(opt => opt.value === destinoCode);
         if (destinoOption?.city) {
@@ -85,8 +95,13 @@ export class FlightSearchPage implements OnInit, OnDestroy {
         }
       }
 
-      const currency = this.currencyService.getCurrentCurrencyCode();
-      const locale = this.i18nService.getCurrentLanguage();
+      const currency = this.viewModel.getCurrentCurrency();
+      const locale = this.viewModel.getCurrentLocale();
+
+      console.log('🚀 Iniciando búsqueda de vuelos...');
+      console.log('  📋 Datos del formulario:', formData);
+      console.log('  💰 Moneda:', currency);
+      console.log('  🌍 Idioma:', locale);
 
       this.petflyInteractor
         .searchFlights(formData, currency, locale)
@@ -94,19 +109,46 @@ export class FlightSearchPage implements OnInit, OnDestroy {
         .subscribe({
           next: response => {
             this.isSearching = false;
+
+            console.log('✅ Búsqueda completada exitosamente');
+            console.log('  📦 Respuesta completa:', response);
+
+            // Validar que la respuesta tenga datos
+            if (!response) {
+              console.error('❌ Respuesta vacía del servidor');
+              return;
+            }
+
+            const flightTicketsCount = response.flightTickets?.length || 0;
+            const searchId = response.searchId || 'mock-search-id-123';
+            console.log('  📊 Total de vuelos encontrados:', flightTicketsCount);
+            console.log('  🔍 Filtros disponibles:', response.filtersBoundary);
+            console.log('  🔑 Search ID:', searchId);
+
+            // Navegar a resultados enviando todos los datos
             this.router.navigate([FlightSearchConfig.routes.flightResults], {
-              state: { 
-                flightTickets: response.flightTickets, 
-                filtersBoundary: response.filtersBoundary 
+              state: {
+                searchResults: response,
+                searchParams: formData,
+                currency: currency,
+                locale: locale,
+                searchId: searchId,
               },
             });
           },
-          error: () => {
+          error: error => {
             this.isSearching = false;
+            console.error('❌ Error en la búsqueda:', error);
+            console.error('  📋 Detalles del error:', {
+              message: error?.message,
+              status: error?.status,
+              statusText: error?.statusText,
+            });
           },
         });
     } else {
       this.viewModel.markAllAsTouched();
+      console.warn('⚠️ Formulario inválido, por favor complete todos los campos requeridos');
     }
   }
 
@@ -117,13 +159,14 @@ export class FlightSearchPage implements OnInit, OnDestroy {
 
   private setupPetTypeSubscription(): void {
     const breedControl = this.searchForm.get('razaMascota');
-    
+
     if (!this.selectedPetType) {
       breedControl?.disable();
     }
-    
-    this.searchForm.get('tipoMascota')?.valueChanges
-      .pipe(takeUntil(this.destroy$))
+
+    this.searchForm
+      .get('tipoMascota')
+      ?.valueChanges.pipe(takeUntil(this.destroy$))
       .subscribe((petType: PetType) => {
         if (petType) {
           this.loadBreedsByPetType(petType);
@@ -138,14 +181,15 @@ export class FlightSearchPage implements OnInit, OnDestroy {
   private loadBreedsByPetType(petType: 'dog' | 'cat'): void {
     this.isLoadingBreeds = true;
     this.razasOptions = [];
-    
+
     const breedControl = this.searchForm.get('razaMascota');
     breedControl?.disable();
     this.searchForm.patchValue({ razaMascota: '' }, { emitEvent: false });
 
-    const petTypeId = petType === 'dog' 
-      ? FLIGHT_SEARCH_CONSTANTS.PET_TYPE.DOG_ID 
-      : FLIGHT_SEARCH_CONSTANTS.PET_TYPE.CAT_ID;
+    const petTypeId =
+      petType === 'dog'
+        ? FLIGHT_SEARCH_CONSTANTS.PET_TYPE.DOG_ID
+        : FLIGHT_SEARCH_CONSTANTS.PET_TYPE.CAT_ID;
 
     this.petflyInteractor
       .getBreeds({ petTypeId })
@@ -204,27 +248,30 @@ export class FlightSearchPage implements OnInit, OnDestroy {
             return of([]);
           }
           this.isLoadingCitiesOrigen = true;
-          return this.petflyInteractor.getCities({ 
-            query, 
-            limit: FLIGHT_SEARCH_CONSTANTS.SEARCH.CITIES_LIMIT 
-          }).pipe(
-            catchError(() => {
-              this.isLoadingCitiesOrigen = false;
-              return of([]);
+          return this.petflyInteractor
+            .getCities({
+              query,
+              limit: FLIGHT_SEARCH_CONSTANTS.SEARCH.CITIES_LIMIT,
             })
-          );
+            .pipe(
+              catchError(() => {
+                this.isLoadingCitiesOrigen = false;
+                return of([]);
+              })
+            );
         }),
         takeUntil(this.destroy$)
       )
       .subscribe({
         next: response => {
-          this.ciudadesOrigenOptions = response.length > 0
-            ? response.map(city => ({
+          this.ciudadesOrigenOptions =
+            response.length > 0
+              ? response.map(city => ({
                 label: city.displayName,
                 value: city.cityCode,
                 city: city,
               }))
-            : [];
+              : [];
           this.isLoadingCitiesOrigen = false;
         },
       });
@@ -240,27 +287,30 @@ export class FlightSearchPage implements OnInit, OnDestroy {
             return of([]);
           }
           this.isLoadingCitiesDestino = true;
-          return this.petflyInteractor.getCities({ 
-            query, 
-            limit: FLIGHT_SEARCH_CONSTANTS.SEARCH.CITIES_LIMIT 
-          }).pipe(
-            catchError(() => {
-              this.isLoadingCitiesDestino = false;
-              return of([]);
+          return this.petflyInteractor
+            .getCities({
+              query,
+              limit: FLIGHT_SEARCH_CONSTANTS.SEARCH.CITIES_LIMIT,
             })
-          );
+            .pipe(
+              catchError(() => {
+                this.isLoadingCitiesDestino = false;
+                return of([]);
+              })
+            );
         }),
         takeUntil(this.destroy$)
       )
       .subscribe({
         next: response => {
-          this.ciudadesDestinoOptions = response.length > 0
-            ? response.map(city => ({
+          this.ciudadesDestinoOptions =
+            response.length > 0
+              ? response.map(city => ({
                 label: city.displayName,
                 value: city.cityCode,
                 city: city,
               }))
-            : [];
+              : [];
           this.isLoadingCitiesDestino = false;
         },
       });
@@ -274,21 +324,28 @@ export class FlightSearchPage implements OnInit, OnDestroy {
     this.destinoSearchSubject.next(event.query);
   }
 
-  public onOrigenSelect(event: any): void {
-    if (event?.city) {
-      this.searchForm.patchValue({ origenCity: event.city }, { emitEvent: false });
+  public onOrigenSelect(event: unknown): void {
+    if (event && typeof event === 'object' && 'city' in event) {
+      const cityEvent = event as { city?: any };
+      if (cityEvent.city) {
+        this.searchForm.patchValue({ origenCity: cityEvent.city }, { emitEvent: false });
+      }
     }
   }
 
-  public onDestinoSelect(event: any): void {
-    if (event?.city) {
-      this.searchForm.patchValue({ destinoCity: event.city }, { emitEvent: false });
+  public onDestinoSelect(event: unknown): void {
+    if (event && typeof event === 'object' && 'city' in event) {
+      const cityEvent = event as { city?: any };
+      if (cityEvent.city) {
+        this.searchForm.patchValue({ destinoCity: cityEvent.city }, { emitEvent: false });
+      }
     }
   }
 
   private setupCitiesValidation(): void {
-    this.searchForm.get('origen')?.valueChanges
-      .pipe(takeUntil(this.destroy$))
+    this.searchForm
+      .get('origen')
+      ?.valueChanges.pipe(takeUntil(this.destroy$))
       .subscribe(origenValue => {
         const destinoValue = this.searchForm.get('destino')?.value;
         if (origenValue && destinoValue && origenValue === destinoValue) {
@@ -296,8 +353,9 @@ export class FlightSearchPage implements OnInit, OnDestroy {
         }
       });
 
-    this.searchForm.get('destino')?.valueChanges
-      .pipe(takeUntil(this.destroy$))
+    this.searchForm
+      .get('destino')
+      ?.valueChanges.pipe(takeUntil(this.destroy$))
       .subscribe(destinoValue => {
         const origenValue = this.searchForm.get('origen')?.value;
         if (origenValue && destinoValue && origenValue === destinoValue) {

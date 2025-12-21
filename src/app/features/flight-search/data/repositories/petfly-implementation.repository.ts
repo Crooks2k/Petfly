@@ -10,9 +10,11 @@ import {
   GetBreedsResponseEntity,
   FlightSearchFormEntity,
   SearchFlightsResponseEntity,
+  FilterFlightsResponseEntity,
 } from '@flight-search/core/entities';
 import { PetflyRepository } from '@flight-search/core/repositories/petfly.repository';
 import { FlightSearchFormMapper } from '@flight-search/data/mappers/flight-search-form.mapper';
+import { FilterFlightsFormMapper } from '@flight-search/data/mappers/filter-flights-form.mapper';
 import { environment } from '@environments/environment';
 
 @Injectable()
@@ -31,7 +33,8 @@ export class PetflyImplementationRepository extends PetflyRepository {
     return this.http.get<GetCitiesResponseEntity>(`${this.apiUrl}cities`, { params });
   }
 
-  getCurrencies(request: GetCurrenciesRequestEntity): Observable<GetCurrenciesResponseEntity> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getCurrencies(_request: GetCurrenciesRequestEntity): Observable<GetCurrenciesResponseEntity> {
     return this.http.get<GetCurrenciesResponseEntity>(`${this.apiUrl}currencies`);
   }
 
@@ -44,9 +47,30 @@ export class PetflyImplementationRepository extends PetflyRepository {
   searchFlights(
     formData: FlightSearchFormEntity,
     currency: string,
-    locale: string
+    locale: string,
+    options?: { useDefaults?: boolean }
   ): Observable<SearchFlightsResponseEntity> {
-    const request = FlightSearchFormMapper.toApiRequest(formData, currency, locale);
+    const request = FlightSearchFormMapper.toApiRequest(formData, currency, locale, options);
     return this.http.post<SearchFlightsResponseEntity>(`${this.apiUrl}search`, request);
+  }
+
+  filterFlights(
+    formData: FlightSearchFormEntity,
+    searchId: string,
+    currency: string,
+    locale: string,
+    options?: { useDefaults?: boolean }
+  ): Observable<FilterFlightsResponseEntity> {
+    const filterRequest = FilterFlightsFormMapper.toApiRequest(
+      formData,
+      searchId,
+      currency,
+      locale,
+      options
+    );
+
+    console.log('🔍 Filter Request Body:', JSON.stringify(filterRequest, null, 2));
+
+    return this.http.post<FilterFlightsResponseEntity>(`${this.apiUrl}filter`, filterRequest);
   }
 }

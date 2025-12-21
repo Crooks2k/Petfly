@@ -1,4 +1,5 @@
 export interface SearchFlightsResponseEntity {
+  searchId?: string;
   flightTickets: FlightTicketEntity[];
   filtersBoundary: FiltersBoundaryEntity;
 }

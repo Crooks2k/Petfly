@@ -9,12 +9,14 @@ import {
   GetBreedsResponseEntity,
   FlightSearchFormEntity,
   SearchFlightsResponseEntity,
+  FilterFlightsResponseEntity,
 } from '../entities';
 import { PetflyRepository } from '../repositories/petfly.repository';
 import { GetCitiesUseCase } from '../usecases/get-cities.usecase';
 import { GetCurrenciesUseCase } from '../usecases/get-currencies.usecase';
 import { GetBreedsUseCase } from '../usecases/get-breeds.usecase';
 import { SearchFlightsUseCase } from '../usecases/search-flights.usecase';
+import { FilterFlightsUseCase } from '../usecases/filter-flights.usecase';
 
 @Injectable()
 export class PetflyInteractor {
@@ -22,12 +24,14 @@ export class PetflyInteractor {
   public getCurrenciesUseCase: GetCurrenciesUseCase;
   public getBreedsUseCase: GetBreedsUseCase;
   public searchFlightsUseCase: SearchFlightsUseCase;
+  public filterFlightsUseCase: FilterFlightsUseCase;
 
   constructor(private readonly repository: PetflyRepository) {
     this.getCitiesUseCase = new GetCitiesUseCase(repository);
     this.getCurrenciesUseCase = new GetCurrenciesUseCase(repository);
     this.getBreedsUseCase = new GetBreedsUseCase(repository);
     this.searchFlightsUseCase = new SearchFlightsUseCase(repository);
+    this.filterFlightsUseCase = new FilterFlightsUseCase(repository);
   }
 
   public getCities(request: GetCitiesRequestEntity): Observable<GetCitiesResponseEntity> {
@@ -47,8 +51,19 @@ export class PetflyInteractor {
   public searchFlights(
     formData: FlightSearchFormEntity,
     currency: string,
-    locale: string
+    locale: string,
+    options?: { useDefaults?: boolean }
   ): Observable<SearchFlightsResponseEntity> {
-    return this.searchFlightsUseCase.execute({ formData, currency, locale });
+    return this.searchFlightsUseCase.execute({ formData, currency, locale, options });
+  }
+
+  public filterFlights(
+    formData: FlightSearchFormEntity,
+    searchId: string,
+    currency: string,
+    locale: string,
+    options?: { useDefaults?: boolean }
+  ): Observable<FilterFlightsResponseEntity> {
+    return this.filterFlightsUseCase.execute({ formData, searchId, currency, locale, options });
   }
 }

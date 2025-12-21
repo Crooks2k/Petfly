@@ -85,6 +85,7 @@ export const FlightResultsConfig = {
     regularPetDescription: 'flightResults.regularPetDescription',
     emotionalSupportDescription: 'flightResults.emotionalSupportDescription',
     serviceDogDescription: 'flightResults.serviceDogDescription',
+    filterButton: 'flightResults.filterButton',
   },
 } as const satisfies I18nConfigEntity;
 

@@ -154,7 +154,11 @@
         </div>
       </div>
 
-      <div class="input-group full-width" *ngIf="viewModel.petAgeOver24Weeks === false" [@slideInOut]>
+      <div
+        class="input-group full-width"
+        *ngIf="viewModel.petAgeOver24Weeks === false"
+        [@slideInOut]
+      >
         <label class="input-label">{{ texts.petAgeLabel }}</label>
         <petfly-input-number
           formControlName="edadMascota"

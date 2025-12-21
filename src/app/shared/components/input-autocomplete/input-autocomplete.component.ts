@@ -39,8 +39,11 @@ export class InputAutocompleteComponent implements ControlValueAccessor {
 
   writeValue(value: unknown): void {
     if (value && typeof value === 'string' && this.suggestions.length > 0) {
-      const found = this.suggestions.find(item => 
-        item && typeof item === 'object' && (item as Record<string, unknown>)[this.optionValue] === value
+      const found = this.suggestions.find(
+        item =>
+          item &&
+          typeof item === 'object' &&
+          (item as Record<string, unknown>)[this.optionValue] === value
       );
       this.value = found || null;
     } else if (value && typeof value === 'object') {
@@ -67,10 +70,11 @@ export class InputAutocompleteComponent implements ControlValueAccessor {
   }
 
   onSelect(event: unknown): void {
-    const selectedValue = event && typeof event === 'object' && this.optionValue 
-      ? (event as Record<string, unknown>)[this.optionValue] 
-      : event;
-    
+    const selectedValue =
+      event && typeof event === 'object' && this.optionValue
+        ? (event as Record<string, unknown>)[this.optionValue]
+        : event;
+
     this.onChange(selectedValue);
     this.onTouched();
     this.selectionChange.emit(event);

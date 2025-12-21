@@ -15,30 +15,21 @@ const STANDALONE_COMPONENTS = [
   InputSelectComponent,
   InputCalendarComponent,
   InputNumberComponent,
-  HeaderComponent
+  HeaderComponent,
 ];
 
-const MODULE_COMPONENTS = [
-  PassengerSelectorComponent
-];
+const MODULE_COMPONENTS = [PassengerSelectorComponent];
 
 @NgModule({
-  declarations: [
-    ...MODULE_COMPONENTS
-  ],
+  declarations: [...MODULE_COMPONENTS],
   imports: [
     CommonModule,
     FormsModule,
     ButtonModule,
     OverlayPanelModule,
     DropdownModule,
-    ...STANDALONE_COMPONENTS
-  ],
-  exports: [
-    CommonModule,
-    FormsModule,
     ...STANDALONE_COMPONENTS,
-    ...MODULE_COMPONENTS
-  ]
+  ],
+  exports: [CommonModule, FormsModule, ...STANDALONE_COMPONENTS, ...MODULE_COMPONENTS],
 })
 export class SharedComponentsModule {}

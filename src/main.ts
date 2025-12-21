@@ -4,5 +4,4 @@ import { LayoutModule } from './app/layout/layout.module';
 
 platformBrowserDynamic()
   .bootstrapModule(LayoutModule)
-  .catch(() => {
-  });
+  .catch(() => {});

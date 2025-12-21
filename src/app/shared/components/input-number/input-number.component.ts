@@ -13,9 +13,9 @@ import { InputNumberModule } from 'primeng/inputnumber';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => InputNumberComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class InputNumberComponent implements ControlValueAccessor {
   @Input() format: boolean = true;

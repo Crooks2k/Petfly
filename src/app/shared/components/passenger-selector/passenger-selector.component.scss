@@ -103,7 +103,11 @@
 
       .save-btn {
         width: 100%;
-        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+        background: linear-gradient(
+          135deg,
+          var(--color-primary) 0%,
+          var(--color-primary-dark) 100%
+        );
         color: white;
         border: none;
         border-radius: 12px;
@@ -114,7 +118,11 @@
         transition: all 0.2s ease;
 
         &:hover {
-          background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary-darker) 100%);
+          background: linear-gradient(
+            135deg,
+            var(--color-primary-dark) 0%,
+            var(--color-primary-darker) 100%
+          );
         }
       }
     }

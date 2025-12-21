@@ -1,4 +1,12 @@
-import { Component, forwardRef, HostListener, Input, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  forwardRef,
+  HostListener,
+  Input,
+  ViewChild,
+  AfterViewInit,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { PASSENGER_SELECTOR_CONSTANTS, TRAVEL_CLASS, TravelClass } from '../../constants';
@@ -42,7 +50,7 @@ export class PassengerSelectorComponent implements ControlValueAccessor, AfterVi
 
   public tempValue: PassengerSelectionEntity = { ...this.value };
   public ageOptions = Array.from(
-    { length: PASSENGER_SELECTOR_CONSTANTS.MAX_CHILD_AGE + 1 }, 
+    { length: PASSENGER_SELECTOR_CONSTANTS.MAX_CHILD_AGE + 1 },
     (_, i) => ({ label: `${i}`, value: i })
   );
   public disabled = false;
@@ -78,7 +86,8 @@ export class PassengerSelectorComponent implements ControlValueAccessor, AfterVi
   public get displayLabel(): string {
     const total = this.value.adults + this.value.children;
     const passengerText = total === 1 ? this.passengerLabel : this.passengersLabel;
-    const classText = this.value.travelClass === TRAVEL_CLASS.ECONOMY ? this.economyLabel : this.businessLabel;
+    const classText =
+      this.value.travelClass === TRAVEL_CLASS.ECONOMY ? this.economyLabel : this.businessLabel;
     return `${total} ${passengerText}, ${classText}`;
   }
 
@@ -159,9 +168,9 @@ export class PassengerSelectorComponent implements ControlValueAccessor, AfterVi
 
   public writeValue(value: PassengerSelectionEntity): void {
     if (value) {
-      this.value = { 
+      this.value = {
         ...value,
-        childrenAges: value.childrenAges || []
+        childrenAges: value.childrenAges || [],
       };
     }
   }

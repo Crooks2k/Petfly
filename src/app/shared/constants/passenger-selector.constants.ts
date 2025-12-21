@@ -14,4 +14,4 @@ export const TRAVEL_CLASS = {
   BUSINESS: 'business',
 } as const;
 
-export type TravelClass = typeof TRAVEL_CLASS[keyof typeof TRAVEL_CLASS];
+export type TravelClass = (typeof TRAVEL_CLASS)[keyof typeof TRAVEL_CLASS];

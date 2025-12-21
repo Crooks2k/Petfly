@@ -279,7 +279,11 @@
     gap: 0.5rem;
 
     &:hover:not(:disabled) {
-      background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary-darker) 100%);
+      background: linear-gradient(
+        135deg,
+        var(--color-primary-dark) 0%,
+        var(--color-primary-darker) 100%
+      );
       transform: translateY(-1px);
       box-shadow: 0 8px 25px var(--hover-surface);
     }
@@ -461,32 +465,32 @@
 ::ng-deep {
   .p-dropdown-panel {
     z-index: 1100 !important;
-    
+
     .p-dropdown-items-wrapper {
       max-height: 300px;
       overflow-y: auto;
     }
-    
+
     .p-dropdown-item {
       white-space: normal !important;
       word-wrap: break-word !important;
       line-height: 1.4 !important;
     }
   }
-  
+
   // Asegurar que el input-select no se desborde
   petfly-input-select {
     display: block;
     width: 100%;
     max-width: 100%;
-    
+
     .p-dropdown {
       width: 100% !important;
       max-width: 100%;
       height: 48px !important;
       min-height: 48px !important;
       max-height: 48px !important;
-      
+
       .p-dropdown-label {
         padding: 0.75rem 1rem !important;
         line-height: 1.5 !important;

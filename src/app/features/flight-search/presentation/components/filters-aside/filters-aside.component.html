@@ -1,281 +1,234 @@
-<h2 class="filters-title">
-  <i class="pi pi-paw"></i>
-  {{ texts.petDetailsTitle }}
-</h2>
-
 <form [formGroup]="filtersForm">
-  <div class="filter-section">
-    <label class="filter-label">{{ texts.petTypeLabel }}</label>
-    <div class="pet-type-buttons">
-      <button
-        type="button"
-        class="pet-type-btn"
-        [class.active]="selectedPetType === 'dog'"
-        (click)="selectPetType('dog')">
-        <span>{{ texts.dogLabel }}</span>
-      </button>
-      <button
-        type="button"
-        class="pet-type-btn"
-        [class.active]="selectedPetType === 'cat'"
-        (click)="selectPetType('cat')">
-        <span>{{ texts.catLabel }}</span>
-      </button>
-    </div>
-  </div>
+  <div class="filters-scrollable-content">
+    <h2 class="filters-title">
+      <i class="pi pi-paw"></i>
+      {{ texts.petDetailsTitle }}
+    </h2>
 
-  <div class="filter-section">
-    <label class="filter-label">{{ texts.petWeightLabel }}</label>
-    <p class="filter-subtitle">{{ texts.petWeightSubtitle }}</p>
-    <petfly-input-number
-      formControlName="pesoMascota"
-      [min]="0.5"
-      [max]="50"
-      [step]="0.5"
-      placeholder="7.5">
-    </petfly-input-number>
-  </div>
-
-  <div class="filter-section">
-    <label class="filter-label">{{ texts.petDimensionsLabel }}</label>
-    <div class="dimensions-grid">
-      <div class="dimension-input">
-        <label class="dimension-label">{{ texts.heightLabel }}</label>
-        <petfly-input-number
-          formControlName="altura"
-          [min]="1"
-          [max]="100"
-          placeholder="cm">
-        </petfly-input-number>
-      </div>
-      <div class="dimension-input">
-        <label class="dimension-label">{{ texts.lengthLabel }}</label>
-        <petfly-input-number
-          formControlName="largo"
-          [min]="1"
-          [max]="100"
-          placeholder="cm">
-        </petfly-input-number>
-      </div>
-      <div class="dimension-input">
-        <label class="dimension-label">{{ texts.widthLabel }}</label>
-        <petfly-input-number
-          formControlName="ancho"
-          [min]="1"
-          [max]="100"
-          placeholder="cm">
-        </petfly-input-number>
+    <div class="filter-section">
+      <label class="filter-label">{{ texts.petTypeLabel }}</label>
+      <div class="pet-type-buttons">
+        <button
+          type="button"
+          class="pet-type-btn"
+          [class.active]="selectedPetType === 'dog'"
+          (click)="selectPetType('dog')"
+        >
+          <span>{{ texts.dogLabel }}</span>
+        </button>
+        <button
+          type="button"
+          class="pet-type-btn"
+          [class.active]="selectedPetType === 'cat'"
+          (click)="selectPetType('cat')"
+        >
+          <span>{{ texts.catLabel }}</span>
+        </button>
       </div>
     </div>
-  </div>
 
-  <div class="filter-section">
-    <label class="filter-label">{{ texts.noCarrierLabel }}</label>
-    <div class="pet-type-buttons">
-      <button
-        type="button"
-        class="pet-type-btn"
-        [class.active]="filtersForm.get('sinTransportador')?.value === true"
-        (click)="filtersForm.patchValue({ sinTransportador: true })">
-        <span>{{ texts.yesLabel }}</span>
-      </button>
-      <button
-        type="button"
-        class="pet-type-btn"
-        [class.active]="filtersForm.get('sinTransportador')?.value === false"
-        (click)="filtersForm.patchValue({ sinTransportador: false })">
-        <span>{{ texts.noLabel }}</span>
-      </button>
-    </div>
-  </div>
-
-  <h2 class="filters-title">
-    <i class="pi pi-plane"></i>
-    {{ texts.travelDetailsTitle }}
-  </h2>
-
-  <div class="filter-section">
-    <label class="filter-label">{{ texts.routeLabel }}</label>
-    <div class="route-grid">
+    <div class="filter-section">
+      <label class="filter-label">{{ texts.breedLabel || 'Raza' }}</label>
       <petfly-input-select
-        formControlName="origen"
-        [options]="[]"
-        placeholder="Bogotá (BOG)"
-        [filter]="true">
-      </petfly-input-select>
-      <petfly-input-select
-        formControlName="destino"
-        [options]="[]"
-        placeholder="Madrid (MAD)"
-        [filter]="true">
+        formControlName="razaMascota"
+        [options]="razasOptions"
+        [placeholder]="
+          isLoadingBreeds ? 'Cargando razas...' : texts.breedPlaceholder || 'Selecciona la raza'
+        "
+        [filter]="true"
+      >
       </petfly-input-select>
     </div>
-  </div>
 
-  <div class="filter-section">
-    <label class="filter-label">{{ texts.datesLabel }}</label>
-    <div class="dates-grid">
-      <petfly-input-calendar
-        formControlName="fechaSalida"
-        [placeholder]="texts.departureDateLabel"
-        [showIcon]="true"
-        iconDisplay="input"
-        dateFormat="dd/mm/yy"
-        [minDate]="today"
-        styleClass="search-input">
-      </petfly-input-calendar>
-      <petfly-input-calendar
-        formControlName="fechaRegreso"
-        [placeholder]="texts.returnDateLabel"
-        [showIcon]="true"
-        iconDisplay="input"
-        dateFormat="dd/mm/yy"
-        [minDate]="getMinReturnDate()"
-        styleClass="search-input">
-      </petfly-input-calendar>
+    <div class="filter-section">
+      <label class="filter-label">{{ texts.petAgeLabel || 'Edad de la mascota' }}</label>
+      <p class="filter-subtitle">{{ texts.petAgeSubtitle || 'En años' }}</p>
+      <petfly-input-number
+        formControlName="edadMascota"
+        [min]="0"
+        [max]="30"
+        [step]="1"
+        placeholder="3"
+      >
+      </petfly-input-number>
+    </div>
+
+    <div class="filter-section">
+      <label class="filter-label">{{ texts.petWeightLabel }}</label>
+      <p class="filter-subtitle">{{ texts.petWeightSubtitle }}</p>
+      <petfly-input-number
+        formControlName="pesoMascota"
+        [min]="0.5"
+        [max]="50"
+        [step]="0.5"
+        placeholder="7.5"
+      >
+      </petfly-input-number>
+    </div>
+
+    <div class="filter-section">
+      <label class="filter-label">{{ texts.noCarrierLabel }}</label>
+      <div class="pet-type-buttons">
+        <button
+          type="button"
+          class="pet-type-btn"
+          [class.active]="filtersForm.get('sinTransportador')?.value === true"
+          (click)="filtersForm.patchValue({ sinTransportador: true })"
+        >
+          <span>{{ texts.yesLabel }}</span>
+        </button>
+        <button
+          type="button"
+          class="pet-type-btn"
+          [class.active]="filtersForm.get('sinTransportador')?.value === false"
+          (click)="filtersForm.patchValue({ sinTransportador: false })"
+        >
+          <span>{{ texts.noLabel }}</span>
+        </button>
+      </div>
+    </div>
+
+    <h2 class="filters-title">
+      <i class="pi pi-plane"></i>
+      {{ texts.travelDetailsTitle }}
+    </h2>
+
+    <div class="filter-section">
+      <label class="filter-label">{{ texts.routeLabel }}</label>
+      <div class="route-grid">
+        <petfly-input-autocomplete
+          formControlName="origen"
+          [suggestions]="ciudadesOrigenOptions"
+          (completeMethod)="onOrigenSearch($event)"
+          (selectionChange)="onOrigenSelect($event)"
+          field="label"
+          [placeholder]="
+            isLoadingCitiesOrigen ? 'Buscando ciudades...' : texts.originLabel || 'Origen'
+          "
+          [forceSelection]="true"
+          optionValue="value"
+          [minLength]="2"
+          [delay]="300"
+          styleClass="search-input"
+        >
+        </petfly-input-autocomplete>
+        <petfly-input-autocomplete
+          formControlName="destino"
+          [suggestions]="ciudadesDestinoOptions"
+          (completeMethod)="onDestinoSearch($event)"
+          (selectionChange)="onDestinoSelect($event)"
+          field="label"
+          [placeholder]="
+            isLoadingCitiesDestino ? 'Buscando ciudades...' : texts.destinationLabel || 'Destino'
+          "
+          [forceSelection]="true"
+          optionValue="value"
+          [minLength]="2"
+          [delay]="300"
+          styleClass="search-input"
+        >
+        </petfly-input-autocomplete>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <label class="filter-label">{{ texts.datesLabel }}</label>
+      <div class="dates-grid">
+        <petfly-input-calendar
+          formControlName="fechaSalida"
+          [placeholder]="texts.departureDateLabel"
+          [showIcon]="true"
+          iconDisplay="button"
+          dateFormat="dd/mm/yy"
+          [minDate]="today"
+          styleClass="search-input"
+        >
+        </petfly-input-calendar>
+        <petfly-input-calendar
+          formControlName="fechaRegreso"
+          [placeholder]="texts.returnDateLabel"
+          [showIcon]="true"
+          iconDisplay="button"
+          dateFormat="dd/mm/yy"
+          [minDate]="getMinReturnDate()"
+          styleClass="search-input"
+        >
+        </petfly-input-calendar>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <label class="filter-label">{{ texts.passengerAndCabinClassLabel }}</label>
+      <petfly-passenger-selector
+        formControlName="pasajeros"
+        [placeholder]="texts.passengerLabel"
+        [adultsLabel]="texts.adultsLabel"
+        [adultsSubLabel]="texts.adultsSubLabel"
+        [childrenLabel]="texts.childrenLabel"
+        [childrenSubLabel]="texts.childrenSubLabel"
+        [classLabel]="texts.cabinClassLabel"
+        [economyLabel]="texts.economyClass"
+        [businessLabel]="texts.businessClass"
+        [passengerLabel]="texts.passengerSingular"
+        [passengersLabel]="texts.passengerPlural"
+        [cancelLabel]="texts.cancelLabel"
+        [saveLabel]="texts.saveLabel"
+      >
+      </petfly-passenger-selector>
+    </div>
+
+    <div class="filter-section">
+      <label class="filter-label">{{ texts.certificatesLabel }}</label>
+      <div class="certificates">
+        <button
+          type="button"
+          class="certificate-btn"
+          [class.active]="isCertificateSelected('emotional')"
+          (click)="toggleCertificate('emotional')"
+        >
+          <i class="pi pi-heart"></i>
+          {{ texts.emotionalSupport }}
+        </button>
+        <button
+          type="button"
+          class="certificate-btn"
+          [class.active]="isCertificateSelected('service')"
+          (click)="toggleCertificate('service')"
+        >
+          <i class="pi pi-info-circle"></i>
+          {{ texts.serviceAnimal }}
+        </button>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <label class="filter-label">{{ texts.airlinesStopsLabel }}</label>
+      <div class="stops-options">
+        <button
+          type="button"
+          class="stop-btn"
+          [class.active]="filtersForm.get('permitirEscalas')?.value === true"
+          (click)="filtersForm.patchValue({ permitirEscalas: true })"
+        >
+          {{ texts.allowStops }}
+        </button>
+        <button
+          type="button"
+          class="stop-btn"
+          [class.active]="filtersForm.get('permitirEscalas')?.value === false"
+          (click)="filtersForm.patchValue({ permitirEscalas: false })"
+        >
+          {{ texts.noStops }}
+        </button>
+      </div>
     </div>
   </div>
 
-  <div class="filter-section">
-    <label class="filter-label">{{ texts.passengerAndCabinClassLabel }}</label>
-    <petfly-passenger-selector
-      formControlName="pasajeros"
-      [placeholder]="texts.passengerLabel"
-      [adultsLabel]="texts.adultsLabel"
-      [adultsSubLabel]="texts.adultsSubLabel"
-      [childrenLabel]="texts.childrenLabel"
-      [childrenSubLabel]="texts.childrenSubLabel"
-      [classLabel]="texts.cabinClassLabel"
-      [economyLabel]="texts.economyClass"
-      [businessLabel]="texts.businessClass"
-      [passengerLabel]="texts.passengerSingular"
-      [passengersLabel]="texts.passengerPlural"
-      [cancelLabel]="texts.cancelLabel"
-      [saveLabel]="texts.saveLabel">
-    </petfly-passenger-selector>
+  <!-- Botón de filtrar siempre visible (sticky) -->
+  <div class="filters-footer">
+    <button type="button" class="filter-button" (click)="onUpdateFilters()">
+      <i class="pi pi-search"></i>
+      <span>{{ texts.filterButton || 'Filtrar' }}</span>
+    </button>
   </div>
-
-  <div class="filter-section">
-    <label class="filter-label">{{ texts.certificatesLabel }}</label>
-    <div class="certificates">
-      <button
-        type="button"
-        class="certificate-btn"
-        [class.active]="isCertificateSelected('emotional')"
-        (click)="toggleCertificate('emotional')">
-        <i class="pi pi-heart"></i>
-        {{ texts.emotionalSupport }}
-      </button>
-      <button
-        type="button"
-        class="certificate-btn"
-        [class.active]="isCertificateSelected('service')"
-        (click)="toggleCertificate('service')">
-        <i class="pi pi-info-circle"></i>
-        {{ texts.serviceAnimal }}
-      </button>
-    </div>
-  </div>
-
-  <div class="filter-section">
-    <label class="filter-label">{{ texts.airlinesStopsLabel }}</label>
-    <div class="stops-options">
-      <button
-        type="button"
-        class="stop-btn"
-        [class.active]="filtersForm.get('permitirEscalas')?.value === true"
-        (click)="filtersForm.patchValue({ permitirEscalas: true })">
-        {{ texts.allowStops }}
-      </button>
-      <button
-        type="button"
-        class="stop-btn"
-        [class.active]="filtersForm.get('permitirEscalas')?.value === false"
-        (click)="filtersForm.patchValue({ permitirEscalas: false })">
-        {{ texts.noStops }}
-      </button>
-    </div>
-  </div>
-
-  <div class="collapsible-filters">
-    <details class="filter-collapse">
-      <summary class="collapse-header">
-        <span>{{ texts.baggageFareLabel }}</span>
-        <i class="pi pi-chevron-down"></i>
-      </summary>
-      <div class="collapse-content">
-      </div>
-    </details>
-
-    <details class="filter-collapse">
-      <summary class="collapse-header">
-        <span>{{ texts.airlinesLabel }}</span>
-        <i class="pi pi-chevron-down"></i>
-      </summary>
-      <div class="collapse-content">
-      </div>
-    </details>
-
-    <details class="filter-collapse">
-      <summary class="collapse-header">
-        <span>{{ texts.petFriendlyAirlinesLabel }}</span>
-        <i class="pi pi-chevron-down"></i>
-      </summary>
-      <div class="collapse-content">
-      </div>
-    </details>
-
-    <details class="filter-collapse">
-      <summary class="collapse-header">
-        <span>{{ texts.travelTimeLabel }}</span>
-        <i class="pi pi-chevron-down"></i>
-      </summary>
-      <div class="collapse-content">
-      </div>
-    </details>
-
-    <details class="filter-collapse">
-      <summary class="collapse-header">
-        <span>{{ texts.stopoverAirportLabel }}</span>
-        <i class="pi pi-chevron-down"></i>
-      </summary>
-      <div class="collapse-content">
-      </div>
-    </details>
-
-    <details class="filter-collapse">
-      <summary class="collapse-header">
-        <span>{{ texts.priceLabel }}</span>
-        <i class="pi pi-chevron-down"></i>
-      </summary>
-      <div class="collapse-content">
-      </div>
-    </details>
-
-    <details class="filter-collapse">
-      <summary class="collapse-header">
-        <span>{{ texts.stopoverTimeLabel }}</span>
-        <i class="pi pi-chevron-down"></i>
-      </summary>
-      <div class="collapse-content">
-      </div>
-    </details>
-
-    <details class="filter-collapse">
-      <summary class="collapse-header">
-        <span>{{ texts.noCarrierLabel }}</span>
-        <i class="pi pi-chevron-down"></i>
-      </summary>
-      <div class="collapse-content">
-      </div>
-    </details>
-  </div>
-
-  <button 
-    *ngIf="showUpdateButton"
-    type="button" 
-    class="update-button" 
-    (click)="onUpdateFilters()">
-    {{ texts.updateButton }}
-  </button>
 </form>

@@ -71,7 +71,10 @@
 
         <!-- Children Ages -->
         <div class="children-ages" *ngIf="currentValue.children > 0">
-          <div class="age-row" *ngFor="let age of currentValue.childrenAges; let i = index; trackBy: trackByIndex">
+          <div
+            class="age-row"
+            *ngFor="let age of currentValue.childrenAges; let i = index; trackBy: trackByIndex"
+          >
             <label class="age-label">{{ childAgeLabel }} {{ i + 1 }}</label>
             <p-dropdown
               [options]="ageOptions"
@@ -174,7 +177,10 @@
 
       <!-- Children Ages -->
       <div class="children-ages" *ngIf="currentValue.children > 0">
-        <div class="age-row" *ngFor="let age of currentValue.childrenAges; let i = index; trackBy: trackByIndex">
+        <div
+          class="age-row"
+          *ngFor="let age of currentValue.childrenAges; let i = index; trackBy: trackByIndex"
+        >
           <label class="age-label">{{ childAgeLabel }} {{ i + 1 }}</label>
           <p-dropdown
             [options]="ageOptions"

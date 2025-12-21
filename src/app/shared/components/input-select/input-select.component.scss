@@ -34,7 +34,7 @@
       line-height: 1.5;
       display: flex;
       align-items: center;
-      
+
       &.p-placeholder {
         color: var(--color-text-gray-medium);
         font-weight: 400;
@@ -51,7 +51,7 @@
       padding: 0.25rem;
       border-radius: 4px;
       transition: all 0.2s ease;
-      
+
       &:hover {
         color: var(--color-text-gray-dark);
         background-color: var(--color-surface-light);
@@ -66,7 +66,7 @@
       background: transparent;
       border: none;
       padding: 0;
-      
+
       .p-dropdown-trigger-icon {
         color: var(--color-text-gray-medium);
         font-size: 0.875rem;
@@ -120,7 +120,7 @@
     .p-dropdown-items-wrapper {
       max-height: 300px !important;
       overflow-y: auto !important;
-      
+
       .p-dropdown-items {
         padding: 0.5rem 0 !important;
 
@@ -133,7 +133,7 @@
           margin: 0;
           white-space: normal !important;
           word-wrap: break-word !important;
-          
+
           @media (max-width: 768px) {
             font-size: 0.875rem !important;
             padding: 0.625rem 0.875rem !important;
@@ -172,11 +172,11 @@
         background: var(--color-bg-white);
         color: var(--color-text-gray-darker);
         transition: all 0.2s ease;
-        
+
         &::placeholder {
           color: var(--color-text-gray-medium);
         }
-        
+
         &:focus {
           outline: none;
           border-color: var(--color-primary);
@@ -198,7 +198,7 @@
   &.compact {
     .p-dropdown {
       min-height: 40px;
-      
+
       .p-dropdown-label {
         padding: 0.625rem 0.875rem;
         font-size: 0.875rem;
@@ -209,7 +209,7 @@
   &.large {
     .p-dropdown {
       min-height: 56px;
-      
+
       .p-dropdown-label {
         padding: 1rem 1.25rem;
         font-size: 1rem;

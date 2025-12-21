@@ -8,17 +8,21 @@
           [filtersForm]="filtersForm"
           [selectedPetType]="selectedPetType"
           [today]="today"
-          [showUpdateButton]="false"
           (petTypeSelected)="selectPetType($event)"
           (certificateToggled)="toggleCertificate($event)"
           (filtersApplied)="onFiltersApplied()"
         >
         </app-filters-aside>
       </div>
+      <div class="filters-aside-footer">
+        <button type="button" class="filter-button-desktop" (click)="onFiltersApplied()">
+          {{ texts.applyFiltersLabel || 'Aplicar filtros' }}
+        </button>
+      </div>
     </aside>
 
     <main class="results-content">
-      <div class="sort-container">
+      <!-- <div class="sort-container">
         <button class="sort-button active">
           <i class="pi pi-sort-amount-down"></i>
           <span>{{ texts.sortByPrice }}</span>
@@ -27,14 +31,19 @@
           <i class="pi pi-clock"></i>
           <span>{{ texts.sortByDuration }}</span>
         </button>
-      </div>
+      </div> -->
 
-      <div class="pet-price-info">
-        <h3 class="info-title">
-          <i class="pi pi-info-circle"></i>
-          {{ texts.petPriceInfoTitle }}
-        </h3>
+      <div class="pet-price-info" [class.collapsed]="!isPetPriceInfoOpen">
+        <!-- Header: en mobile es clickeable, en desktop es solo título -->
+        <div class="info-header" (click)="togglePetPriceInfo()">
+          <div class="info-title-wrapper">
+            <i class="pi pi-info-circle"></i>
+            <h3 class="info-title-text">{{ texts.petPriceInfoTitle }}</h3>
+          </div>
+          <i class="pi pi-chevron-down chevron-icon" [class.rotated]="isPetPriceInfoOpen"></i>
+        </div>
 
+        <!-- Contenido: siempre visible en desktop, colapsable en mobile -->
         <div class="price-options">
           <details class="price-option">
             <summary class="option-header">
@@ -63,6 +72,15 @@
             </summary>
             <div class="option-content">
               <p class="option-description">{{ texts.emotionalSupportDescription }}</p>
+              <a 
+                href="https://petfly.io/certificado-de-apoyo-emocional/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="certificate-link"
+              >
+                <i class="pi pi-external-link"></i>
+                <span>Más información sobre certificado AE</span>
+              </a>
             </div>
           </details>
 
@@ -78,6 +96,15 @@
             </summary>
             <div class="option-content">
               <p class="option-description">{{ texts.serviceDogDescription }}</p>
+              <a 
+                href="https://petfly.io/certificados-de-perro-de-servicio/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="certificate-link"
+              >
+                <i class="pi pi-external-link"></i>
+                <span>Más información sobre certificado PS</span>
+              </a>
             </div>
           </details>
         </div>
@@ -85,13 +112,51 @@
 
       <div class="search-results-container">
         <div class="results-header">
-          <h3 class="results-title">{{ texts.searchResultsTitle }}</h3>
-          <span class="results-count">0 {{ texts.flightsFound }}</span>
+          <div class="results-info">
+            <h3 class="results-title">{{ texts.searchResultsTitle }}</h3>
+            <span class="results-count">
+              {{ sortedFlightTickets?.length || 0 }} {{ texts.flightsFound }}
+            </span>
+          </div>
+          <div class="sort-container">
+            <button 
+              class="sort-button" 
+              [class.active]="currentSort === 'price'"
+              (click)="toggleSort('price')"
+            >
+              <i class="pi" [class.pi-sort-amount-down]="currentSort === 'price' && sortDirection === 'asc'" [class.pi-sort-amount-up]="currentSort === 'price' && sortDirection === 'desc'" [class.pi-sort-alt]="currentSort !== 'price'"></i>
+              <span>{{ texts.sortByPrice }}</span>
+            </button>
+            <button 
+              class="sort-button"
+              [class.active]="currentSort === 'duration'"
+              (click)="toggleSort('duration')"
+            >
+              <i class="pi pi-clock"></i>
+              <span>{{ texts.sortByDuration }}</span>
+            </button>
+          </div>
         </div>
-        
+
         <div class="results-list">
-          <!-- TODO: Aquí irán las tarjetas de vuelos -->
-          <p class="no-results">{{ texts.noResultsMessage }}</p>
+          <!-- Cards reales o mocks -->
+          <ng-container *ngFor="let flightTicket of sortedFlightTickets">
+            <!-- Mobile -->
+            <petfly-flight-card-mobile
+              class="mobile-only"
+              [flightTicket]="flightTicket"
+              [isRoundTrip]="isRoundTrip"
+            >
+            </petfly-flight-card-mobile>
+
+            <!-- Desktop -->
+            <petfly-flight-card-desktop
+              class="desktop-only"
+              [flightTicket]="flightTicket"
+              [isRoundTrip]="isRoundTrip"
+            >
+            </petfly-flight-card-desktop>
+          </ng-container>
         </div>
       </div>
     </main>
@@ -118,7 +183,6 @@
             [filtersForm]="filtersForm"
             [selectedPetType]="selectedPetType"
             [today]="today"
-            [showUpdateButton]="false"
             (petTypeSelected)="selectPetType($event)"
             (certificateToggled)="toggleCertificate($event)"
             (filtersApplied)="applyFilters()"
