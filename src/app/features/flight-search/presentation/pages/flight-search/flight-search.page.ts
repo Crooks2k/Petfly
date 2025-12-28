@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { I18nService } from '@core/i18n/i18n.service';
+import { CityOption, CitySelectionEvent } from '@shared/core/entities';
 import {
   Subject,
   takeUntil,
@@ -17,6 +18,7 @@ import { FlightSearchViewModel } from './view-model/flight-search.view-model';
 import { PetflyInteractor } from '@flight-search/core/interactor/petfly.interactor';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { FLIGHT_SEARCH_CONSTANTS } from '@flight-search/core/constants';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-flight-search',
@@ -38,8 +40,8 @@ export class FlightSearchPage implements OnInit, OnDestroy {
   public razasOptions: { label: string; value: string }[] = [];
   public isLoadingBreeds = false;
 
-  public ciudadesOrigenOptions: { label: string; value: string; city?: any }[] = [];
-  public ciudadesDestinoOptions: { label: string; value: string; city?: any }[] = [];
+  public ciudadesOrigenOptions: CityOption[] = [];
+  public ciudadesDestinoOptions: CityOption[] = [];
   public isLoadingCitiesOrigen = false;
   public isLoadingCitiesDestino = false;
 
@@ -52,7 +54,8 @@ export class FlightSearchPage implements OnInit, OnDestroy {
     private readonly i18nService: I18nService,
     public readonly viewModel: FlightSearchViewModel,
     private readonly petflyInteractor: PetflyInteractor,
-    private readonly currencyService: CurrencyService
+    private readonly currencyService: CurrencyService,
+    private readonly messageService: MessageService
   ) {
     this.searchForm = this.viewModel.searchForm;
   }
@@ -77,9 +80,13 @@ export class FlightSearchPage implements OnInit, OnDestroy {
       const formData = this.viewModel.getFormData();
 
       const origenCode =
-        typeof formData.origen === 'string' ? formData.origen : (formData.origen as any)?.value;
+        typeof formData.origen === 'string'
+          ? formData.origen
+          : (formData.origen as { value: string })?.value;
       const destinoCode =
-        typeof formData.destino === 'string' ? formData.destino : (formData.destino as any)?.value;
+        typeof formData.destino === 'string'
+          ? formData.destino
+          : (formData.destino as { value: string })?.value;
 
       if (!formData.origenCity && origenCode) {
         const origenOption = this.ciudadesOrigenOptions.find(opt => opt.value === origenCode);
@@ -98,11 +105,6 @@ export class FlightSearchPage implements OnInit, OnDestroy {
       const currency = this.viewModel.getCurrentCurrency();
       const locale = this.viewModel.getCurrentLocale();
 
-      console.log('🚀 Iniciando búsqueda de vuelos...');
-      console.log('  📋 Datos del formulario:', formData);
-      console.log('  💰 Moneda:', currency);
-      console.log('  🌍 Idioma:', locale);
-
       this.petflyInteractor
         .searchFlights(formData, currency, locale)
         .pipe(takeUntil(this.destroy$))
@@ -110,22 +112,31 @@ export class FlightSearchPage implements OnInit, OnDestroy {
           next: response => {
             this.isSearching = false;
 
-            console.log('✅ Búsqueda completada exitosamente');
-            console.log('  📦 Respuesta completa:', response);
-
             // Validar que la respuesta tenga datos
             if (!response) {
-              console.error('❌ Respuesta vacía del servidor');
+              this.messageService.add({
+                severity: 'warn',
+                summary: this.texts.searchErrorTitle,
+                detail: this.texts.searchErrorMessage,
+                life: 5000,
+              });
               return;
             }
 
-            const flightTicketsCount = response.flightTickets?.length || 0;
-            const searchId = response.searchId || 'mock-search-id-123';
-            console.log('  📊 Total de vuelos encontrados:', flightTicketsCount);
-            console.log('  🔍 Filtros disponibles:', response.filtersBoundary);
-            console.log('  🔑 Search ID:', searchId);
+            // Verificar si hay vuelos en la respuesta
+            if (!response.flightTickets || response.flightTickets.length === 0) {
+              this.messageService.add({
+                severity: 'warn',
+                summary: this.texts.searchErrorTitle,
+                detail: this.texts.searchErrorMessage,
+                life: 5000,
+              });
+              return;
+            }
 
-            // Navegar a resultados enviando todos los datos
+            const searchId = response.searchId || 'mock-search-id-123';
+
+            // Navegar a resultados enviando todos los datos (sin toast, se ve en la página de resultados)
             this.router.navigate([FlightSearchConfig.routes.flightResults], {
               state: {
                 searchResults: response,
@@ -136,19 +147,18 @@ export class FlightSearchPage implements OnInit, OnDestroy {
               },
             });
           },
-          error: error => {
+          error: () => {
             this.isSearching = false;
-            console.error('❌ Error en la búsqueda:', error);
-            console.error('  📋 Detalles del error:', {
-              message: error?.message,
-              status: error?.status,
-              statusText: error?.statusText,
+            this.messageService.add({
+              severity: 'error',
+              summary: this.texts.searchErrorTitle,
+              detail: this.texts.searchErrorMessage,
+              life: 5000,
             });
           },
         });
     } else {
       this.viewModel.markAllAsTouched();
-      console.warn('⚠️ Formulario inválido, por favor complete todos los campos requeridos');
     }
   }
 
@@ -325,20 +335,16 @@ export class FlightSearchPage implements OnInit, OnDestroy {
   }
 
   public onOrigenSelect(event: unknown): void {
-    if (event && typeof event === 'object' && 'city' in event) {
-      const cityEvent = event as { city?: any };
-      if (cityEvent.city) {
-        this.searchForm.patchValue({ origenCity: cityEvent.city }, { emitEvent: false });
-      }
+    const cityEvent = event as CitySelectionEvent;
+    if (cityEvent.city) {
+      this.searchForm.patchValue({ origenCity: cityEvent.city }, { emitEvent: false });
     }
   }
 
   public onDestinoSelect(event: unknown): void {
-    if (event && typeof event === 'object' && 'city' in event) {
-      const cityEvent = event as { city?: any };
-      if (cityEvent.city) {
-        this.searchForm.patchValue({ destinoCity: cityEvent.city }, { emitEvent: false });
-      }
+    const cityEvent = event as CitySelectionEvent;
+    if (cityEvent.city) {
+      this.searchForm.patchValue({ destinoCity: cityEvent.city }, { emitEvent: false });
     }
   }
 

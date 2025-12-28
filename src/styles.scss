@@ -56,6 +56,28 @@
   --color-danger-dark: #b91c1c;
   --color-danger-darker: #c62828;
   --color-danger-light: #ffebee;
+  --color-error: #d32f2f;
+
+  // Badge Colors
+  --color-badge-mr: #457dd0;
+  --color-badge-ps: #1e9503;
+  --color-badge-ps-hover: #166d02;
+  --color-badge-ae: #ff9800;
+  --color-badge-ae-hover: #f57c00;
+
+  // Info Colors
+  --color-info-bg: #e3f2fd;
+  --color-info-text: #1976d2;
+
+  // Warning specific
+  --color-warning-bg: #fff3e0;
+  --color-warning-text: #e65100;
+
+  // Scrollbar Colors
+  --color-scrollbar-track: #e2e8f0;
+  --color-scrollbar-thumb: #3b82f6;
+  --color-scrollbar-hover: #2563eb;
+  --color-scrollbar-active: #1e40af;
 
   // Shadow Colors (with opacity)
   --shadow-sm: rgba(0, 0, 0, 0.1);
@@ -125,28 +147,28 @@ body {
     }
 
     &::-webkit-scrollbar-track {
-      background: #e2e8f0;
+      background: var(--color-scrollbar-track);
       border-radius: 10px;
       margin: 4px 0;
     }
 
     &::-webkit-scrollbar-thumb {
-      background: #3b82f6;
+      background: var(--color-scrollbar-thumb);
       border-radius: 10px;
       transition: background 0.2s ease;
 
       &:hover {
-        background: #2563eb;
+        background: var(--color-scrollbar-hover);
       }
 
       &:active {
-        background: #1e40af;
+        background: var(--color-scrollbar-active);
       }
     }
 
     /* Firefox */
     scrollbar-width: thin;
-    scrollbar-color: #3b82f6 #e2e8f0;
+    scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar-track);
   }
 
   .p-dropdown-items {

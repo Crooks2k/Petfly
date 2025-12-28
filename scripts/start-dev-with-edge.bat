@@ -16,7 +16,7 @@ echo [3/3] Esperando a que el servidor este listo...
 echo.
 
 :wait_loop
-timeout /t 2 /nobreak >nul
+ping 127.0.0.1 -n 3 >nul
 powershell -Command "try { $response = Invoke-WebRequest -Uri 'http://localhost:4200' -UseBasicParsing -TimeoutSec 2 -ErrorAction Stop; exit 0 } catch { exit 1 }" >nul 2>&1
 
 if %errorlevel% neq 0 (
@@ -27,7 +27,7 @@ if %errorlevel% neq 0 (
 echo    ✓ Servidor listo!
 echo.
 echo Abriendo Edge sin CORS en http://localhost:4200
-timeout /t 1 /nobreak >nul
+ping 127.0.0.1 -n 2 >nul
 
 REM Intentar primero la ruta de 64 bits
 if exist "C:\Program Files\Microsoft\Edge\Application\msedge.exe" (

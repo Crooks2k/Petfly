@@ -1,7 +1,17 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { PetType } from '@flight-search/core/types';
 import { I18nService } from '@core/i18n/i18n.service';
+import { CityOption, CitySelectionEvent } from '@shared/core/entities';
 import {
   Subject,
   takeUntil,
@@ -14,30 +24,36 @@ import {
 import { FiltersAsideConfig, ResolvedFiltersAsideTexts } from './filters-aside.config';
 import { PetflyInteractor } from '@flight-search/core/interactor/petfly.interactor';
 import { FLIGHT_SEARCH_CONSTANTS } from '@flight-search/core/constants';
+import { FiltersBoundaryEntity } from '@flight-search/core/entities';
 
 @Component({
   selector: 'app-filters-aside',
   templateUrl: './filters-aside.component.html',
   styleUrl: './filters-aside.component.scss',
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FiltersAsideComponent implements OnInit, OnDestroy {
   @Input() filtersForm!: FormGroup;
   @Input() selectedPetType: PetType = null;
   @Input() today!: Date;
+  @Input() filtersBoundary: FiltersBoundaryEntity | null = null;
 
   public texts: ResolvedFiltersAsideTexts = {} as ResolvedFiltersAsideTexts;
   public readonly config = FiltersAsideConfig;
 
   // Cities
-  public ciudadesOrigenOptions: { label: string; value: string; city?: any }[] = [];
-  public ciudadesDestinoOptions: { label: string; value: string; city?: any }[] = [];
+  public ciudadesOrigenOptions: CityOption[] = [];
+  public ciudadesDestinoOptions: CityOption[] = [];
   public isLoadingCitiesOrigen = false;
   public isLoadingCitiesDestino = false;
 
   // Breeds
   public razasOptions: { label: string; value: string }[] = [];
   public isLoadingBreeds = false;
+
+  // Airlines
+  public airlinesOptions: { label: string; value: string }[] = [];
 
   private readonly destroy$ = new Subject<void>();
   private readonly origenSearchSubject = new Subject<string>();
@@ -49,7 +65,8 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly i18nService: I18nService,
-    private readonly petflyInteractor: PetflyInteractor
+    private readonly petflyInteractor: PetflyInteractor,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
@@ -58,8 +75,15 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
     }
     this.setupReactiveTexts();
     this.setupCitiesSearch();
-    this.setupCitiesValidation();
-    this.setupPetTypeSubscription();
+    this.setupPetAgeValidation();
+
+    // Cargar razas si ya hay un tipo de mascota seleccionado
+    if (this.selectedPetType) {
+      this.loadBreedsByPetType(this.selectedPetType);
+    }
+
+    // Inicializar opciones de aerolíneas (esto debería venir de filtersBoundary de la API)
+    this.initializeAirlines();
   }
 
   public ngOnDestroy(): void {
@@ -90,6 +114,15 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
   }
 
   public onUpdateFilters(): void {
+    // Validar que origen y destino no sean iguales antes de aplicar
+    const origenValue = this.filtersForm.get('origen')?.value;
+    const destinoValue = this.filtersForm.get('destino')?.value;
+
+    if (origenValue && destinoValue && origenValue === destinoValue) {
+      this.filtersForm.patchValue({ destino: null }, { emitEvent: false });
+      return;
+    }
+
     this.filtersApplied.emit();
   }
 
@@ -103,20 +136,16 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
   }
 
   public onOrigenSelect(event: unknown): void {
-    if (event && typeof event === 'object' && 'city' in event) {
-      const cityEvent = event as { city?: any };
-      if (cityEvent.city) {
-        this.filtersForm.patchValue({ origenCity: cityEvent.city }, { emitEvent: false });
-      }
+    const cityEvent = event as CitySelectionEvent;
+    if (cityEvent.city) {
+      this.filtersForm.patchValue({ origenCity: cityEvent.city }, { emitEvent: false });
     }
   }
 
   public onDestinoSelect(event: unknown): void {
-    if (event && typeof event === 'object' && 'city' in event) {
-      const cityEvent = event as { city?: any };
-      if (cityEvent.city) {
-        this.filtersForm.patchValue({ destinoCity: cityEvent.city }, { emitEvent: false });
-      }
+    const cityEvent = event as CitySelectionEvent;
+    if (cityEvent.city) {
+      this.filtersForm.patchValue({ destinoCity: cityEvent.city }, { emitEvent: false });
     }
   }
 
@@ -160,10 +189,10 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
           this.ciudadesOrigenOptions =
             response.length > 0
               ? response.map(city => ({
-                label: city.displayName,
-                value: city.cityCode,
-                city: city,
-              }))
+                  label: city.displayName,
+                  value: city.cityCode,
+                  city: city,
+                }))
               : [];
           this.isLoadingCitiesOrigen = false;
         },
@@ -199,66 +228,24 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
           this.ciudadesDestinoOptions =
             response.length > 0
               ? response.map(city => ({
-                label: city.displayName,
-                value: city.cityCode,
-                city: city,
-              }))
+                  label: city.displayName,
+                  value: city.cityCode,
+                  city: city,
+                }))
               : [];
           this.isLoadingCitiesDestino = false;
         },
       });
   }
 
-  private setupCitiesValidation(): void {
-    this.filtersForm
-      .get('origen')
-      ?.valueChanges.pipe(takeUntil(this.destroy$))
-      .subscribe(origenValue => {
-        const destinoValue = this.filtersForm.get('destino')?.value;
-        if (origenValue && destinoValue && origenValue === destinoValue) {
-          this.filtersForm.patchValue({ destino: null }, { emitEvent: false });
-        }
-      });
-
-    this.filtersForm
-      .get('destino')
-      ?.valueChanges.pipe(takeUntil(this.destroy$))
-      .subscribe(destinoValue => {
-        const origenValue = this.filtersForm.get('origen')?.value;
-        if (origenValue && destinoValue && origenValue === destinoValue) {
-          this.filtersForm.patchValue({ destino: null }, { emitEvent: false });
-        }
-      });
-  }
-
-  private setupPetTypeSubscription(): void {
-    const breedControl = this.filtersForm.get('razaMascota');
-
-    if (!this.selectedPetType) {
-      breedControl?.disable();
-    }
-
-    this.filtersForm
-      .get('tipoMascota')
-      ?.valueChanges.pipe(takeUntil(this.destroy$))
-      .subscribe((petType: PetType) => {
-        if (petType) {
-          this.loadBreedsByPetType(petType);
-        } else {
-          this.razasOptions = [];
-          breedControl?.disable();
-          this.filtersForm.patchValue({ razaMascota: '' }, { emitEvent: false });
-        }
-      });
-  }
-
   private loadBreedsByPetType(petType: 'dog' | 'cat'): void {
     this.isLoadingBreeds = true;
     this.razasOptions = [];
+    this.cdr.markForCheck();
 
     const breedControl = this.filtersForm.get('razaMascota');
+    const currentBreed = breedControl?.value;
     breedControl?.disable();
-    this.filtersForm.patchValue({ razaMascota: '' }, { emitEvent: false });
 
     const petTypeId =
       petType === 'dog'
@@ -276,12 +263,55 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
           }));
           this.isLoadingBreeds = false;
           breedControl?.enable();
+
+          // Mantener la raza seleccionada si existe en la nueva lista
+          if (currentBreed && this.razasOptions.some(r => r.value === currentBreed)) {
+            breedControl?.patchValue(currentBreed, { emitEvent: false });
+          }
+
+          this.cdr.markForCheck();
         },
         error: () => {
           this.razasOptions = [];
           this.isLoadingBreeds = false;
           breedControl?.enable();
+          this.cdr.markForCheck();
         },
       });
+  }
+
+  private setupPetAgeValidation(): void {
+    this.filtersForm
+      .get('edadMascota')
+      ?.valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe(age => {
+        // Si la edad es mayor a 24 semanas (6 meses), siempre enviar 24
+        if (age && age > 24) {
+          this.filtersForm.patchValue({ edadMascota: 24 }, { emitEvent: false });
+        }
+      });
+  }
+
+  private initializeAirlines(): void {
+    // Si tenemos filtersBoundary de la API, usar esas aerolíneas
+    if (this.filtersBoundary?.airlines && this.filtersBoundary.airlines.length > 0) {
+      this.airlinesOptions = this.filtersBoundary.airlines.map(airline => ({
+        label: airline.name,
+        value: airline.iata,
+      }));
+    } else {
+      // Fallback: lista estática
+      this.airlinesOptions = [
+        { label: 'Avianca', value: 'AV' },
+        { label: 'LATAM', value: 'LA' },
+        { label: 'Copa Airlines', value: 'CM' },
+        { label: 'Iberia', value: 'IB' },
+        { label: 'TAP Air Portugal', value: 'TP' },
+        { label: 'Air Europa', value: 'UX' },
+        { label: 'American Airlines', value: 'AA' },
+        { label: 'United Airlines', value: 'UA' },
+        { label: 'Delta', value: 'DL' },
+      ];
+    }
   }
 }

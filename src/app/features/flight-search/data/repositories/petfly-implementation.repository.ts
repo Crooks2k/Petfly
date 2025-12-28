@@ -69,8 +69,6 @@ export class PetflyImplementationRepository extends PetflyRepository {
       options
     );
 
-    console.log('🔍 Filter Request Body:', JSON.stringify(filterRequest, null, 2));
-
     return this.http.post<FilterFlightsResponseEntity>(`${this.apiUrl}filter`, filterRequest);
   }
 }

@@ -45,6 +45,10 @@ export const FlightSearchConfig = {
     passengerSelectorCancel: 'flightSearch.passengerSelectorCancel',
     passengerSelectorSave: 'flightSearch.passengerSelectorSave',
     passengerSelectorChildAge: 'flightSearch.passengerSelectorChildAge',
+    searchSuccessTitle: 'flightSearch.searchSuccessTitle',
+    searchSuccessMessage: 'flightSearch.searchSuccessMessage',
+    searchErrorTitle: 'flightSearch.searchErrorTitle',
+    searchErrorMessage: 'flightSearch.searchErrorMessage',
   },
   animations: {
     slideInOut: trigger('slideInOut', [

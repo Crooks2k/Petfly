@@ -573,6 +573,93 @@ const filtered = this.mockData.filter(item =>
 
 ---
 
+## 🔄 Flujo Completo: Search Flights
+
+### Paso a Paso
+
+```
+Usuario hace clic en "Buscar"
+         ↓
+    HTML Form (ngSubmit)
+         ↓
+    flight-search.page.ts → onSearch()
+         ↓
+    viewModel.getFormData() → Obtiene FlightSearchFormEntity
+         ↓
+    petflyInteractor.searchFlights(formData, currency)
+         ↓
+    SearchFlightsUseCase → repository.searchFlights(formData, currency)
+         ↓
+    FlightSearchFormMapper.toApiRequest(formData, currency)
+         ↓
+    http.post('/api/search', request)
+         ↓
+    Component recibe response y navega a resultados
+```
+
+### Transferencia de Datos entre Páginas
+
+Los datos se pasan entre páginas usando el routing state de Angular:
+
+```typescript
+// Envío (flight-search.page.ts)
+this.router.navigate(['/results'], {
+  state: {
+    searchResults: response,
+    searchParams: formData,
+    currency: currency,
+    locale: locale,
+  },
+});
+
+// Recepción (flight-results.page.ts)
+private loadSearchData(): void {
+  const navigation = this.router.getCurrentNavigation();
+  const state = navigation?.extras?.state as FlightResultsState;
+  
+  if (state) {
+    this.searchResults = state.searchResults;
+    this.searchParams = state.searchParams;
+    this.searchCurrency = state.currency;
+    this.searchLocale = state.locale;
+  }
+}
+```
+
+---
+
+## 🔍 Servicio de Filtros
+
+El servicio de filtros usa query params + body para filtrar resultados basándose en una búsqueda previa:
+
+### Endpoint
+```
+POST /api/filter?searchId=xxx&isDirect=false&maxPrice=500000
+```
+
+### Implementación
+
+```typescript
+// Uso en ViewModel
+applyFiltersToSearch() {
+  if (!this.searchId) return;
+  
+  const formData = this.getFormData();
+  const currency = this.getCurrentCurrency();
+  const locale = this.getCurrentLocale();
+  
+  this.petflyInteractor
+    .filterFlights(formData, this.searchId, currency, locale, { useDefaults: true })
+    .subscribe(response => {
+      this.flightResults = response;
+    });
+}
+```
+
+El mapper reutiliza `FlightSearchFormMapper` para el body y extrae query params del formulario.
+
+---
+
 ## 🚀 Comandos para Probar
 
 ```bash

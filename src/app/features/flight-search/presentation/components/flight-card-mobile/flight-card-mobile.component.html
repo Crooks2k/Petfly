@@ -137,18 +137,18 @@
         </div>
 
         <div class="badges">
-          <a 
-            href="https://petfly.io/certificados-de-perro-de-servicio/" 
-            target="_blank" 
+          <a
+            href="https://petfly.io/certificados-de-perro-de-servicio/"
+            target="_blank"
             rel="noopener noreferrer"
             class="badge badge-ps"
             (click)="$event.stopPropagation()"
           >
             {{ texts.psBadge }}
           </a>
-          <a 
-            href="https://petfly.io/certificado-de-apoyo-emocional/" 
-            target="_blank" 
+          <a
+            href="https://petfly.io/certificado-de-apoyo-emocional/"
+            target="_blank"
             rel="noopener noreferrer"
             class="badge badge-ae"
             (click)="$event.stopPropagation()"
@@ -164,19 +164,23 @@
         </div>
 
         <div class="ae-status" *ngIf="isAENotAccepted">{{ texts.aeNotAccepted }}</div>
+        <div class="ae-status" *ngIf="isPSNotAccepted">{{ texts.psNotAccepted }}</div>
+        <div class="ae-status" *ngIf="isMRNotAccepted">{{ texts.mrNotAccepted }}</div>
 
         <div class="price-breakdown">
           <span *ngIf="hasMRPrice">
             {{ texts.mrLabel }}: ${{ formatPrice(flightTicket.mrPrice!.min) }}
           </span>
           <span *ngIf="hasMRPrice" class="separator">|</span>
-          <span>
-            {{ texts.aeLabel }}: ${{ formatPrice(flightTicket.aePrice.min) }}-{{
-              formatPrice(flightTicket.aePrice.max)
+          <span *ngIf="hasAEPrice">
+            {{ texts.aeLabel }}: ${{ formatPrice(flightTicket.aePrice!.min) }}-{{
+              formatPrice(flightTicket.aePrice!.max)
             }}
           </span>
-          <span class="separator">|</span>
-          <span>{{ texts.psLabel }}: ${{ formatPrice(flightTicket.psPrice.min) }}</span>
+          <span *ngIf="hasAEPrice && hasPSPrice" class="separator">|</span>
+          <span *ngIf="hasPSPrice"
+            >{{ texts.psLabel }}: ${{ formatPrice(flightTicket.psPrice!.min) }}</span
+          >
         </div>
       </div>
 

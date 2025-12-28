@@ -65,7 +65,11 @@
     "searchingFlights": "Searching flights...",
     "adults": "Adults",
     "children": "Children (2-11 years)",
-    "infants": "Infants (0-2 years)"
+    "infants": "Infants (0-2 years)",
+    "searchSuccessTitle": "Search successful!",
+    "searchSuccessMessage": "We found available flights for your trip",
+    "searchErrorTitle": "No results",
+    "searchErrorMessage": "We couldn't find flights with the selected parameters. Try adjusting your dates or destinations."
   },
   "flightResults": {
     "title": "Search Results",
@@ -134,7 +138,9 @@
     "cancelLabel": "Cancel",
     "saveLabel": "Save",
     "filtersLabel": "Filters",
+    "filtersCollapsedLabel": "Filters",
     "applyFiltersLabel": "Apply filters",
+    "applyingFilters": "Applying...",
     "sortByPrice": "Price",
     "sortByDuration": "Duration",
     "petPriceInfoTitle": "Pet price (explanatory)",
@@ -144,13 +150,18 @@
     "serviceDogTitle": "Service Dog (with certificate)",
     "searchResultsTitle": "Search results",
     "flightsFound": "flights found",
-    "noResultsMessage": "No results to display",
+    "noResultsTitle": "No flights found",
+    "noResultsMessage": "Try adjusting your search filters or perform a new search",
+    "filterErrorTitle": "No results",
+    "filterErrorMessage": "We couldn't find flights with those filters. Try adjusting the parameters.",
+    "filterSuccessTitle": "Filters applied",
+    "filterSuccessMessage": "Flights found with the selected filters",
     "regularPetBadge": "MR",
     "emotionalSupportBadge": "AE",
     "serviceDogBadge": "PS",
-    "regularPetDescription": "Pet without certificate",
-    "emotionalSupportDescription": "Pet with emotional support animal certificate",
-    "serviceDogDescription": "Pet with service dog certificate"
+    "regularPetDescription": "Travels in cargo according to airline policies",
+    "emotionalSupportDescription": "Travels in cabin with you with emotional support certificate",
+    "serviceDogDescription": "Travels in cabin with you with service dog certificate"
   },
   "flightCard": {
     "pricePerPerson": "Price per person",
@@ -172,9 +183,12 @@
     "mrLabel": "MR",
     "aeLabel": "AE",
     "psLabel": "PS",
-    "aeNotAccepted": "AE not accepted"
+    "aeNotAccepted": "AE not accepted",
+    "psNotAccepted": "PS not accepted",
+    "mrNotAccepted": "MR not accepted"
   },
   "filtersAside": {
+    "mainTitle": "Filters",
     "petDetailsTitle": "Pet details",
     "dogLabel": "Dog",
     "catLabel": "Cat",
@@ -205,8 +219,12 @@
     "cancelLabel": "Cancel",
     "saveLabel": "Save",
     "certificatesLabel": "Certificates",
+    "certificatesDescription": "Bring your pet in the cabin with you. Official certificates recognized by airlines.",
+    "certificatesCtaText": "View all certificates",
     "emotionalSupport": "Emotional support",
+    "emotionalSupportDescription": "Travel with your emotional support pet in cabin",
     "serviceAnimal": "Service dog",
+    "serviceAnimalDescription": "Official certificate for assistance dogs",
     "airlinesStopsLabel": "Airlines and stops",
     "allowStops": "Allow stops",
     "noStops": "No stops",

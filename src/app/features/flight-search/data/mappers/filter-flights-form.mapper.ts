@@ -21,30 +21,16 @@ export class FilterFlightsFormMapper {
     // Reutilizar el mapper de búsqueda para los datos base
     const searchRequest = FlightSearchFormMapper.toApiRequest(formData, currency, locale, options);
 
-    // Construir filterParameters si hay filtros aplicados
-    const filterParameters: FilterFlightsRequestEntity['filterParameters'] = {};
-    let hasFilters = false;
+    // Construir filterParameters - SIEMPRE incluir con valores por defecto
+    const filterParameters: FilterFlightsRequestEntity['filterParameters'] = {
+      isDirect: formData.permitirEscalas === false, // Si permitirEscalas es false, isDirect es true
+      minPrice: formData.precioMinimo ?? 0,
+      maxPrice: formData.precioMaximo ?? 999999,
+    };
 
-    // isDirect: si permitirEscalas es false, entonces isDirect es true
-    if (formData.permitirEscalas !== null && formData.permitirEscalas !== undefined) {
-      filterParameters.isDirect = !formData.permitirEscalas;
-      hasFilters = true;
-    }
-
-    // Precios
-    if (formData.precioMaximo !== null && formData.precioMaximo !== undefined) {
-      filterParameters.maxPrice = formData.precioMaximo;
-      hasFilters = true;
-    }
-    if (formData.precioMinimo !== null && formData.precioMinimo !== undefined) {
-      filterParameters.minPrice = formData.precioMinimo;
-      hasFilters = true;
-    }
-
-    // Aerolínea
+    // Aerolínea (opcional)
     if (formData.aerolinea) {
       filterParameters.airlineCode = formData.aerolinea;
-      hasFilters = true;
     }
 
     // Certificados: emotional -> AE, service -> PS
@@ -55,12 +41,12 @@ export class FilterFlightsFormMapper {
       };
       filterParameters.certificateType =
         certMap[formData.certificados[0]] || formData.certificados[0];
-      hasFilters = true;
     }
 
     // Construir el request completo con valores por defecto
     const filterRequest: FilterFlightsRequestEntity = {
       searchId,
+      filterParameters, // SIEMPRE incluir
       age: searchRequest.age || 0,
       weight: searchRequest.weight || 0,
       breed: searchRequest.breed || '',
@@ -75,11 +61,6 @@ export class FilterFlightsFormMapper {
       },
       segments: searchRequest.segments || [],
     };
-
-    // Solo agregar filterParameters si hay filtros
-    if (hasFilters) {
-      filterRequest.filterParameters = filterParameters;
-    }
 
     return filterRequest;
   }

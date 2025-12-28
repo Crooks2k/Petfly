@@ -2,17 +2,7 @@
 
 ## Resumen
 
-Se implementó el componente `flight-card` como un acordeón que muestra la información de los vuelos disponibles en la página de resultados. El componente es responsive y se adapta tanto a desktop como a mobile.
-
-## Estructura del Componente
-
-### Archivos Creados
-
-1. **flight-card.component.html** - Template del componente
-2. **flight-card.component.ts** - Lógica del componente
-3. **flight-card.component.scss** - Estilos del componente
-4. **flight-card.config.ts** - Configuración de i18n
-5. **index.ts** - Exportaciones del componente
+Componente acordeón responsive que muestra información de vuelos en la página de resultados. Se adapta automáticamente a desktop y mobile.
 
 ## Características Implementadas
 
@@ -274,21 +264,46 @@ interface FlightTicketEntity {
 - **Header cerrado:** Vuelos apilados verticalmente con precios abajo
 - **Header expandido:** Grid de precios con botón de selección
 
-## Próximos Pasos
+## Estructura de Datos
 
-1. ✅ Probar apariencia visual en navegador (desktop y mobile)
-2. Implementar la lógica de selección de vuelo (método `onSelectFlight()`)
-3. Agregar funcionalidad de ordenamiento (precio, duración)
-4. Conectar con datos reales del API (search/filter responses)
-5. Agregar loading states y animaciones
-6. Implementar filtrado por aerolínea
-7. Implementar paginación si hay muchos resultados
+### FlightTicketEntity
+```typescript
+interface FlightTicketEntity {
+  flights: FlightGroupEntity[];      // Grupos de vuelos (ida/vuelta)
+  maxStops: number;                  // Número máximo de escalas
+  price: number;                     // Precio base
+  currency: string;                  // Moneda
+  mrPrice: PriceRangeEntity | null;  // Precio mascota regular
+  aePrice: PriceRangeEntity;         // Precio apoyo emocional
+  psPrice: PriceRangeEntity;         // Precio perro de servicio
+  total: PriceRangeEntity;           // Precio total
+}
+```
 
-## Notas Importantes
+### Formato de Fechas
+```typescript
+// Formato ISO 8601 sin timezone
+departureTime: "2025-01-15T07:45:00"
+arrivalTime: "2025-01-15T12:30:00"
 
-- El componente usa `I18nService` para textos reactivos
-- Los precios se formatean con separadores de miles
-- Las horas se formatean en formato 24h (HH:mm)
-- Las duraciones se muestran en formato "Xh Ymin"
-- El componente detecta automáticamente si hay vuelo de regreso
-- Los días adicionales se muestran como "+1", "+2", etc.
+// Para vuelos que llegan al día siguiente
+departureTime: "2025-01-15T16:30:00"
+arrivalTime: "2025-01-16T05:50:00"  // Día siguiente
+```
+
+## Métodos de Formateo
+
+- `formatTime()`: `"2025-01-15T07:45:00"` → `"07:45"`
+- `formatDuration()`: `220` → `"3h 40min"`
+- `formatPrice()`: `1430` → `"1.430"`
+- `getArrivalDayOffset()`: Calcula días adicionales (`"+1"`, `"+2"`)
+- `getLayoverDuration()`: Calcula duración de escalas
+- `getTotalDuration()`: Suma duraciones de todos los segmentos
+
+## Notas
+
+- Usa `I18nService` para textos reactivos
+- Precios con separadores de miles
+- Horas en formato 24h (HH:mm)
+- Detecta automáticamente vuelo de regreso
+- Días adicionales como "+1", "+2"

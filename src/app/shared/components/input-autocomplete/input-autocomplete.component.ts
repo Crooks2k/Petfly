@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  forwardRef,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -10,6 +17,7 @@ import { INPUT_AUTOCOMPLETE_CONSTANTS } from '../../constants';
   imports: [CommonModule, FormsModule, AutoCompleteModule],
   templateUrl: './input-autocomplete.component.html',
   styleUrl: './input-autocomplete.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

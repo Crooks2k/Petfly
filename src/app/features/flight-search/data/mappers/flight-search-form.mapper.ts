@@ -44,9 +44,9 @@ export class FlightSearchFormMapper {
     if (fechaSalida) {
       segments.push({
         origin: origenCode,
-        origin_country: formData.origenCity?.countryCode || null,
+        origin_country: formData.origenCity?.countryCode || '',
         destination: destinoCode,
-        destination_country: formData.destinoCity?.countryCode || null,
+        destination_country: formData.destinoCity?.countryCode || '',
         date: this.formatDate(fechaSalida),
       });
     }
@@ -55,9 +55,9 @@ export class FlightSearchFormMapper {
     if (formData.tipoViaje === 'roundtrip' && formData.fechaRegreso) {
       segments.push({
         origin: destinoCode,
-        origin_country: formData.destinoCity?.countryCode || null,
+        origin_country: formData.destinoCity?.countryCode || '',
         destination: origenCode,
-        destination_country: formData.origenCity?.countryCode || null,
+        destination_country: formData.origenCity?.countryCode || '',
         date: this.formatDate(formData.fechaRegreso),
       });
     }

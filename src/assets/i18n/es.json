@@ -65,7 +65,11 @@
     "searchingFlights": "Buscando vuelos...",
     "adults": "Adultos",
     "children": "Niños (2-11 años)",
-    "infants": "Bebés (0-2 años)"
+    "infants": "Bebés (0-2 años)",
+    "searchSuccessTitle": "¡Búsqueda exitosa!",
+    "searchSuccessMessage": "Encontramos vuelos disponibles para tu viaje",
+    "searchErrorTitle": "Sin resultados",
+    "searchErrorMessage": "No encontramos vuelos con los parámetros seleccionados. Intenta ajustar tus fechas o destinos."
   },
   "flightResults": {
     "title": "Resultados de Búsqueda",
@@ -134,7 +138,9 @@
     "cancelLabel": "Cancelar",
     "saveLabel": "Guardar",
     "filtersLabel": "Filtros",
+    "filtersCollapsedLabel": "Filtros",
     "applyFiltersLabel": "Aplicar filtros",
+    "applyingFilters": "Aplicando...",
     "sortByPrice": "Precio",
     "sortByDuration": "Duración",
     "petPriceInfoTitle": "Precio de mascota (explicativo)",
@@ -144,13 +150,18 @@
     "serviceDogTitle": "Perro de Servicio (con certificado)",
     "searchResultsTitle": "Resultados de búsqueda",
     "flightsFound": "vuelos encontrados",
-    "noResultsMessage": "No hay resultados para mostrar",
+    "noResultsTitle": "No se encontraron vuelos",
+    "noResultsMessage": "Intenta ajustar tus filtros de búsqueda o realiza una nueva búsqueda",
+    "filterErrorTitle": "Sin resultados",
+    "filterErrorMessage": "No encontramos vuelos con esos filtros. Intenta ajustar los parámetros.",
+    "filterSuccessTitle": "Filtros aplicados",
+    "filterSuccessMessage": "Se encontraron vuelos con los filtros seleccionados",
     "regularPetBadge": "MR",
     "emotionalSupportBadge": "AE",
     "serviceDogBadge": "PS",
-    "regularPetDescription": "Mascota sin certificado",
-    "emotionalSupportDescription": "Mascota con certificado de animal de apoyo emocional",
-    "serviceDogDescription": "Mascota con certificado de perro de servicio"
+    "regularPetDescription": "Viaja en bodega según políticas de la aerolínea",
+    "emotionalSupportDescription": "Viaja en cabina contigo con certificado de apoyo emocional",
+    "serviceDogDescription": "Viaja en cabina contigo con certificado de perro de asistencia"
   },
   "flightCard": {
     "pricePerPerson": "Precio por persona",
@@ -172,9 +183,12 @@
     "mrLabel": "MR",
     "aeLabel": "AE",
     "psLabel": "PS",
-    "aeNotAccepted": "AE no aceptado"
+    "aeNotAccepted": "AE no aceptado",
+    "psNotAccepted": "PS no aceptado",
+    "mrNotAccepted": "MR no aceptado"
   },
   "filtersAside": {
+    "mainTitle": "Filtros",
     "petDetailsTitle": "Detalles de la mascota",
     "dogLabel": "Perro",
     "catLabel": "Gato",
@@ -205,8 +219,12 @@
     "cancelLabel": "Cancelar",
     "saveLabel": "Guardar",
     "certificatesLabel": "Certificados",
+    "certificatesDescription": "Lleva a tu mascota en cabina contigo. Certificados oficiales reconocidos por aerolíneas.",
+    "certificatesCtaText": "Ver todos los certificados",
     "emotionalSupport": "Apoyo emocional",
+    "emotionalSupportDescription": "Viaja con tu mascota de apoyo emocional en cabina",
     "serviceAnimal": "Perro de servicio",
+    "serviceAnimalDescription": "Certificado oficial para perros de asistencia",
     "airlinesStopsLabel": "Aerolíneas y escalas",
     "allowStops": "Permitir escalas",
     "noStops": "Sin escalas",

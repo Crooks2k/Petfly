@@ -6,7 +6,7 @@ import {
   FlightGroupEntity,
   FlightItemEntity,
 } from '@flight-search/core/entities';
-import { FlightCardConfig, ResolvedFlightCardTexts } from '../flight-card/flight-card.config';
+import { FlightCardMobileConfig, ResolvedFlightCardMobileTexts } from './flight-card-mobile.config';
 
 @Component({
   selector: 'petfly-flight-card-mobile',
@@ -18,9 +18,9 @@ export class FlightCardMobileComponent implements OnInit, OnDestroy {
   @Input() flightTicket!: FlightTicketEntity;
   @Input() isRoundTrip: boolean = false;
 
-  public texts: ResolvedFlightCardTexts = {} as ResolvedFlightCardTexts;
+  public texts: ResolvedFlightCardMobileTexts = {} as ResolvedFlightCardMobileTexts;
   public isExpanded = false;
-  public readonly config = FlightCardConfig;
+  public readonly config = FlightCardMobileConfig;
 
   private readonly destroy$ = new Subject<void>();
 
@@ -41,7 +41,6 @@ export class FlightCardMobileComponent implements OnInit, OnDestroy {
 
   public onSelectFlight(event: Event): void {
     event.stopPropagation();
-    console.log('Flight selected:', this.flightTicket);
   }
 
   public get outboundFlight() {
@@ -110,7 +109,29 @@ export class FlightCardMobileComponent implements OnInit, OnDestroy {
   }
 
   public get isAENotAccepted(): boolean {
-    return this.flightTicket.aePrice.min === 0 && this.flightTicket.aePrice.max === 0;
+    return (
+      !this.flightTicket.aePrice ||
+      (this.flightTicket.aePrice.min === 0 && this.flightTicket.aePrice.max === 0)
+    );
+  }
+
+  public get isPSNotAccepted(): boolean {
+    return (
+      !this.flightTicket.psPrice ||
+      (this.flightTicket.psPrice.min === 0 && this.flightTicket.psPrice.max === 0)
+    );
+  }
+
+  public get isMRNotAccepted(): boolean {
+    return !this.flightTicket.mrPrice;
+  }
+
+  public get hasAEPrice(): boolean {
+    return this.flightTicket.aePrice !== null;
+  }
+
+  public get hasPSPrice(): boolean {
+    return this.flightTicket.psPrice !== null;
   }
 
   private setupReactiveTexts(): void {
@@ -118,7 +139,7 @@ export class FlightCardMobileComponent implements OnInit, OnDestroy {
       .getReactiveTexts(this.config)
       .pipe(takeUntil(this.destroy$))
       .subscribe(resolvedTexts => {
-        this.texts = resolvedTexts as unknown as ResolvedFlightCardTexts;
+        this.texts = resolvedTexts as unknown as ResolvedFlightCardMobileTexts;
       });
   }
 }

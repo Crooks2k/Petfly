@@ -6,6 +6,7 @@ import {
   forwardRef,
   OnInit,
   OnDestroy,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -20,6 +21,7 @@ import { INPUT_SELECT_CONSTANTS, INPUT_SELECT_SIZE, InputSelectSize } from '../.
   imports: [CommonModule, FormsModule, DropdownModule],
   templateUrl: './input-select.component.html',
   styleUrl: './input-select.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -101,12 +103,12 @@ export class InputSelectComponent implements ControlValueAccessor, OnInit, OnDes
 
   getSizeClass(): string {
     switch (this.size) {
-    case INPUT_SELECT_SIZE.SMALL:
-      return 'compact';
-    case INPUT_SELECT_SIZE.LARGE:
-      return 'large';
-    default:
-      return '';
+      case INPUT_SELECT_SIZE.SMALL:
+        return 'compact';
+      case INPUT_SELECT_SIZE.LARGE:
+        return 'large';
+      default:
+        return '';
     }
   }
 

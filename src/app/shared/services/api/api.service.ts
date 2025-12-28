@@ -90,16 +90,16 @@ export class ApiService {
 
   private errorHandler(error: HttpErrorResponse) {
     switch (error.status) {
-    case HttpStatusCode.BadRequest:
-      return throwError(() => new HttpErrorResponse({ error }));
-    case HttpStatusCode.InternalServerError:
-      return throwError(() => new Error(ApiConfig.internalServerError));
-    case HttpStatusCode.NotFound:
-      return throwError(() => new Error(ApiConfig.NotFound));
-    case HttpStatusCode.Unauthorized:
-      return throwError(() => new Error(ApiConfig.Unauthorized));
-    default:
-      return throwError(() => new Error(ApiConfig.unknownError));
+      case HttpStatusCode.BadRequest:
+        return throwError(() => new HttpErrorResponse({ error }));
+      case HttpStatusCode.InternalServerError:
+        return throwError(() => new Error(ApiConfig.internalServerError));
+      case HttpStatusCode.NotFound:
+        return throwError(() => new Error(ApiConfig.NotFound));
+      case HttpStatusCode.Unauthorized:
+        return throwError(() => new Error(ApiConfig.Unauthorized));
+      default:
+        return throwError(() => new Error(ApiConfig.unknownError));
     }
   }
 }

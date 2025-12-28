@@ -74,8 +74,7 @@ export class CurrencyService {
           this.currentCurrencySubject.next(currencies[0]);
         }
       },
-      error: error => {
-        console.error('Error loading currencies from API:', error);
+      error: () => {
         // Fallback a monedas por defecto
         const fallbackCurrencies: Currency[] = [
           { code: 'USD', symbol: 'USD', name: 'United States Dollar' },

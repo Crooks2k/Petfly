@@ -45,6 +45,23 @@ form {
   }
 }
 
+.main-filters-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  margin: 0 0 1.25rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--color-border-lighter);
+
+  i {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+  }
+}
+
 .filters-title {
   font-size: 1.5rem;
   font-weight: 700;
@@ -315,5 +332,182 @@ form {
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
+  }
+}
+
+// ===== SECCIÓN DE CERTIFICADOS DESTACADA =====
+.certificates-highlight-section {
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+  color: white;
+
+  .certificates-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+
+    i {
+      font-size: 1.25rem;
+      color: #ffd700;
+    }
+
+    .certificates-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0;
+      color: white;
+    }
+  }
+
+  .certificates-description {
+    font-size: 0.85rem;
+    margin: 0 0 0.875rem 0;
+    opacity: 0.95;
+    line-height: 1.4;
+  }
+
+  .certificates-premium {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .certificate-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    width: 100%;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    &.active {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
+
+      .certificate-icon {
+        background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+        color: white;
+      }
+
+      .certificate-content {
+        .certificate-name,
+        .certificate-desc {
+          color: #333;
+        }
+
+        .certificate-badge {
+          background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+          color: white;
+        }
+      }
+    }
+
+    .certificate-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+
+      i {
+        font-size: 1.25rem;
+        color: white;
+      }
+    }
+
+    .certificate-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+
+      .certificate-name {
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin: 0;
+        color: white;
+        transition: color 0.3s ease;
+      }
+
+      .certificate-desc {
+        font-size: 0.75rem;
+        margin: 0;
+        color: rgba(255, 255, 255, 0.9);
+        transition: color 0.3s ease;
+      }
+
+      .certificate-badge {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 0.2rem 0.6rem;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        margin-top: 0.15rem;
+        width: fit-content;
+        transition: all 0.3s ease;
+      }
+    }
+  }
+
+  .certificates-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: white;
+    border: 2px solid white;
+    border-radius: 8px;
+    color: #4a90e2;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    span {
+      flex: 1;
+      text-align: center;
+    }
+
+    i {
+      font-size: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover i {
+      transform: translateX(4px);
+    }
   }
 }

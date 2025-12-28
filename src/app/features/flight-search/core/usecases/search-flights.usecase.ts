@@ -11,7 +11,7 @@ export interface SearchFlightsUseCaseParams {
 }
 
 export class SearchFlightsUseCase
-implements UseCase<SearchFlightsUseCaseParams, SearchFlightsResponseEntity>
+  implements UseCase<SearchFlightsUseCaseParams, SearchFlightsResponseEntity>
 {
   constructor(private readonly petflyRepository: PetflyRepository) {}
 

@@ -2,6 +2,7 @@ import { I18nConfigEntity } from '@core/i18n/config';
 
 export const FiltersAsideConfig = {
   i18n: {
+    mainTitle: 'filtersAside.mainTitle',
     petDetailsTitle: 'filtersAside.petDetailsTitle',
     dogLabel: 'filtersAside.dogLabel',
     catLabel: 'filtersAside.catLabel',
@@ -32,8 +33,12 @@ export const FiltersAsideConfig = {
     cancelLabel: 'filtersAside.cancelLabel',
     saveLabel: 'filtersAside.saveLabel',
     certificatesLabel: 'filtersAside.certificatesLabel',
+    certificatesDescription: 'filtersAside.certificatesDescription',
+    certificatesCtaText: 'filtersAside.certificatesCtaText',
     emotionalSupport: 'filtersAside.emotionalSupport',
+    emotionalSupportDescription: 'filtersAside.emotionalSupportDescription',
     serviceAnimal: 'filtersAside.serviceAnimal',
+    serviceAnimalDescription: 'filtersAside.serviceAnimalDescription',
     airlinesStopsLabel: 'filtersAside.airlinesStopsLabel',
     allowStops: 'filtersAside.allowStops',
     noStops: 'filtersAside.noStops',
@@ -51,6 +56,7 @@ export const FiltersAsideConfig = {
     originLabel: 'filtersAside.originLabel',
     destinationLabel: 'filtersAside.destinationLabel',
   },
+  certificatesUrl: 'https://petfly.io/certificados',
 } as const satisfies I18nConfigEntity;
 
 export type ResolvedFiltersAsideTexts = {

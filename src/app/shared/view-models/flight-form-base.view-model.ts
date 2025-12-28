@@ -90,10 +90,14 @@ export abstract class FlightFormBaseViewModel {
       sinTransportador: [null],
       certificados: [[]],
       permitirEscalas: [null],
+      precioMinimo: [null],
+      precioMaximo: [null],
+      aerolinea: [null],
     });
   }
 
   protected setupFormSubscriptions(): void {
+    // Solo configurar suscripciones si están habilitadas
     if (this.config.enableTripTypeValidation) {
       this.setupTripTypeValidation();
     }

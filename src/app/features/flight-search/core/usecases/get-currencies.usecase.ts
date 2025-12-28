@@ -4,7 +4,7 @@ import { GetCurrenciesRequestEntity, GetCurrenciesResponseEntity } from '../enti
 import { PetflyRepository } from '../repositories/petfly.repository';
 
 export class GetCurrenciesUseCase
-implements UseCase<GetCurrenciesRequestEntity, GetCurrenciesResponseEntity>
+  implements UseCase<GetCurrenciesRequestEntity, GetCurrenciesResponseEntity>
 {
   constructor(private readonly petflyRepository: PetflyRepository) {}
 

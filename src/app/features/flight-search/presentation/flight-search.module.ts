@@ -14,6 +14,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TooltipModule } from 'primeng/tooltip';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 // Petfly Components Module
 import { SharedComponentsModule } from '@shared/components';
@@ -28,7 +30,6 @@ import { FlightResultsPage } from './pages/flight-results/flight-results.page';
 
 // Components
 import { FiltersAsideComponent } from './components/filters-aside/filters-aside.component';
-import { FlightCardComponent } from './components/flight-card/flight-card.component';
 import { FlightCardMobileComponent } from './components/flight-card-mobile/flight-card-mobile.component';
 import { FlightCardDesktopComponent } from './components/flight-card-desktop/flight-card-desktop.component';
 
@@ -40,7 +41,6 @@ import { PetflyInteractor } from '@flight-search/core/interactor/petfly.interact
     FlightSearchPage,
     FlightResultsPage,
     FiltersAsideComponent,
-    FlightCardComponent,
     FlightCardMobileComponent,
     FlightCardDesktopComponent,
   ],
@@ -60,9 +60,10 @@ import { PetflyInteractor } from '@flight-search/core/interactor/petfly.interact
     RadioButtonModule,
     SelectButtonModule,
     TooltipModule,
+    ToastModule,
     SharedComponentsModule,
     InputAutocompleteComponent,
   ],
-  providers: [PetflyInteractor],
+  providers: [PetflyInteractor, MessageService],
 })
 export class FlightSearchModule {}

@@ -12,8 +12,8 @@ export interface FlightTicketEntity {
   currency: string;
   isDirect: boolean;
   mrPrice: PriceRangeEntity | null;
-  aePrice: PriceRangeEntity;
-  psPrice: PriceRangeEntity;
+  aePrice: PriceRangeEntity | null;
+  psPrice: PriceRangeEntity | null;
   total: PriceRangeEntity;
 }
 

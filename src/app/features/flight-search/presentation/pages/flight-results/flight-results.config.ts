@@ -68,7 +68,9 @@ export const FlightResultsConfig = {
     cancelLabel: 'flightResults.cancelLabel',
     saveLabel: 'flightResults.saveLabel',
     filtersLabel: 'flightResults.filtersLabel',
+    filtersCollapsedLabel: 'flightResults.filtersCollapsedLabel',
     applyFiltersLabel: 'flightResults.applyFiltersLabel',
+    applyingFilters: 'flightResults.applyingFilters',
     sortByPrice: 'flightResults.sortByPrice',
     sortByDuration: 'flightResults.sortByDuration',
     petPriceInfoTitle: 'flightResults.petPriceInfoTitle',
@@ -78,6 +80,7 @@ export const FlightResultsConfig = {
     serviceDogTitle: 'flightResults.serviceDogTitle',
     searchResultsTitle: 'flightResults.searchResultsTitle',
     flightsFound: 'flightResults.flightsFound',
+    noResultsTitle: 'flightResults.noResultsTitle',
     noResultsMessage: 'flightResults.noResultsMessage',
     regularPetBadge: 'flightResults.regularPetBadge',
     emotionalSupportBadge: 'flightResults.emotionalSupportBadge',
@@ -86,6 +89,10 @@ export const FlightResultsConfig = {
     emotionalSupportDescription: 'flightResults.emotionalSupportDescription',
     serviceDogDescription: 'flightResults.serviceDogDescription',
     filterButton: 'flightResults.filterButton',
+    filterErrorTitle: 'flightResults.filterErrorTitle',
+    filterErrorMessage: 'flightResults.filterErrorMessage',
+    filterSuccessTitle: 'flightResults.filterSuccessTitle',
+    filterSuccessMessage: 'flightResults.filterSuccessMessage',
   },
 } as const satisfies I18nConfigEntity;
 

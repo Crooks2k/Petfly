@@ -13,9 +13,9 @@ export interface SearchFlightsRequestEntity {
   };
   segments: Array<{
     origin: string;
-    origin_country: string | null;
+    origin_country: string;
     destination: string;
-    destination_country: string | null;
+    destination_country: string;
     date: string;
   }>;
 }
