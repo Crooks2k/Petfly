@@ -1,0 +1,532 @@
+.flight-search-page {
+  padding: 0 0 1rem 0;
+  margin: 0;
+  background: linear-gradient(180deg, #f8f9fc 0%, #ffffff 100%);
+}
+
+.hero-section {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  padding: 2rem 1rem 3rem 1rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+
+    h1 {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: white;
+      margin: 0 0 0.5rem 0;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    p {
+      font-weight: 400;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.95);
+      margin: 0;
+      line-height: 1.5;
+    }
+  }
+}
+
+.search-form {
+  max-width: 800px;
+  margin: -2rem 1rem 1rem 1rem;
+  padding: 1.75rem 1.5rem 1.5rem 1.5rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 2;
+}
+
+.trip-type-section {
+  margin-bottom: 1.25rem;
+  display: flex;
+  justify-content: center;
+
+  ::ng-deep {
+    .p-selectbutton {
+      display: flex;
+      gap: 2rem;
+      background: transparent;
+      border: none;
+
+      .p-button {
+        background: transparent;
+        border: none;
+        border-bottom: 3px solid transparent;
+        color: var(--color-text-gray-medium);
+        font-weight: 500;
+        font-size: 0.95rem;
+        padding: 0.75rem 0.5rem;
+        border-radius: 0;
+        transition: all 0.2s ease;
+        box-shadow: none;
+
+        &:hover {
+          color: var(--color-primary);
+          border-bottom-color: var(--color-border-light);
+        }
+
+        &.p-highlight {
+          background: transparent;
+          border-bottom-color: var(--color-primary);
+          color: var(--color-primary);
+          font-weight: 600;
+
+          &:hover {
+            border-bottom-color: var(--color-primary-dark);
+            color: var(--color-primary-dark);
+          }
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: none;
+        }
+
+        .p-button-label {
+          font-weight: inherit;
+        }
+      }
+    }
+  }
+}
+
+.cities-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.dates-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  margin-bottom: 1rem;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+
+  .input-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--color-text-gray);
+    font-size: 1rem;
+
+    i.pi-info-circle {
+      color: var(--color-text-gray-medium);
+      font-size: 0.875rem;
+      cursor: pointer;
+      outline: none;
+      transition: color 0.2s ease;
+
+      &:hover,
+      &:focus {
+        color: var(--color-primary);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+
+  .input-subtitle {
+    font-size: 12px;
+    color: var(--color-text-gray-medium);
+    margin: -10px 0 0.5rem 0;
+  }
+}
+
+.pet-details-section {
+  margin: 1.25rem 0;
+
+  .pet-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+
+    span {
+      font-weight: 600;
+      color: var(--color-text-gray);
+      font-size: 1rem;
+    }
+  }
+
+  .pet-type-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+
+    .pet-type-btn {
+      background: var(--color-bg-blue-pale);
+      border: 2px solid var(--color-border-lightest);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-height: 48px;
+
+      &:hover {
+        border-color: var(--color-border-light);
+        background: var(--color-bg-blue-light);
+      }
+
+      &.active {
+        border-color: var(--color-primary);
+        background: var(--color-bg-blue-light);
+
+        span {
+          font-weight: 600;
+          color: var(--color-primary);
+          font-size: 0.95rem;
+        }
+      }
+
+      span {
+        font-size: 0.9rem;
+        color: var(--color-text-gray-dark);
+        font-weight: 500;
+      }
+    }
+  }
+
+  .pet-age-radio-buttons {
+    display: flex;
+    gap: 2rem;
+    margin-top: 0.75rem;
+    align-items: center;
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+
+      .radio-label {
+        font-size: 0.95rem;
+        color: var(--color-text-gray-dark);
+        font-weight: 500;
+        cursor: pointer;
+        user-select: none;
+      }
+    }
+  }
+
+  .pet-weight-breed-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+
+    .input-group {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.policy-search-section {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.5rem;
+}
+
+.policy-title {
+  margin: 0 1rem 1.5rem 1rem;
+  text-align: left;
+
+  p {
+    font-weight: 400;
+    font-size: 0.75rem;
+    color: var(--color-text-gray-medium);
+    margin: 0;
+    line-height: 1.4;
+  }
+}
+
+.search-button-container {
+  margin: 1.5rem 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .search-button {
+    width: 90%;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.875rem 2rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 48px;
+    margin-top: -2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    &:hover:not(:disabled) {
+      background: linear-gradient(
+        135deg,
+        var(--color-primary-dark) 0%,
+        var(--color-primary-darker) 100%
+      );
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px var(--hover-surface);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    i {
+      font-size: 0.95rem;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-section {
+    padding: 2.5rem 2rem 3.5rem 2rem;
+
+    .hero-content {
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .search-form {
+    max-width: 900px;
+    margin: -2.5rem auto 1.5rem auto;
+    padding: 2rem 2.5rem 1.75rem 2.5rem;
+    border-radius: 24px;
+  }
+
+  .trip-type-section {
+    margin-bottom: 1.5rem;
+
+    ::ng-deep {
+      .p-selectbutton {
+        gap: 3rem;
+
+        .p-button {
+          padding: 0.875rem 1rem;
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  .cities-section {
+    flex-direction: row;
+    gap: 1rem;
+
+    .input-group {
+      flex: 1;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .dates-section {
+    flex-direction: column;
+    gap: 1rem;
+
+    .input-group {
+      flex: 1;
+      margin-bottom: 0;
+
+      &.full-width {
+        flex: 1;
+      }
+    }
+  }
+
+  .pet-details-section {
+    .pet-type-buttons {
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      max-width: 400px;
+    }
+
+    .input-group.full-width {
+      max-width: 600px;
+    }
+
+    .pet-weight-breed-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      max-width: 800px;
+      margin-bottom: 2rem;
+
+      .input-group {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .policy-search-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2.5rem;
+    max-width: 800px;
+    width: 100%;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border-lightest);
+
+    .policy-title {
+      flex: 1;
+      margin: 0;
+      display: flex;
+      align-items: center;
+
+      p {
+        margin: 0;
+        font-size: 0.875rem;
+        line-height: 1.6;
+        color: var(--color-text-gray);
+      }
+    }
+
+    .search-button-container {
+      margin: 0;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+
+      .search-button {
+        width: 220px;
+        height: 48px;
+        min-height: 48px;
+        padding: 0.875rem 1.75rem;
+        font-size: 1rem;
+        border-radius: 10px;
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+@media (min-width: 1000px) {
+  .dates-section {
+    flex-direction: row !important;
+  }
+}
+
+::ng-deep .custom-tooltip {
+  max-width: 300px !important;
+
+  .p-tooltip-text {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+  }
+}
+
+@media (min-width: 1000px) {
+  ::ng-deep .p-datepicker {
+    min-width: 500px !important;
+  }
+}
+
+// Estilos globales para el dropdown de razas
+::ng-deep {
+  .p-dropdown-panel {
+    z-index: 1100 !important;
+
+    .p-dropdown-items-wrapper {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .p-dropdown-item {
+      white-space: normal !important;
+      word-wrap: break-word !important;
+      line-height: 1.4 !important;
+    }
+  }
+
+  // Asegurar que el input-select no se desborde
+  petfly-input-select {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+
+    .p-dropdown {
+      width: 100% !important;
+      max-width: 100%;
+      height: 48px !important;
+      min-height: 48px !important;
+      max-height: 48px !important;
+
+      .p-dropdown-label {
+        padding: 0.75rem 1rem !important;
+        line-height: 1.5 !important;
+        display: flex;
+        align-items: center;
+      }
+
+      .p-dropdown-trigger {
+        width: 2.5rem;
+      }
+    }
+  }
+
+  // Ajustar altura del input-number para que coincida
+  petfly-input-number {
+    .p-inputnumber {
+      .p-inputtext {
+        height: 48px !important;
+        min-height: 48px !important;
+        max-height: 48px !important;
+        padding: 0.75rem 1rem !important;
+        line-height: 1.5 !important;
+        box-sizing: border-box !important;
+      }
+    }
+  }
+}

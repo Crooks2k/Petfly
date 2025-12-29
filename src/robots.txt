@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://petfly.com/sitemap.xml
+
+# Crawl-delay for better server performance
+Crawl-delay: 1
+
+# Block access to development files
+Disallow: /*.tmp$
+Disallow: /*.log$
+
+# Host directive (replace with actual domain when deployed)
+Host: https://petfly.com

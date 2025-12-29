@@ -1,0 +1,231 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+::ng-deep {
+  .p-calendar {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+
+    .p-inputtext {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      padding-right: 2.5rem;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: white;
+      color: #374151;
+      transition: all 0.2s ease;
+      min-height: 48px;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+
+      &::placeholder {
+        color: #9ca3af;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      }
+
+      &:hover:not(:focus) {
+        border-color: #9ca3af;
+      }
+    }
+
+    .p-datepicker-trigger {
+      position: absolute !important;
+      right: 0.75rem !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      background: transparent !important;
+      border: none !important;
+      color: #6b7280 !important;
+      width: auto !important;
+      height: auto !important;
+      padding: 0.25rem !important;
+      z-index: 10 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+
+      &:hover {
+        background-color: #f3f4f6 !important;
+        color: #374151 !important;
+        border-radius: 4px !important;
+      }
+
+      .p-button-icon {
+        font-size: 1rem !important;
+        display: block !important;
+      }
+
+      svg {
+        width: 1rem !important;
+        height: 1rem !important;
+      }
+    }
+  }
+
+  .p-datepicker {
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow:
+      0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    margin-top: 8px;
+    max-width: 100%;
+    z-index: 1200 !important;
+
+    @media (max-width: 480px) {
+      width: 100vw;
+      max-width: calc(100vw - 2rem);
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+    }
+
+    .p-datepicker-header {
+      background-color: #f8fafc;
+      border-bottom: 1px solid #e5e7eb;
+      border-radius: 12px 12px 0 0;
+      padding: 1rem;
+
+      .p-datepicker-title {
+        color: #1e293b;
+        font-weight: 600;
+      }
+
+      .p-datepicker-prev,
+      .p-datepicker-next {
+        color: #64748b;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: #e2e8f0;
+          color: #475569;
+        }
+      }
+    }
+
+    .p-datepicker-calendar {
+      padding: 0.5rem;
+
+      .p-datepicker-weekheader {
+        th {
+          color: #64748b;
+          font-weight: 500;
+          font-size: 0.875rem;
+          padding: 0.5rem;
+
+          @media (max-width: 480px) {
+            padding: 0.25rem;
+            font-size: 0.75rem;
+          }
+        }
+      }
+
+      td {
+        padding: 0.25rem;
+
+        @media (max-width: 480px) {
+          padding: 0.125rem;
+        }
+
+        span {
+          width: 2.5rem;
+          height: 2.5rem;
+          border-radius: 6px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.875rem;
+          font-weight: 500;
+          transition: all 0.2s ease;
+          cursor: pointer;
+
+          @media (max-width: 480px) {
+            width: 2rem;
+            height: 2rem;
+            font-size: 0.75rem;
+          }
+        }
+
+        &.p-datepicker-today > span {
+          background-color: #dbeafe;
+          color: #1e40af;
+          font-weight: 600;
+        }
+
+        &.p-datepicker-selected > span {
+          background-color: #2563eb;
+          color: white;
+          font-weight: 600;
+        }
+
+        &:not(.p-datepicker-selected):not(.p-datepicker-today) span {
+          &:hover {
+            background-color: #f1f5f9;
+            color: #334155;
+          }
+        }
+
+        &.p-datepicker-other-month span {
+          color: #cbd5e1;
+        }
+      }
+    }
+
+    .p-datepicker-buttonbar {
+      padding: 1rem;
+      border-top: 1px solid #e5e7eb;
+      background-color: #f8fafc;
+      border-radius: 0 0 12px 12px;
+
+      .p-button {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        border-radius: 6px;
+      }
+    }
+  }
+}
+
+// Asegurar que el calendario sea clickeable y el icono visible
+::ng-deep {
+  .p-calendar-w-btn {
+    position: relative !important;
+
+    .p-inputtext {
+      pointer-events: auto !important;
+    }
+
+    .p-datepicker-trigger {
+      pointer-events: auto !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+
+    button.p-datepicker-trigger {
+      position: absolute !important;
+      right: 0.75rem !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      z-index: 10 !important;
+
+      .pi,
+      .p-icon {
+        display: inline-block !important;
+        font-size: 1rem !important;
+      }
+    }
+  }
+}

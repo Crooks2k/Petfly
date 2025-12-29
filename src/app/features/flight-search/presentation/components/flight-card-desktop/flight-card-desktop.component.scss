@@ -1,0 +1,801 @@
+.flight-card-desktop {
+  background: var(--color-bg-white);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
+  overflow-x: hidden;
+  overflow-y: visible;
+  transition: all 0.3s ease;
+  position: relative;
+
+  &:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.card-header {
+  display: grid;
+  grid-template-columns: minmax(330px, 2fr) auto auto auto auto;
+  gap: 20px;
+  padding: 20px;
+  align-items: center;
+  position: relative;
+  overflow-x: auto;
+  overflow-y: visible;
+
+  @media (min-width: 1400px) {
+    gap: 32px;
+    padding: 24px;
+  }
+
+  @media (min-width: 1600px) {
+    gap: 40px;
+    padding: 28px 32px;
+  }
+
+  /* Scroll horizontal personalizado azul */
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--color-scrollbar-track);
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-scrollbar-thumb);
+    border-radius: 10px;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: var(--color-scrollbar-hover);
+    }
+
+    &:active {
+      background: var(--color-scrollbar-active);
+    }
+  }
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar-track);
+}
+
+// ============================================
+// COLUMNA IZQUIERDA: VUELOS
+// ============================================
+
+.flights-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 0 1 auto;
+  min-width: 300px;
+  max-width: 550px;
+
+  @media (min-width: 1600px) {
+    max-width: 650px;
+  }
+}
+
+.flight-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 0;
+
+  @media (min-width: 1400px) {
+    gap: 24px;
+  }
+
+  @media (min-width: 1600px) {
+    gap: 32px;
+  }
+}
+
+.airline-logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  flex-shrink: 0;
+  border-radius: 8px;
+  margin-top: -0.3rem;
+  margin-right: 2rem;
+
+  @media (min-width: 1600px) {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+.flight-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.flight-times-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-width: 0;
+
+  .time {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    white-space: nowrap;
+    line-height: 1;
+
+    @media (min-width: 1400px) {
+      font-size: 24px;
+    }
+  }
+
+  .day-offset {
+    font-size: 12px;
+    color: var(--color-primary);
+    font-weight: 700;
+    margin-left: 2px;
+    vertical-align: super;
+
+    @media (min-width: 1400px) {
+      font-size: 14px;
+    }
+  }
+}
+
+.duration-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 80px;
+  flex-shrink: 0;
+  position: relative;
+
+  @media (min-width: 1400px) {
+    min-width: 100px;
+  }
+
+  .duration-text {
+    font-size: 11px;
+    color: var(--color-text-gray-medium);
+    white-space: nowrap;
+    text-align: center;
+
+    @media (min-width: 1400px) {
+      font-size: 12px;
+    }
+  }
+
+  .duration-line {
+    width: 100%;
+    height: 2px;
+    background: var(--color-border-light);
+    position: relative;
+  }
+
+  i {
+    display: none; // Ocultar el icono del avión
+  }
+}
+
+.flight-route-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--color-text-gray);
+  min-width: 0;
+
+  @media (min-width: 1400px) {
+    font-size: 15px;
+  }
+
+  .airport-code,
+  .airport-code-2 {
+    font-weight: 600;
+    color: var(--color-text-gray);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .airport-code-2 {
+    margin-left: 2rem;
+  }
+
+  .stops-text {
+    font-size: 12px;
+    color: var(--color-text-gray-medium);
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-left: 1.9rem;
+
+    @media (min-width: 1400px) {
+      font-size: 13px;
+    }
+  }
+}
+
+// ============================================
+// SEPARADOR VERTICAL
+// ============================================
+
+.vertical-separator {
+  width: 1px;
+  height: 170px;
+  background: var(--color-border-lighter);
+  align-self: center;
+  margin-left: 1.5rem;
+}
+
+// ============================================
+// COLUMNA DERECHA: PRECIOS
+// ============================================
+
+.prices-column {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+
+  @media (min-width: 1600px) {
+    gap: 32px;
+  }
+}
+
+.person-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 6px;
+  width: 180px;
+
+  @media (min-width: 1600px) {
+    width: 200px;
+  }
+
+  .price-label {
+    font-size: 13px;
+    color: var(--color-text-gray-medium);
+    font-weight: 500;
+
+    @media (min-width: 1600px) {
+      font-size: 14px;
+    }
+  }
+
+  .price-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+
+    @media (min-width: 1600px) {
+      font-size: 24px;
+    }
+  }
+
+  .select-button {
+    width: 170px;
+    padding: 10px 16px;
+    background: var(--color-primary);
+    color: var(--color-bg-white);
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+    margin-top: 8px;
+
+    @media (min-width: 1400px) {
+      padding: 12px 20px;
+      font-size: 15px;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    @media (min-width: 1600px) {
+      width: 190px;
+      padding: 14px 24px;
+      font-size: 16px;
+    }
+
+    i {
+      font-size: 14px;
+
+      @media (min-width: 1400px) {
+        font-size: 16px;
+      }
+    }
+
+    &:hover {
+      background: var(--color-primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px var(--hover-surface);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+.price-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 6px;
+  width: 240px;
+  margin-left: 1rem;
+
+  .price-label {
+    font-size: 13px;
+    color: var(--color-text-gray-medium);
+    font-weight: 500;
+  }
+
+  .price-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+
+    &.total {
+      font-size: 24px;
+      color: var(--color-primary);
+    }
+  }
+
+  &.pet-box {
+    background: var(--color-info-bg);
+    padding: 20px;
+    border-radius: 12px;
+    width: 290px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: all 0.2s ease;
+
+    .price-label {
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  &.total-box {
+    .price-value {
+      color: var(--color-primary);
+    }
+  }
+
+  .select-button {
+    width: 170px;
+    padding: 10px 16px;
+    background: var(--color-primary);
+    color: var(--color-bg-white);
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+    margin-top: 8px;
+
+    @media (min-width: 1400px) {
+      padding: 12px 20px;
+      font-size: 15px;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    i {
+      font-size: 14px;
+
+      @media (min-width: 1400px) {
+        font-size: 16px;
+      }
+    }
+
+    &:hover {
+      background: var(--color-primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px var(--hover-surface);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+.badges {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-bg-white);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 18px;
+    padding: 2px;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+    &::after {
+      opacity: 1;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &.badge-mr {
+    background: var(--color-badge-mr);
+  }
+
+  &.badge-ps {
+    background: var(--color-badge-ps);
+
+    &:hover {
+      background: var(--color-badge-ps-hover);
+    }
+  }
+
+  &.badge-ae {
+    background: var(--color-badge-ae);
+
+    &:hover {
+      background: var(--color-badge-ae-hover);
+    }
+  }
+}
+
+.badge-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-info-text);
+  margin-top: 8px;
+  font-weight: 500;
+  animation: pulse 2s ease-in-out infinite;
+
+  i {
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.certificate-status {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.ae-status {
+  font-size: 11px;
+  color: var(--color-error);
+  font-weight: 500;
+  padding: 4px 8px;
+  background: rgba(211, 47, 47, 0.08);
+  border-radius: 4px;
+  border-left: 3px solid var(--color-error);
+  text-align: center;
+}
+
+.price-breakdown {
+  font-size: 11px;
+  color: var(--color-text-gray);
+  margin-top: 6px;
+  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  span {
+    white-space: nowrap;
+  }
+
+  .separator {
+    color: var(--color-border-light);
+  }
+}
+
+.price-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text-gray-medium);
+  line-height: 1.4;
+
+  i {
+    font-size: 12px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    margin-right: -5px;
+  }
+
+  span {
+    width: 260px;
+  }
+}
+
+.price-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--color-warning-bg);
+  border-radius: 8px;
+  font-size: 11px;
+  color: var(--color-warning-text);
+  line-height: 1.5;
+  margin-top: 8px;
+
+  i {
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  span {
+    flex: 1;
+  }
+}
+
+// ============================================
+// ICONO DE EXPANSIÓN (arriba a la derecha)
+// ============================================
+
+.expand-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--color-surface-lighter);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--color-primary);
+    transform: scale(1.1);
+
+    i {
+      color: white;
+    }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  i {
+    font-size: 18px;
+    color: var(--color-text-gray);
+    transition: all 0.3s ease;
+  }
+}
+
+// ============================================
+// CONTENIDO EXPANDIDO
+// ============================================
+
+.card-body {
+  border-top: 1px solid var(--color-border-lighter);
+  padding: 32px 24px;
+  background: var(--color-surface-lighter);
+  overflow: hidden;
+}
+
+.flight-card-desktop.expanded .card-body {
+  animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.timeline-section {
+  margin-bottom: 32px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .timeline-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin: 0 0 24px 0;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--color-primary);
+  }
+}
+
+.timeline {
+  position: relative;
+  padding-left: 40px;
+}
+
+.timeline-point {
+  position: relative;
+  margin-bottom: 8px;
+
+  .point-dot {
+    position: absolute;
+    left: -40px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    background: var(--color-primary);
+    border: 3px solid var(--color-bg-white);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--color-primary);
+  }
+
+  .point-content {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+
+    .point-time {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-text-dark);
+      min-width: 60px;
+    }
+
+    .point-location {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-text-gray);
+    }
+  }
+}
+
+.timeline-flight {
+  position: relative;
+  margin: 12px 0;
+
+  .flight-line {
+    position: absolute;
+    left: -34px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-border-light);
+  }
+
+  .flight-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 12px;
+    background: var(--color-surface-lighter);
+    border-radius: 6px;
+    width: fit-content;
+
+    .airline-info {
+      font-size: 13px;
+      color: var(--color-text-gray-medium);
+    }
+
+    .flight-duration {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--color-text-gray-medium);
+
+      i {
+        font-size: 14px;
+        color: var(--color-primary);
+      }
+    }
+  }
+}
+
+.timeline-layover {
+  position: relative;
+  margin: 16px 0;
+  padding: 16px;
+  background: var(--color-info-bg);
+  border-radius: 8px;
+  border-left: 4px solid var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .layover-duration {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+
+  .layover-text {
+    font-size: 14px;
+    color: var(--color-text-gray);
+  }
+}

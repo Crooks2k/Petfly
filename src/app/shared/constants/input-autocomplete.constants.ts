@@ -1,0 +1,6 @@
+export const INPUT_AUTOCOMPLETE_CONSTANTS = {
+  DEFAULT_MIN_LENGTH: 2,
+  DEFAULT_DELAY: 300,
+  DEFAULT_FIELD: 'label',
+  DEFAULT_OPTION_VALUE: 'value',
+} as const;
