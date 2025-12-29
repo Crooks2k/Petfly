@@ -6,30 +6,30 @@
     align-items: center;
     justify-content: space-between;
     padding: 0.75rem 1rem;
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--color-border-light);
     border-radius: 8px;
-    background: white;
+    background: var(--color-bg-white);
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover:not(.disabled) {
-      border-color: #3b82f6;
+      border-color: var(--color-primary);
     }
 
     &.disabled {
       opacity: 0.6;
       cursor: not-allowed;
-      background: #f3f4f6;
+      background: var(--color-surface-light);
     }
 
     .selector-label {
       font-size: 0.875rem;
-      color: #374151;
+      color: var(--color-text-gray-darker);
       font-weight: 500;
     }
 
     i {
-      color: #6b7280;
+      color: var(--color-text-gray-medium);
       font-size: 0.9rem;
     }
   }
@@ -48,7 +48,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: var(--shadow-overlay);
     }
 
     .mobile-dialog-content {
@@ -57,7 +57,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: white;
+      background: var(--color-bg-white);
       display: flex;
       flex-direction: column;
       animation: slideUp 0.3s ease-out;
@@ -68,13 +68,13 @@
       align-items: center;
       justify-content: flex-end;
       padding: 1rem 1.5rem;
-      border-bottom: 1px solid #e5e7eb;
-      background: white;
+      border-bottom: 1px solid var(--color-border-lighter);
+      background: var(--color-bg-white);
 
       .cancel-btn {
         background: none;
         border: none;
-        color: #457dd0;
+        color: var(--color-primary-light);
         font-size: 20px;
         font-weight: 500;
         cursor: pointer;
@@ -90,7 +90,7 @@
       .section-title {
         font-size: 15px;
         font-weight: 700;
-        color: #000000;
+        color: var(--color-text-dark);
         margin: 0 0 1rem 0;
         text-align: center;
       }
@@ -98,12 +98,16 @@
 
     .mobile-dialog-footer {
       padding: 1rem 1.5rem;
-      border-top: 1px solid #e5e7eb;
-      background: white;
+      border-top: 1px solid var(--color-border-lighter);
+      background: var(--color-bg-white);
 
       .save-btn {
         width: 100%;
-        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        background: linear-gradient(
+          135deg,
+          var(--color-primary) 0%,
+          var(--color-primary-dark) 100%
+        );
         color: white;
         border: none;
         border-radius: 12px;
@@ -114,7 +118,11 @@
         transition: all 0.2s ease;
 
         &:hover {
-          background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+          background: linear-gradient(
+            135deg,
+            var(--color-primary-dark) 0%,
+            var(--color-primary-darker) 100%
+          );
         }
       }
     }
@@ -130,7 +138,6 @@
   }
 }
 
-// Shared styles for mobile dialog body
 .mobile-dialog-body {
   .passenger-row {
     display: flex;
@@ -146,12 +153,12 @@
       .passenger-label {
         font-size: 15px;
         font-weight: 700;
-        color: #000000;
+        color: var(--color-text-dark);
       }
 
       .passenger-sublabel {
         font-size: 0.875rem;
-        color: #6b7280;
+        color: var(--color-text-gray-medium);
         font-weight: 400;
       }
     }
@@ -166,7 +173,7 @@
         height: 22px;
         border-radius: 50%;
         border: none;
-        background: #3b82f6;
+        background: var(--color-primary);
         color: white;
         display: flex;
         align-items: center;
@@ -175,12 +182,12 @@
         transition: all 0.2s ease;
 
         &:hover:not(:disabled) {
-          background: #2563eb;
+          background: var(--color-primary-dark);
           transform: scale(1.05);
         }
 
         &:disabled {
-          background: #d1d5db;
+          background: var(--color-border-light);
           cursor: not-allowed;
         }
 
@@ -193,16 +200,71 @@
       .passenger-count {
         font-size: 1.25rem;
         font-weight: 600;
-        color: #1f2937;
+        color: var(--color-text-gray-darkest);
         min-width: 35px;
         text-align: center;
       }
     }
   }
 
+  .children-ages {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .age-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .age-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-text-gray-darker);
+        flex: 1;
+      }
+
+      ::ng-deep .age-dropdown {
+        width: 110px;
+
+        .p-dropdown {
+          height: 38px;
+          border-radius: 8px;
+          border: 1px solid var(--color-border-light);
+          transition: all 0.2s ease;
+
+          &:hover {
+            border-color: var(--color-primary);
+          }
+
+          &:focus,
+          &.p-focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.1);
+          }
+
+          .p-dropdown-label {
+            font-weight: 500;
+            color: var(--color-text-gray-darkest);
+          }
+        }
+
+        .p-dropdown-panel {
+          z-index: 10000 !important;
+        }
+      }
+    }
+  }
+
   .divider {
     height: 1px;
-    background: #e5e7eb;
+    background: var(--color-border-lighter);
     margin: 1rem 0;
   }
 
@@ -211,15 +273,16 @@
     grid-template-columns: 130px 130px;
     gap: 0.75rem;
     margin-top: 1rem;
+    justify-content: center;
 
     .class-btn {
       width: 130px;
       height: 40px;
       padding: 0;
-      border: 2px solid #d1d5db;
+      border: 2px solid var(--color-border-light);
       border-radius: 8px;
-      background: white;
-      color: #374151;
+      background: var(--color-bg-white);
+      color: var(--color-text-gray-darker);
       font-size: 1rem;
       font-weight: 500;
       cursor: pointer;
@@ -229,20 +292,24 @@
       justify-content: center;
 
       &:hover {
-        border-color: #3b82f6;
+        border-color: var(--color-primary);
       }
 
       &.active {
-        border-color: #3b82f6;
-        background: white;
-        color: #1f2937;
+        border-color: var(--color-primary);
+        background: var(--color-bg-white);
+        color: var(--color-text-gray-darkest);
         font-weight: 600;
       }
     }
   }
 }
 
-// Desktop overlay styles - usando ::ng-deep sin :host para que funcione en el body
+// Asegurar que los dropdowns de edad tengan z-index alto
+::ng-deep .p-dropdown-panel {
+  z-index: 10000 !important;
+}
+
 ::ng-deep .passenger-overlay {
   .p-overlaypanel-content {
     padding: 0;
@@ -255,7 +322,7 @@
     .overlay-title {
       font-size: 15px;
       font-weight: 700;
-      color: #000000;
+      color: var(--color-text-dark);
       margin: 0 0 1rem 0;
     }
 
@@ -273,12 +340,12 @@
         .passenger-label {
           font-size: 15px;
           font-weight: 700;
-          color: #000000;
+          color: var(--color-text-dark);
         }
 
         .passenger-sublabel {
           font-size: 0.875rem;
-          color: #6b7280;
+          color: var(--color-text-gray-medium);
           font-weight: 400;
         }
       }
@@ -293,7 +360,7 @@
           height: 22px;
           border-radius: 50%;
           border: none;
-          background: #3b82f6;
+          background: var(--color-primary);
           color: white;
           display: flex;
           align-items: center;
@@ -302,12 +369,12 @@
           transition: all 0.2s ease;
 
           &:hover:not(:disabled) {
-            background: #2563eb;
+            background: var(--color-primary-dark);
             transform: scale(1.05);
           }
 
           &:disabled {
-            background: #d1d5db;
+            background: var(--color-border-light);
             cursor: not-allowed;
           }
 
@@ -320,16 +387,71 @@
         .passenger-count {
           font-size: 1.25rem;
           font-weight: 600;
-          color: #1f2937;
+          color: var(--color-text-gray-darkest);
           min-width: 35px;
           text-align: center;
         }
       }
     }
 
+    .children-ages {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+
+      .age-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .age-label {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: var(--color-text-gray-darker);
+          flex: 1;
+        }
+
+        ::ng-deep .age-dropdown {
+          width: 110px;
+
+          .p-dropdown {
+            height: 38px;
+            border-radius: 8px;
+            border: 1px solid var(--color-border-light);
+            transition: all 0.2s ease;
+
+            &:hover {
+              border-color: var(--color-primary);
+            }
+
+            &:focus,
+            &.p-focus {
+              border-color: var(--color-primary);
+              box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.1);
+            }
+
+            .p-dropdown-label {
+              font-weight: 500;
+              color: var(--color-text-gray-darkest);
+            }
+          }
+
+          .p-dropdown-panel {
+            z-index: 10000 !important;
+          }
+        }
+      }
+    }
+
     .divider {
       height: 1px;
-      background: #e5e7eb;
+      background: var(--color-border-lighter);
       margin: 1rem 0;
     }
 
@@ -343,10 +465,10 @@
         width: 130px;
         height: 40px;
         padding: 0;
-        border: 2px solid #d1d5db;
+        border: 2px solid var(--color-border-light);
         border-radius: 8px;
-        background: white;
-        color: #374151;
+        background: var(--color-bg-white);
+        color: var(--color-text-gray-darker);
         font-size: 1rem;
         font-weight: 500;
         cursor: pointer;
@@ -356,13 +478,13 @@
         justify-content: center;
 
         &:hover {
-          border-color: #3b82f6;
+          border-color: var(--color-primary);
         }
 
         &.active {
-          border-color: #3b82f6;
-          background: white;
-          color: #1f2937;
+          border-color: var(--color-primary);
+          background: var(--color-bg-white);
+          color: var(--color-text-gray-darkest);
           font-weight: 600;
         }
       }

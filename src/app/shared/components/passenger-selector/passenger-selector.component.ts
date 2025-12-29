@@ -1,17 +1,21 @@
-import { Component, forwardRef, HostListener, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  forwardRef,
+  HostListener,
+  Input,
+  ViewChild,
+  AfterViewInit,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OverlayPanel } from 'primeng/overlaypanel';
-
-export interface PassengerSelection {
-  adults: number;
-  children: number;
-  travelClass: 'economy' | 'business';
-}
+import { PASSENGER_SELECTOR_CONSTANTS, TRAVEL_CLASS, TravelClass } from '../../constants';
+import { PassengerSelectionEntity } from '../../core/entities';
 
 @Component({
   selector: 'petfly-passenger-selector',
   templateUrl: './passenger-selector.component.html',
-  styleUrls: ['./passenger-selector.component.scss'],
+  styleUrl: './passenger-selector.component.scss',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -20,38 +24,54 @@ export interface PassengerSelection {
     },
   ],
 })
-export class PassengerSelectorComponent implements ControlValueAccessor {
-  @Input() placeholder = 'Seleccionar pasajeros';
-  @Input() adultsLabel = 'Adultos';
-  @Input() adultsSubLabel = '18 años o más';
-  @Input() childrenLabel = 'Niños';
-  @Input() childrenSubLabel = '0 a 17 años';
-  @Input() classLabel = 'Clase';
-  @Input() economyLabel = 'Económica';
-  @Input() businessLabel = 'Negocios';
-  @Input() passengerLabel = 'Pasajero';
-  @Input() passengersLabel = 'Pasajeros';
-  @Input() cancelLabel = 'Cancelar';
-  @Input() saveLabel = 'Guardar';
+export class PassengerSelectorComponent implements ControlValueAccessor, AfterViewInit {
+  @Input() placeholder = '';
+  @Input() adultsLabel = '';
+  @Input() adultsSubLabel = '';
+  @Input() childrenLabel = '';
+  @Input() childrenSubLabel = '';
+  @Input() classLabel = '';
+  @Input() economyLabel = '';
+  @Input() businessLabel = '';
+  @Input() passengerLabel = '';
+  @Input() passengersLabel = '';
+  @Input() cancelLabel = '';
+  @Input() saveLabel = '';
+  @Input() childAgeLabel = 'Edad niño';
 
   @ViewChild('overlayPanel') overlayPanel!: OverlayPanel;
 
-  public value: PassengerSelection = {
-    adults: 1,
-    children: 0,
-    travelClass: 'economy',
+  public value: PassengerSelectionEntity = {
+    adults: PASSENGER_SELECTOR_CONSTANTS.MIN_ADULTS,
+    children: PASSENGER_SELECTOR_CONSTANTS.MIN_CHILDREN,
+    childrenAges: [],
+    travelClass: TRAVEL_CLASS.ECONOMY,
   };
 
-  public tempValue: PassengerSelection = { ...this.value };
+  public tempValue: PassengerSelectionEntity = { ...this.value };
+  public ageOptions = Array.from(
+    { length: PASSENGER_SELECTOR_CONSTANTS.MAX_CHILD_AGE + 1 },
+    (_, i) => ({ label: `${i}`, value: i })
+  );
   public disabled = false;
   public isMobile = false;
   public showMobileDialog = false;
 
-  private onChange: (value: PassengerSelection) => void = () => {};
+  private onChange: (value: PassengerSelectionEntity) => void = () => {};
   private onTouched: () => void = () => {};
 
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
     this.checkIfMobile();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.overlayPanel) {
+      this.overlayPanel.onHide.subscribe(() => {
+        setTimeout(() => {
+          this.emitChange();
+        }, PASSENGER_SELECTOR_CONSTANTS.CHANGE_DETECTION_DELAY);
+      });
+    }
   }
 
   @HostListener('window:resize')
@@ -60,13 +80,14 @@ export class PassengerSelectorComponent implements ControlValueAccessor {
   }
 
   private checkIfMobile(): void {
-    this.isMobile = window.innerWidth < 768;
+    this.isMobile = window.innerWidth < PASSENGER_SELECTOR_CONSTANTS.MOBILE_BREAKPOINT;
   }
 
   public get displayLabel(): string {
     const total = this.value.adults + this.value.children;
     const passengerText = total === 1 ? this.passengerLabel : this.passengersLabel;
-    const classText = this.value.travelClass === 'economy' ? this.economyLabel : this.businessLabel;
+    const classText =
+      this.value.travelClass === TRAVEL_CLASS.ECONOMY ? this.economyLabel : this.businessLabel;
     return `${total} ${passengerText}, ${classText}`;
   }
 
@@ -93,69 +114,68 @@ export class PassengerSelectorComponent implements ControlValueAccessor {
   }
 
   public incrementAdults(): void {
-    const target = this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
-    if (target.adults < 9) {
+    const target = this.getTargetValue();
+    if (target.adults < PASSENGER_SELECTOR_CONSTANTS.MAX_ADULTS) {
       target.adults++;
-      if (!this.isMobile || !this.showMobileDialog) {
-        this.emitChange();
-      }
     }
   }
 
   public decrementAdults(): void {
-    const target = this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
-    if (target.adults > 1) {
+    const target = this.getTargetValue();
+    if (target.adults > PASSENGER_SELECTOR_CONSTANTS.MIN_ADULTS) {
       target.adults--;
-      if (!this.isMobile || !this.showMobileDialog) {
-        this.emitChange();
-      }
     }
   }
 
   public incrementChildren(): void {
-    const target = this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
-    if (target.children < 9) {
+    const target = this.getTargetValue();
+    if (target.children < PASSENGER_SELECTOR_CONSTANTS.MAX_CHILDREN) {
       target.children++;
-      if (!this.isMobile || !this.showMobileDialog) {
-        this.emitChange();
-      }
+      target.childrenAges.push(PASSENGER_SELECTOR_CONSTANTS.DEFAULT_CHILD_AGE);
     }
   }
 
   public decrementChildren(): void {
-    const target = this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
-    if (target.children > 0) {
+    const target = this.getTargetValue();
+    if (target.children > PASSENGER_SELECTOR_CONSTANTS.MIN_CHILDREN) {
       target.children--;
-      if (!this.isMobile || !this.showMobileDialog) {
-        this.emitChange();
-      }
+      target.childrenAges.pop();
     }
   }
 
-  public selectClass(travelClass: 'economy' | 'business'): void {
-    const target = this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
+  public updateChildAge(index: number, age: number): void {
+    const target = this.getTargetValue();
+    target.childrenAges[index] = age;
+    this.cdr.detectChanges();
+  }
+
+  public selectClass(travelClass: TravelClass): void {
+    const target = this.getTargetValue();
     target.travelClass = travelClass;
-    if (!this.isMobile || !this.showMobileDialog) {
-      this.emitChange();
-    }
   }
 
-  public get currentValue(): PassengerSelection {
+  private getTargetValue(): PassengerSelectionEntity {
     return this.isMobile && this.showMobileDialog ? this.tempValue : this.value;
+  }
+
+  public get currentValue(): PassengerSelectionEntity {
+    return this.getTargetValue();
   }
 
   private emitChange(): void {
     this.onChange(this.value);
   }
 
-  // ControlValueAccessor implementation
-  public writeValue(value: PassengerSelection): void {
+  public writeValue(value: PassengerSelectionEntity): void {
     if (value) {
-      this.value = { ...value };
+      this.value = {
+        ...value,
+        childrenAges: value.childrenAges || [],
+      };
     }
   }
 
-  public registerOnChange(fn: (value: PassengerSelection) => void): void {
+  public registerOnChange(fn: (value: PassengerSelectionEntity) => void): void {
     this.onChange = fn;
   }
 
@@ -165,5 +185,9 @@ export class PassengerSelectorComponent implements ControlValueAccessor {
 
   public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+  }
+
+  public trackByIndex(index: number): number {
+    return index;
   }
 }

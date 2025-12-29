@@ -1,15 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { ExampleRepository } from '@flight-search/core/repositories/example.repository';
-import { ExampleImplementationRepositoryFake } from '@flight-search/data/repositories/example-implementation.repository.fake';
+import { PetflyRepository } from '@flight-search/core/repositories/petfly.repository';
+import { PetflyImplementationRepositoryFake } from '@flight-search/data/repositories/petfly-implementation.repository.fake';
+import { PetflyInteractor } from '@flight-search/core/interactor/petfly.interactor';
+import { environment } from '@environments/environment';
 
 @NgModule({
   providers: [
     {
-      provide: ExampleRepository,
-      useClass: ExampleImplementationRepositoryFake,
+      provide: PetflyRepository,
+      useClass: PetflyImplementationRepositoryFake,
     },
+    PetflyInteractor,
+    { provide: 'API_URL', useValue: environment.API_SERVICES.API_URL },
   ],
   imports: [CommonModule, HttpClientModule],
 })

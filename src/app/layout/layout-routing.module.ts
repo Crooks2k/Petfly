@@ -6,7 +6,9 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('../features/flight-search/presentation/flight-search.module').then(m => m.FlightSearchModule),
+      import('../features/flight-search/presentation/flight-search.module').then(
+        m => m.FlightSearchModule
+      ),
   },
   {
     path: '**',

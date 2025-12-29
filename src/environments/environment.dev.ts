@@ -1,6 +1,6 @@
 export const environment = {
   API_SERVICES: {
-    API_URL: '/api/',
+    API_URL: 'https://apiflight.petfly.io/api/',
   },
   environment: 'DEV',
   production: false,

@@ -1,1 +1,28 @@
-<p>page-not-found works!</p>
+<app-header></app-header>
+
+<div class="not-found-container">
+  <div class="not-found-content">
+    <div class="illustration">
+      <div class="plane-wrapper">
+        <i class="pi pi-send plane-icon"></i>
+      </div>
+      <div class="error-code">404</div>
+    </div>
+
+    <div class="text-content">
+      <h1 class="title">{{ texts.title }}</h1>
+      <p class="description">{{ texts.description }}</p>
+    </div>
+
+    <div class="actions">
+      <button class="btn-primary" (click)="goHome()">
+        <i class="pi pi-home"></i>
+        <span>{{ texts.homeButton }}</span>
+      </button>
+      <button class="btn-secondary" (click)="goBack()">
+        <i class="pi pi-arrow-left"></i>
+        <span>{{ texts.backButton }}</span>
+      </button>
+    </div>
+  </div>
+</div>

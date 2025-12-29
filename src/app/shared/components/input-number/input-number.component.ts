@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  forwardRef,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -9,13 +16,14 @@ import { InputNumberModule } from 'primeng/inputnumber';
   imports: [CommonModule, FormsModule, InputNumberModule],
   templateUrl: './input-number.component.html',
   styleUrl: './input-number.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => InputNumberComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class InputNumberComponent implements ControlValueAccessor {
   @Input() format: boolean = true;

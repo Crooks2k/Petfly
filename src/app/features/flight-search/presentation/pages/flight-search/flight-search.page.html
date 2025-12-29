@@ -1,44 +1,59 @@
 <app-header></app-header>
+<p-toast position="top-right" [breakpoints]="{ '920px': { width: '90%' } }"></p-toast>
 <div class="flight-search-page">
-  <div class="main-title">
-    <h1>{{ texts.title }}</h1>
-    <p>{{ texts.subtitle }}</p>
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1>{{ texts.title }}</h1>
+      <p>{{ texts.subtitle }}</p>
+    </div>
   </div>
 
   <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="search-form">
     <div class="trip-type-section">
-      <petfly-select-button
+      <p-selectButton
         formControlName="tipoViaje"
         [options]="tripType"
-        [allowDeselect]="false"
+        optionLabel="label"
+        optionValue="value"
         styleClass="trip-type-buttons"
-      >
-      </petfly-select-button>
+      ></p-selectButton>
     </div>
 
     <div class="cities-section">
       <div class="input-group">
-        <petfly-input-select
+        <label class="input-label">{{ texts.originLabel }}</label>
+        <petfly-input-autocomplete
           formControlName="origen"
-          [options]="ciudades"
-          [filter]="true"
-          [placeholder]="texts.originLabel"
-          [filterPlaceholder]="texts.cityFilterPlaceholder"
+          [suggestions]="ciudadesOrigenOptions"
+          (completeMethod)="onOrigenSearch($event)"
+          (selectionChange)="onOrigenSelect($event)"
+          field="label"
+          [placeholder]="isLoadingCitiesOrigen ? 'Buscando ciudades...' : texts.originLabel"
+          [forceSelection]="true"
+          optionValue="value"
+          [minLength]="2"
+          [delay]="300"
           styleClass="search-input"
         >
-        </petfly-input-select>
+        </petfly-input-autocomplete>
       </div>
 
       <div class="input-group">
-        <petfly-input-select
+        <label class="input-label">{{ texts.destinationLabel }}</label>
+        <petfly-input-autocomplete
           formControlName="destino"
-          [options]="ciudades"
-          [filter]="true"
-          [placeholder]="texts.destinationLabel"
-          [filterPlaceholder]="texts.cityFilterPlaceholder"
+          [suggestions]="ciudadesDestinoOptions"
+          (completeMethod)="onDestinoSearch($event)"
+          (selectionChange)="onDestinoSelect($event)"
+          field="label"
+          [placeholder]="isLoadingCitiesDestino ? 'Buscando ciudades...' : texts.destinationLabel"
+          [forceSelection]="true"
+          optionValue="value"
+          [minLength]="2"
+          [delay]="300"
           styleClass="search-input"
         >
-        </petfly-input-select>
+        </petfly-input-autocomplete>
       </div>
     </div>
 
@@ -48,7 +63,7 @@
           formControlName="fechaSalida"
           [placeholder]="texts.departureDateLabel"
           [showIcon]="true"
-          iconDisplay="input"
+          iconDisplay="button"
           dateFormat="dd/mm/yy"
           [minDate]="today"
           styleClass="search-input"
@@ -65,7 +80,7 @@
           formControlName="fechaRegreso"
           [placeholder]="texts.returnDateLabel"
           [showIcon]="true"
-          iconDisplay="input"
+          iconDisplay="button"
           dateFormat="dd/mm/yy"
           [minDate]="getMinReturnDate()"
           styleClass="search-input"
@@ -88,6 +103,7 @@
           [passengersLabel]="texts.passengerSelectorPassengers"
           [cancelLabel]="texts.passengerSelectorCancel"
           [saveLabel]="texts.passengerSelectorSave"
+          [childAgeLabel]="texts.passengerSelectorChildAge"
         >
         </petfly-passenger-selector>
       </div>
@@ -117,18 +133,46 @@
         </button>
       </div>
 
-      <div class="pet-info-section">
-        <div class="input-group">
-          <label class="input-label">{{ texts.petAgeLabel }}</label>
-          <petfly-input-number
-            formControlName="edadMascota"
-            [min]="1"
-            [max]="300"
-            styleClass="search-input"
-          >
-          </petfly-input-number>
+      <div class="input-group full-width">
+        <label class="input-label">{{ texts.petAgeQuestion }}</label>
+        <div class="pet-age-radio-buttons">
+          <div class="radio-option">
+            <p-radioButton
+              name="petAgeOver24Weeks"
+              [value]="true"
+              formControlName="petAgeOver24Weeks"
+              inputId="petAgeYes"
+            ></p-radioButton>
+            <label for="petAgeYes" class="radio-label">{{ texts.petAgeYes }}</label>
+          </div>
+          <div class="radio-option">
+            <p-radioButton
+              name="petAgeOver24Weeks"
+              [value]="false"
+              formControlName="petAgeOver24Weeks"
+              inputId="petAgeNo"
+            ></p-radioButton>
+            <label for="petAgeNo" class="radio-label">{{ texts.petAgeNo }}</label>
+          </div>
         </div>
+      </div>
 
+      <div
+        class="input-group full-width"
+        *ngIf="viewModel.petAgeOver24Weeks === false"
+        [@slideInOut]
+      >
+        <label class="input-label">{{ texts.petAgeLabel }}</label>
+        <petfly-input-number
+          formControlName="edadMascota"
+          [min]="1"
+          [max]="24"
+          styleClass="search-input"
+        >
+        </petfly-input-number>
+      </div>
+
+      <div class="pet-weight-breed-section">
         <div class="input-group">
           <label class="input-label">
             {{ texts.petWeightLabel }}
@@ -154,19 +198,19 @@
           >
           </petfly-input-number>
         </div>
-      </div>
 
-      <div class="input-group">
-        <label class="input-label">{{ texts.petBreedLabel }}</label>
-        <petfly-input-select
-          formControlName="razaMascota"
-          [options]="razasOptions"
-          [placeholder]="texts.petBreedPlaceholder"
-          [filter]="true"
-          [filterPlaceholder]="texts.petBreedFilterPlaceholder"
-          styleClass="search-input"
-        >
-        </petfly-input-select>
+        <div class="input-group">
+          <label class="input-label">{{ texts.petBreedLabel }}</label>
+          <petfly-input-select
+            formControlName="razaMascota"
+            [options]="razasOptions"
+            [placeholder]="isLoadingBreeds ? 'Cargando razas...' : texts.petBreedPlaceholder"
+            [filter]="true"
+            [filterPlaceholder]="texts.petBreedFilterPlaceholder"
+            styleClass="search-input"
+          >
+          </petfly-input-select>
+        </div>
       </div>
     </div>
 

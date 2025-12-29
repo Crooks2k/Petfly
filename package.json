@@ -23,11 +23,15 @@
   "homepage": "https://github.com/your-username/petfly#readme",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --configuration=dev",
+    "start": "scripts\\start-dev-with-edge.bat",
     "start:prod": "ng serve --configuration=production",
     "start:qa": "ng serve --configuration=qa",
     "start:dev": "ng serve --configuration=dev",
     "start:fake": "ng serve --configuration=fake",
+    "start:dev:edge": "scripts\\start-dev-with-edge.bat",
+    "start:fake:edge": "scripts\\start-fake-with-edge.bat",
+    "edge:no-cors": "scripts\\edge-no-cors.bat",
+    "stop": "scripts\\stop-all.bat",
     "build": "ng build --configuration=production",
     "build:prod": "ng build --configuration=production",
     "build:qa": "ng build --configuration=qa",
@@ -43,7 +47,7 @@
     "type-check": "tsc --noEmit",
     "i18n:extract": "ng extract-i18n",
     "i18n:build": "ng build --localize",
-    "pre-commit": "npm run format && npm run type-check"
+    "pre-commit": "npm run format && npm run lint:fix && npm run type-check"
   },
   "private": true,
   "dependencies": {
@@ -77,6 +81,7 @@
     "@types/node": "^20.16.11",
     "@typescript-eslint/eslint-plugin": "7.11.0",
     "@typescript-eslint/parser": "7.11.0",
+    "baseline-browser-mapping": "^2.9.6",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.31.0",

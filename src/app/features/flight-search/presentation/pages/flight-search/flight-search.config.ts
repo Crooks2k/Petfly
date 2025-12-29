@@ -23,6 +23,9 @@ export const FlightSearchConfig = {
     dogLabel: 'flightSearch.dogLabel',
     catLabel: 'flightSearch.catLabel',
     petAgeLabel: 'flightSearch.petAgeLabel',
+    petAgeQuestion: 'flightSearch.petAgeQuestion',
+    petAgeYes: 'flightSearch.petAgeYes',
+    petAgeNo: 'flightSearch.petAgeNo',
     petWeightLabel: 'flightSearch.petWeightLabel',
     petWeightSubtitle: 'flightSearch.petWeightSubtitle',
     petBreedLabel: 'flightSearch.petBreedLabel',
@@ -41,6 +44,11 @@ export const FlightSearchConfig = {
     passengerSelectorPassengers: 'flightSearch.passengerSelectorPassengers',
     passengerSelectorCancel: 'flightSearch.passengerSelectorCancel',
     passengerSelectorSave: 'flightSearch.passengerSelectorSave',
+    passengerSelectorChildAge: 'flightSearch.passengerSelectorChildAge',
+    searchSuccessTitle: 'flightSearch.searchSuccessTitle',
+    searchSuccessMessage: 'flightSearch.searchSuccessMessage',
+    searchErrorTitle: 'flightSearch.searchErrorTitle',
+    searchErrorMessage: 'flightSearch.searchErrorMessage',
   },
   animations: {
     slideInOut: trigger('slideInOut', [

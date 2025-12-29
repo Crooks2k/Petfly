@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  forwardRef,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CalendarModule } from 'primeng/calendar';
@@ -9,6 +16,7 @@ import { CalendarModule } from 'primeng/calendar';
   imports: [CommonModule, FormsModule, CalendarModule],
   templateUrl: './input-calendar.component.html',
   styleUrl: './input-calendar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -40,6 +48,7 @@ export class InputCalendarComponent implements ControlValueAccessor {
   @Input() styleClass: string = '';
   @Input() inputStyleClass: string = '';
   @Input() panelStyleClass: string = '';
+  @Input() appendTo: any = 'body';
 
   @Output() dateSelect = new EventEmitter<any>();
   @Output() dateChange = new EventEmitter<any>();

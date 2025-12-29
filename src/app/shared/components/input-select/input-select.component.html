@@ -9,10 +9,14 @@
     [filter]="filter"
     [filterBy]="getFilterBy()"
     [filterPlaceholder]="filterPlaceholder"
+    [emptyFilterMessage]="noResultsText"
+    [emptyMessage]="emptyMessageText"
     [styleClass]="styleClass"
     [panelStyleClass]="panelStyleClass"
     [ngModel]="value"
     (onChange)="onSelectionChange($event)"
-    class="w-full">
+    appendTo="body"
+    class="w-full"
+  >
   </p-dropdown>
 </div>

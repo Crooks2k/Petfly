@@ -1,7 +1,20 @@
-import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  forwardRef,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
+import { TranslateService } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
+import { INPUT_SELECT_CONSTANTS, INPUT_SELECT_SIZE, InputSelectSize } from '../../constants';
 
 @Component({
   selector: 'petfly-input-select',
@@ -9,6 +22,7 @@ import { DropdownModule } from 'primeng/dropdown';
   imports: [CommonModule, FormsModule, DropdownModule],
   templateUrl: './input-select.component.html',
   styleUrl: './input-select.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -17,26 +31,53 @@ import { DropdownModule } from 'primeng/dropdown';
     },
   ],
 })
-export class InputSelectComponent implements ControlValueAccessor {
+export class InputSelectComponent implements ControlValueAccessor, OnInit, OnDestroy {
   @Input() options: unknown[] = [];
-  @Input() optionLabel: string = 'label';
-  @Input() optionValue: string = 'value';
-  @Input() placeholder: string = 'Seleccionar...';
-  @Input() disabled: boolean = false;
-  @Input() showClear: boolean = false;
-  @Input() filter: boolean = false;
-  @Input() filterBy: string = '';
-  @Input() styleClass: string = '';
-  @Input() panelStyleClass: string = '';
-  @Input() size: 'small' | 'normal' | 'large' = 'normal';
-  @Input() filterPlaceholder: string = 'Buscar...';
+  @Input() optionLabel = INPUT_SELECT_CONSTANTS.DEFAULT_OPTION_LABEL;
+  @Input() optionValue = INPUT_SELECT_CONSTANTS.DEFAULT_OPTION_VALUE;
+  @Input() placeholder = 'Seleccionar...';
+  @Input() disabled = false;
+  @Input() showClear = false;
+  @Input() filter = false;
+  @Input() filterBy = '';
+  @Input() styleClass = '';
+  @Input() panelStyleClass = '';
+  @Input() size: InputSelectSize = INPUT_SELECT_SIZE.NORMAL;
+  @Input() filterPlaceholder = 'Buscar...';
 
   @Output() selectionChange = new EventEmitter<unknown>();
 
   public value: unknown = null;
+  public noResultsText = 'No se encontraron resultados';
+  public emptyMessageText = 'No hay opciones disponibles';
 
-  private onChange = (value: unknown) => {};
+  private readonly destroy$ = new Subject<void>();
+
+  private onChange = (_value: unknown) => {};
   private onTouched = () => {};
+
+  constructor(private readonly translateService: TranslateService) {}
+
+  ngOnInit(): void {
+    this.loadTranslations();
+    this.translateService.onLangChange.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.loadTranslations();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private loadTranslations(): void {
+    this.translateService.get('inputSelect.noResultsFound').subscribe(text => {
+      this.noResultsText = text;
+    });
+    this.translateService.get('inputSelect.emptyFilterMessage').subscribe(text => {
+      this.emptyMessageText = text;
+    });
+  }
 
   writeValue(value: unknown): void {
     this.value = value;
@@ -63,9 +104,9 @@ export class InputSelectComponent implements ControlValueAccessor {
 
   getSizeClass(): string {
     switch (this.size) {
-    case 'small':
+    case INPUT_SELECT_SIZE.SMALL:
       return 'compact';
-    case 'large':
+    case INPUT_SELECT_SIZE.LARGE:
       return 'large';
     default:
       return '';
