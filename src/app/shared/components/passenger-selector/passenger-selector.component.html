@@ -1,0 +1,223 @@
+<div class="passenger-selector">
+  <div class="selector-input" (click)="toggleOverlay($event)" [class.disabled]="disabled">
+    <span class="selector-label">{{ displayLabel }}</span>
+    <i class="pi pi-chevron-down"></i>
+  </div>
+
+  <!-- Mobile Dialog -->
+  <div class="mobile-dialog" *ngIf="showMobileDialog && isMobile">
+    <div class="mobile-dialog-overlay" (click)="closeMobileDialog()"></div>
+    <div class="mobile-dialog-content">
+      <div class="mobile-dialog-header">
+        <button type="button" class="cancel-btn" (click)="closeMobileDialog()">
+          {{ cancelLabel }}
+        </button>
+      </div>
+
+      <div class="mobile-dialog-body">
+        <h3 class="section-title">{{ passengersLabel }}</h3>
+
+        <div class="passenger-row">
+          <div class="passenger-info">
+            <span class="passenger-label">{{ adultsLabel }}</span>
+            <span class="passenger-sublabel">{{ adultsSubLabel }}</span>
+          </div>
+          <div class="passenger-controls">
+            <button
+              type="button"
+              class="control-btn"
+              (click)="decrementAdults()"
+              [disabled]="currentValue.adults <= 1"
+            >
+              <i class="pi pi-minus"></i>
+            </button>
+            <span class="passenger-count">{{ currentValue.adults }}</span>
+            <button
+              type="button"
+              class="control-btn"
+              (click)="incrementAdults()"
+              [disabled]="currentValue.adults >= 9"
+            >
+              <i class="pi pi-plus"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="passenger-row">
+          <div class="passenger-info">
+            <span class="passenger-label">{{ childrenLabel }}</span>
+            <span class="passenger-sublabel">{{ childrenSubLabel }}</span>
+          </div>
+          <div class="passenger-controls">
+            <button
+              type="button"
+              class="control-btn"
+              (click)="decrementChildren()"
+              [disabled]="currentValue.children <= 0"
+            >
+              <i class="pi pi-minus"></i>
+            </button>
+            <span class="passenger-count">{{ currentValue.children }}</span>
+            <button
+              type="button"
+              class="control-btn"
+              (click)="incrementChildren()"
+              [disabled]="currentValue.children >= 9"
+            >
+              <i class="pi pi-plus"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Children Ages -->
+        <div class="children-ages" *ngIf="currentValue.children > 0">
+          <div
+            class="age-row"
+            *ngFor="let age of currentValue.childrenAges; let i = index; trackBy: trackByIndex"
+          >
+            <label class="age-label">{{ childAgeLabel }} {{ i + 1 }}</label>
+            <p-dropdown
+              [options]="ageOptions"
+              [ngModel]="currentValue.childrenAges[i]"
+              (ngModelChange)="updateChildAge(i, $event)"
+              [placeholder]="'0'"
+              styleClass="age-dropdown"
+            ></p-dropdown>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 class="section-title">{{ classLabel }}</h3>
+
+        <div class="class-buttons">
+          <button
+            type="button"
+            class="class-btn"
+            [class.active]="currentValue.travelClass === 'economy'"
+            (click)="selectClass('economy')"
+          >
+            {{ economyLabel }}
+          </button>
+          <button
+            type="button"
+            class="class-btn"
+            [class.active]="currentValue.travelClass === 'business'"
+            (click)="selectClass('business')"
+          >
+            {{ businessLabel }}
+          </button>
+        </div>
+      </div>
+
+      <div class="mobile-dialog-footer">
+        <button type="button" class="save-btn" (click)="saveMobileSelection()">
+          {{ saveLabel }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Desktop Overlay -->
+  <p-overlayPanel #overlayPanel styleClass="passenger-overlay">
+    <div class="overlay-content">
+      <h3 class="overlay-title">{{ passengersLabel }}</h3>
+
+      <div class="passenger-row">
+        <div class="passenger-info">
+          <span class="passenger-label">{{ adultsLabel }}</span>
+          <span class="passenger-sublabel">{{ adultsSubLabel }}</span>
+        </div>
+        <div class="passenger-controls">
+          <button
+            type="button"
+            class="control-btn"
+            (click)="decrementAdults()"
+            [disabled]="currentValue.adults <= 1"
+          >
+            <i class="pi pi-minus"></i>
+          </button>
+          <span class="passenger-count">{{ currentValue.adults }}</span>
+          <button
+            type="button"
+            class="control-btn"
+            (click)="incrementAdults()"
+            [disabled]="currentValue.adults >= 9"
+          >
+            <i class="pi pi-plus"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="passenger-row">
+        <div class="passenger-info">
+          <span class="passenger-label">{{ childrenLabel }}</span>
+          <span class="passenger-sublabel">{{ childrenSubLabel }}</span>
+        </div>
+        <div class="passenger-controls">
+          <button
+            type="button"
+            class="control-btn"
+            (click)="decrementChildren()"
+            [disabled]="currentValue.children <= 0"
+          >
+            <i class="pi pi-minus"></i>
+          </button>
+          <span class="passenger-count">{{ currentValue.children }}</span>
+          <button
+            type="button"
+            class="control-btn"
+            (click)="incrementChildren()"
+            [disabled]="currentValue.children >= 9"
+          >
+            <i class="pi pi-plus"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Children Ages -->
+      <div class="children-ages" *ngIf="currentValue.children > 0">
+        <div
+          class="age-row"
+          *ngFor="let age of currentValue.childrenAges; let i = index; trackBy: trackByIndex"
+        >
+          <label class="age-label">{{ childAgeLabel }} {{ i + 1 }}</label>
+          <p-dropdown
+            [options]="ageOptions"
+            [ngModel]="currentValue.childrenAges[i]"
+            (ngModelChange)="updateChildAge(i, $event)"
+            [placeholder]="'0'"
+            [appendTo]="'body'"
+            [autoZIndex]="true"
+            [baseZIndex]="10000"
+            styleClass="age-dropdown"
+            (onClick)="$event.stopPropagation()"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <h3 class="overlay-title">{{ classLabel }}</h3>
+
+      <div class="class-buttons">
+        <button
+          type="button"
+          class="class-btn"
+          [class.active]="currentValue.travelClass === 'economy'"
+          (click)="selectClass('economy')"
+        >
+          {{ economyLabel }}
+        </button>
+        <button
+          type="button"
+          class="class-btn"
+          [class.active]="currentValue.travelClass === 'business'"
+          (click)="selectClass('business')"
+        >
+          {{ businessLabel }}
+        </button>
+      </div>
+    </div>
+  </p-overlayPanel>
+</div>

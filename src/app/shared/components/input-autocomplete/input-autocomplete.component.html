@@ -1,0 +1,17 @@
+<p-autoComplete
+  [suggestions]="suggestions"
+  [field]="field"
+  [placeholder]="placeholder"
+  [disabled]="disabled"
+  [forceSelection]="forceSelection"
+  [minLength]="minLength"
+  [delay]="delay"
+  [dropdown]="false"
+  [styleClass]="styleClass"
+  [(ngModel)]="value"
+  (completeMethod)="onComplete($event)"
+  (onSelect)="onSelect($event)"
+  appendTo="body"
+  class="w-full"
+>
+</p-autoComplete>
