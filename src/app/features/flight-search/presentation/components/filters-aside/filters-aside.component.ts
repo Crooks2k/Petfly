@@ -189,10 +189,10 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
           this.ciudadesOrigenOptions =
             response.length > 0
               ? response.map(city => ({
-                  label: city.displayName,
-                  value: city.cityCode,
-                  city: city,
-                }))
+                label: city.displayName,
+                value: city.cityCode,
+                city: city,
+              }))
               : [];
           this.isLoadingCitiesOrigen = false;
         },
@@ -228,10 +228,10 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
           this.ciudadesDestinoOptions =
             response.length > 0
               ? response.map(city => ({
-                  label: city.displayName,
-                  value: city.cityCode,
-                  city: city,
-                }))
+                label: city.displayName,
+                value: city.cityCode,
+                city: city,
+              }))
               : [];
           this.isLoadingCitiesDestino = false;
         },

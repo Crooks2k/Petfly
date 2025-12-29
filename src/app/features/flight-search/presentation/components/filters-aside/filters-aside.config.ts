@@ -34,7 +34,6 @@ export const FiltersAsideConfig = {
     saveLabel: 'filtersAside.saveLabel',
     certificatesLabel: 'filtersAside.certificatesLabel',
     certificatesDescription: 'filtersAside.certificatesDescription',
-    certificatesCtaText: 'filtersAside.certificatesCtaText',
     emotionalSupport: 'filtersAside.emotionalSupport',
     emotionalSupportDescription: 'filtersAside.emotionalSupportDescription',
     serviceAnimal: 'filtersAside.serviceAnimal',
@@ -56,7 +55,6 @@ export const FiltersAsideConfig = {
     originLabel: 'filtersAside.originLabel',
     destinationLabel: 'filtersAside.destinationLabel',
   },
-  certificatesUrl: 'https://petfly.io/certificados',
 } as const satisfies I18nConfigEntity;
 
 export type ResolvedFiltersAsideTexts = {

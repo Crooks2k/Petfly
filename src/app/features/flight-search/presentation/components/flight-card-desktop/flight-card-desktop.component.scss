@@ -532,11 +532,22 @@
   }
 }
 
+.certificate-status {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
 .ae-status {
   font-size: 11px;
   color: var(--color-error);
-  font-weight: 600;
-  margin-top: 4px;
+  font-weight: 500;
+  padding: 4px 8px;
+  background: rgba(211, 47, 47, 0.08);
+  border-radius: 4px;
+  border-left: 3px solid var(--color-error);
+  text-align: center;
 }
 
 .price-breakdown {

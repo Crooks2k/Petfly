@@ -26,12 +26,8 @@ export class FilterFlightsFormMapper {
       isDirect: formData.permitirEscalas === false, // Si permitirEscalas es false, isDirect es true
       minPrice: formData.precioMinimo ?? 0,
       maxPrice: formData.precioMaximo ?? 999999,
+      airlineCode: formData.aerolinea || 'LA', // Por defecto LATAM (LA) si no hay aerolínea seleccionada
     };
-
-    // Aerolínea (opcional)
-    if (formData.aerolinea) {
-      filterParameters.airlineCode = formData.aerolinea;
-    }
 
     // Certificados: emotional -> AE, service -> PS
     if (formData.certificados && formData.certificados.length > 0) {

@@ -156,11 +156,19 @@ export class FlightCardDesktopComponent implements OnInit, OnDestroy {
   }
 
   public get hasAEPrice(): boolean {
-    return this.flightTicket.aePrice !== null;
+    return (
+      this.flightTicket.aePrice !== null &&
+      this.flightTicket.aePrice.min > 0 &&
+      this.flightTicket.aePrice.max > 0
+    );
   }
 
   public get hasPSPrice(): boolean {
-    return this.flightTicket.psPrice !== null;
+    return (
+      this.flightTicket.psPrice !== null &&
+      this.flightTicket.psPrice.min > 0 &&
+      this.flightTicket.psPrice.max > 0
+    );
   }
 
   private setupReactiveTexts(): void {

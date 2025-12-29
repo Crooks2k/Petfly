@@ -1,9 +1,11 @@
 <app-header></app-header>
 <p-toast position="top-right" [breakpoints]="{ '920px': { width: '90%' } }"></p-toast>
 <div class="flight-search-page">
-  <div class="main-title">
-    <h1>{{ texts.title }}</h1>
-    <p>{{ texts.subtitle }}</p>
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1>{{ texts.title }}</h1>
+      <p>{{ texts.subtitle }}</p>
+    </div>
   </div>
 
   <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="search-form">

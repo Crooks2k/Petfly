@@ -144,8 +144,9 @@
             formatPrice(flightTicket.mrPrice?.max || 200)
           }}
         </div>
-        <div class="badges">
+        <div class="badges" *ngIf="hasPSPrice || hasAEPrice || hasMRPrice">
           <a
+            *ngIf="hasPSPrice"
             href="https://petfly.io/certificados-de-perro-de-servicio/"
             target="_blank"
             rel="noopener noreferrer"
@@ -155,6 +156,7 @@
             {{ texts.psBadge }}
           </a>
           <a
+            *ngIf="hasAEPrice"
             href="https://petfly.io/certificado-de-apoyo-emocional/"
             target="_blank"
             rel="noopener noreferrer"
@@ -163,15 +165,17 @@
           >
             AE
           </a>
-          <span class="badge badge-mr">{{ texts.mrBadge }}</span>
+          <span *ngIf="hasMRPrice" class="badge badge-mr">{{ texts.mrBadge }}</span>
         </div>
-        <div class="badge-hint">
+        <div class="badge-hint" *ngIf="hasPSPrice || hasAEPrice || hasMRPrice">
           <i class="pi pi-info-circle"></i>
           <span>Haz clic en los certificados para más info</span>
         </div>
-        <div class="ae-status" *ngIf="isAENotAccepted">{{ texts.aeNotAccepted }}</div>
-        <div class="ae-status" *ngIf="isPSNotAccepted">{{ texts.psNotAccepted }}</div>
-        <div class="ae-status" *ngIf="isMRNotAccepted">{{ texts.mrNotAccepted }}</div>
+        <div class="certificate-status">
+          <div class="ae-status" *ngIf="isAENotAccepted">{{ texts.aeNotAccepted }}</div>
+          <div class="ae-status" *ngIf="isPSNotAccepted">{{ texts.psNotAccepted }}</div>
+          <div class="ae-status" *ngIf="isMRNotAccepted">{{ texts.mrNotAccepted }}</div>
+        </div>
         <div class="price-breakdown">
           <span *ngIf="hasMRPrice">
             {{ texts.mrLabel }}: ${{ formatPrice(flightTicket.mrPrice!.min) }}

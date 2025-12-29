@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Component,
   Input,
@@ -52,7 +53,7 @@ export class InputSelectComponent implements ControlValueAccessor, OnInit, OnDes
 
   private readonly destroy$ = new Subject<void>();
 
-  private onChange = (value: unknown) => {};
+  private onChange = (_value: unknown) => {};
   private onTouched = () => {};
 
   constructor(private readonly translateService: TranslateService) {}
@@ -103,12 +104,12 @@ export class InputSelectComponent implements ControlValueAccessor, OnInit, OnDes
 
   getSizeClass(): string {
     switch (this.size) {
-      case INPUT_SELECT_SIZE.SMALL:
-        return 'compact';
-      case INPUT_SELECT_SIZE.LARGE:
-        return 'large';
-      default:
-        return '';
+    case INPUT_SELECT_SIZE.SMALL:
+      return 'compact';
+    case INPUT_SELECT_SIZE.LARGE:
+      return 'large';
+    default:
+      return '';
     }
   }
 
