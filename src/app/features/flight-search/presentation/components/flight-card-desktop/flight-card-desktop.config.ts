@@ -6,6 +6,8 @@ export const FlightCardDesktopConfig = {
     petPrice: 'flightCard.petPrice',
     totalPrice: 'flightCard.totalPrice',
     selectButton: 'flightCard.selectButton',
+    loading: 'flightCard.loading',
+    clickCertificatesInfo: 'flightCard.clickCertificatesInfo',
     direct: 'flightCard.direct',
     stop: 'flightCard.stop',
     stops: 'flightCard.stops',

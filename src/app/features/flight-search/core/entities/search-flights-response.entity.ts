@@ -15,6 +15,7 @@ export interface FlightTicketEntity {
   aePrice: PriceRangeEntity | null;
   psPrice: PriceRangeEntity | null;
   total: PriceRangeEntity;
+  terms?: { url: string }; // Objeto terms con URL para obtener el link de booking
 }
 
 export interface FlightGroupEntity {

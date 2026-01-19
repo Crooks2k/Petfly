@@ -1,6 +1,6 @@
 <div class="flight-card" [class.expanded]="isExpanded">
   <!-- Header: Siempre visible (cerrado por defecto) -->
-  <div class="flight-card-header" (click)="toggleExpanded()">
+  <div class="flight-card-header">
     <div class="flights-summary">
       <!-- Vuelo de ida -->
       <div class="flight-row">
@@ -11,46 +11,47 @@
         />
 
         <div class="flight-info">
-          <div class="flight-times">
-            <span class="time">{{ formatTime(outboundFlight.flightItems[0].departureTime) }}</span>
-            <span class="duration">{{ formatDuration(getTotalDuration(outboundFlight)) }}</span>
-            <span class="time">
-              {{
-                formatTime(
-                  outboundFlight.flightItems[outboundFlight.flightItems.length - 1].arrivalTime
-                )
-              }}
-              <span
-                class="day-offset"
-                *ngIf="
-                  getArrivalDayOffset(
-                    outboundFlight.flightItems[0].departureTime,
-                    outboundFlight.flightItems[outboundFlight.flightItems.length - 1].arrivalTime
-                  )
-                "
-              >
+          <div class="flight-times-row">
+            <div class="time-block">
+              <span class="time">{{
+                formatTime(outboundFlight.flightItems[0].departureTime)
+              }}</span>
+              <span class="airport">{{ outboundFlight.flightItems[0].departure }}</span>
+            </div>
+
+            <div class="duration-block">
+              <span class="duration">{{ formatDuration(getTotalDuration(outboundFlight)) }}</span>
+              <span class="stops-info">{{ getStopsText() }}</span>
+            </div>
+
+            <div class="time-block">
+              <span class="time">
                 {{
-                  getArrivalDayOffset(
-                    outboundFlight.flightItems[0].departureTime,
+                  formatTime(
                     outboundFlight.flightItems[outboundFlight.flightItems.length - 1].arrivalTime
                   )
                 }}
+                <span
+                  class="day-offset"
+                  *ngIf="
+                    getArrivalDayOffset(
+                      outboundFlight.flightItems[0].departureTime,
+                      outboundFlight.flightItems[outboundFlight.flightItems.length - 1].arrivalTime
+                    )
+                  "
+                >
+                  {{
+                    getArrivalDayOffset(
+                      outboundFlight.flightItems[0].departureTime,
+                      outboundFlight.flightItems[outboundFlight.flightItems.length - 1].arrivalTime
+                    )
+                  }}
+                </span>
               </span>
-            </span>
-          </div>
-          <div class="flight-route">
-            <span class="stops-info"
-              >{{ getStopsText()
-              }}<span *ngIf="flightTicket.maxStops > 0"
-                >, {{ getStopsCodes(outboundFlight) }}</span
-              ></span
-            >
-          </div>
-          <div class="flight-airports">
-            <span class="airport">{{ outboundFlight.flightItems[0].departure }}</span>
-            <span class="airport">{{
-              outboundFlight.flightItems[outboundFlight.flightItems.length - 1].arrival
-            }}</span>
+              <span class="airport">{{
+                outboundFlight.flightItems[outboundFlight.flightItems.length - 1].arrival
+              }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -64,79 +65,94 @@
         />
 
         <div class="flight-info">
-          <div class="flight-times">
-            <span class="time">{{ formatTime(returnFlight.flightItems[0].departureTime) }}</span>
-            <span class="duration">{{ formatDuration(getTotalDuration(returnFlight)) }}</span>
-            <span class="time">
-              {{
-                formatTime(
-                  returnFlight.flightItems[returnFlight.flightItems.length - 1].arrivalTime
-                )
-              }}
-              <span
-                class="day-offset"
-                *ngIf="
-                  getArrivalDayOffset(
-                    returnFlight.flightItems[0].departureTime,
-                    returnFlight.flightItems[returnFlight.flightItems.length - 1].arrivalTime
-                  )
-                "
-              >
+          <div class="flight-times-row">
+            <div class="time-block">
+              <span class="time">{{ formatTime(returnFlight.flightItems[0].departureTime) }}</span>
+              <span class="airport">{{ returnFlight.flightItems[0].departure }}</span>
+            </div>
+
+            <div class="duration-block">
+              <span class="duration">{{ formatDuration(getTotalDuration(returnFlight)) }}</span>
+              <span class="stops-info">{{ getStopsText() }}</span>
+            </div>
+
+            <div class="time-block">
+              <span class="time">
                 {{
-                  getArrivalDayOffset(
-                    returnFlight.flightItems[0].departureTime,
+                  formatTime(
                     returnFlight.flightItems[returnFlight.flightItems.length - 1].arrivalTime
                   )
                 }}
+                <span
+                  class="day-offset"
+                  *ngIf="
+                    getArrivalDayOffset(
+                      returnFlight.flightItems[0].departureTime,
+                      returnFlight.flightItems[returnFlight.flightItems.length - 1].arrivalTime
+                    )
+                  "
+                >
+                  {{
+                    getArrivalDayOffset(
+                      returnFlight.flightItems[0].departureTime,
+                      returnFlight.flightItems[returnFlight.flightItems.length - 1].arrivalTime
+                    )
+                  }}
+                </span>
               </span>
-            </span>
-          </div>
-          <div class="flight-route">
-            <span class="stops-info"
-              >{{ getStopsText()
-              }}<span *ngIf="flightTicket.maxStops > 0"
-                >, {{ getStopsCodes(returnFlight) }}</span
-              ></span
-            >
-          </div>
-          <div class="flight-airports">
-            <span class="airport">{{ returnFlight.flightItems[0].departure }}</span>
-            <span class="airport">{{
-              returnFlight.flightItems[returnFlight.flightItems.length - 1].arrival
-            }}</span>
+              <span class="airport">{{
+                returnFlight.flightItems[returnFlight.flightItems.length - 1].arrival
+              }}</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Icono de expansión -->
-    <div class="expand-icon">
+    <!-- Separador y precio -->
+    <div class="price-section">
+      <div class="price-info">
+        <span class="price-label">{{ texts.pricePerPerson }}</span>
+        <span class="price-value">${{ formatPrice(flightTicket.price) }}</span>
+      </div>
+    </div>
+
+    <!-- Botón de seleccionar -->
+    <button 
+      class="select-button-compact" 
+      (click)="onSelectFlight($event)"
+      [disabled]="isLoadingBooking"
+    >
+      <i class="pi pi-spin pi-spinner" *ngIf="isLoadingBooking"></i>
+      <span *ngIf="!isLoadingBooking">{{ texts.selectButton }}</span>
+      <span *ngIf="isLoadingBooking">{{ texts.loading }}</span>
+    </button>
+
+    <!-- Icono de expansión debajo del botón -->
+    <div class="expand-icon" (click)="toggleExpanded()">
       <i class="pi" [class.pi-chevron-down]="!isExpanded" [class.pi-chevron-up]="isExpanded"></i>
+      <span class="expand-text">{{ isExpanded ? texts.viewLess : texts.viewDetails }}</span>
     </div>
   </div>
 
   <!-- Contenido expandido (precios detallados) -->
   <div class="flight-card-body" *ngIf="isExpanded">
-    <div class="pricing-details-grid">
-      <!-- Precio por persona -->
-      <div class="pricing-detail-item">
-        <div class="detail-label">{{ texts.pricePerPerson }}</div>
-        <div class="detail-value">${{ formatPrice(flightTicket.price) }}</div>
-        <button class="select-button" (click)="onSelectFlight($event)">
-          <span>{{ texts.selectButton }}</span>
-        </button>
+    <!-- Precio mascota -->
+    <div class="detail-section">
+      <div class="section-header">
+        <i class="pi pi-tag"></i>
+        <span class="section-title">{{ texts.petPrice }}</span>
+      </div>
+      <div class="price-display-large">
+        ${{ formatPrice(flightTicket.mrPrice?.min || 0) }}-{{
+          formatPrice(flightTicket.mrPrice?.max || 200)
+        }}
       </div>
 
-      <!-- Precio mascota -->
-      <div class="pricing-detail-item pet-price">
-        <div class="detail-label">{{ texts.petPrice }}</div>
-        <div class="detail-value">
-          ${{ formatPrice(flightTicket.mrPrice?.min || 0) }}-{{
-            formatPrice(flightTicket.mrPrice?.max || 200)
-          }}
-        </div>
-
-        <div class="badges" *ngIf="hasPSPrice || hasAEPrice || hasMRPrice">
+      <!-- Badges de certificados -->
+      <div class="badges-section" *ngIf="hasPSPrice || hasAEPrice || hasMRPrice">
+        <div class="badges-label">{{ texts.certificatesAccepted }}</div>
+        <div class="badges">
           <a
             *ngIf="hasPSPrice"
             href="https://petfly.io/certificados-de-perro-de-servicio/"
@@ -155,52 +171,40 @@
             class="badge badge-ae"
             (click)="$event.stopPropagation()"
           >
-            AE
+            {{ texts.aeBadge }}
           </a>
           <span *ngIf="hasMRPrice" class="badge badge-mr">{{ texts.mrBadge }}</span>
         </div>
-
-        <div class="badge-hint" *ngIf="hasPSPrice || hasAEPrice || hasMRPrice">
+        <div class="badge-hint">
           <i class="pi pi-info-circle"></i>
-          <span>Haz clic en los certificados para más info</span>
-        </div>
-
-        <div class="certificate-status">
-          <div class="ae-status" *ngIf="isAENotAccepted">{{ texts.aeNotAccepted }}</div>
-          <div class="ae-status" *ngIf="isPSNotAccepted">{{ texts.psNotAccepted }}</div>
-          <div class="ae-status" *ngIf="isMRNotAccepted">{{ texts.mrNotAccepted }}</div>
-        </div>
-
-        <div class="price-breakdown">
-          <span *ngIf="hasMRPrice">
-            {{ texts.mrLabel }}: ${{ formatPrice(flightTicket.mrPrice!.min) }}
-          </span>
-          <span *ngIf="hasMRPrice" class="separator">|</span>
-          <span *ngIf="hasAEPrice">
-            {{ texts.aeLabel }}: ${{ formatPrice(flightTicket.aePrice!.min) }}-{{
-              formatPrice(flightTicket.aePrice!.max)
-            }}
-          </span>
-          <span *ngIf="hasAEPrice && hasPSPrice" class="separator">|</span>
-          <span *ngIf="hasPSPrice"
-            >{{ texts.psLabel }}: ${{ formatPrice(flightTicket.psPrice!.min) }}</span
-          >
+          <span>{{ texts.clickCertificatesInfo }}</span>
         </div>
       </div>
 
-      <!-- Precio total -->
-      <div class="pricing-detail-item">
-        <div class="detail-label">{{ texts.totalPrice }}</div>
-        <div class="detail-subtitle">{{ texts.totalPriceSubtitle }}</div>
-        <div class="detail-value total">
-          ${{ formatPrice(flightTicket.total.min) }}-{{ formatPrice(flightTicket.total.max) }}
-        </div>
+      <!-- Certificados no aceptados -->
+      <div class="certificate-status" *ngIf="isAENotAccepted || isPSNotAccepted || isMRNotAccepted">
+        <div class="status-title">{{ texts.certificatesNotAccepted }}</div>
+        <div class="ae-status" *ngIf="isAENotAccepted">{{ texts.aeNotAccepted }}</div>
+        <div class="ae-status" *ngIf="isPSNotAccepted">{{ texts.psNotAccepted }}</div>
+        <div class="ae-status" *ngIf="isMRNotAccepted">{{ texts.mrNotAccepted }}</div>
+      </div>
+    </div>
+
+    <!-- Precio total -->
+    <div class="detail-section total-section">
+      <div class="section-header">
+        <i class="pi pi-calculator"></i>
+        <span class="section-title">{{ texts.totalPrice }}</span>
+      </div>
+      <div class="total-subtitle">{{ texts.totalPriceSubtitle }}</div>
+      <div class="price-display-large total">
+        ${{ formatPrice(flightTicket.total.min) }}-{{ formatPrice(flightTicket.total.max) }}
       </div>
     </div>
 
     <!-- Advertencia -->
     <div class="price-warning">
-      <i class="pi pi-hand-paper"></i>
+      <i class="pi pi-exclamation-triangle"></i>
       <span>{{ texts.priceEstimationWarning }}</span>
     </div>
   </div>
