@@ -25,7 +25,7 @@ export class FlightResultsViewModel extends FlightFormBaseViewModel {
   public autoApplyFilters = true;
   public isLoadingResults = false;
   public flightResults: SearchFlightsResponseEntity | null = null;
-  private searchId: string | null = null;
+  public searchId: string | null = null;
 
   // Subject para notificar cambios
   private readonly resultsUpdated$ = new Subject<void>();

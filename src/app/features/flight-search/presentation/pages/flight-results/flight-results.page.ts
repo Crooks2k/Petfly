@@ -123,6 +123,8 @@ export class FlightResultsPage implements OnInit, OnDestroy {
 
       const petType = this.searchParams.tipoMascota;
       const breedValue = this.searchParams.razaMascota;
+      // No precargar edad si es 24 (valor por defecto cuando no se especifica)
+      const petAge = this.searchParams.edadMascota === 24 ? null : this.searchParams.edadMascota;
 
       // Primero seteamos todos los valores incluyendo la raza
       this.viewModel.form.patchValue(
@@ -137,7 +139,7 @@ export class FlightResultsPage implements OnInit, OnDestroy {
           tipoMascota: petType,
           pesoMascota: this.searchParams.pesoMascota,
           razaMascota: breedValue,
-          edadMascota: this.searchParams.edadMascota,
+          edadMascota: petAge,
         },
         { emitEvent: false }
       );

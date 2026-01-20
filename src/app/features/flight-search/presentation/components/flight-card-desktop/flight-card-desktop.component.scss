@@ -22,6 +22,7 @@
   position: relative;
   overflow-x: auto;
   overflow-y: visible;
+  scroll-behavior: smooth;
 
   @media (min-width: 1400px) {
     gap: 32px;
@@ -33,33 +34,35 @@
     padding: 28px 32px;
   }
 
-  /* Scroll horizontal personalizado azul */
+  /* Scroll horizontal personalizado azul - SIEMPRE VISIBLE */
   &::-webkit-scrollbar {
-    height: 6px;
+    height: 8px;
   }
 
   &::-webkit-scrollbar-track {
     background: var(--color-scrollbar-track);
     border-radius: 10px;
+    margin: 0 20px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: var(--color-scrollbar-thumb);
+    background: var(--color-primary);
     border-radius: 10px;
     transition: background 0.2s ease;
+    border: 2px solid var(--color-scrollbar-track);
 
     &:hover {
-      background: var(--color-scrollbar-hover);
+      background: var(--color-primary-dark);
     }
 
     &:active {
-      background: var(--color-scrollbar-active);
+      background: var(--color-primary-darker);
     }
   }
 
   /* Firefox */
   scrollbar-width: thin;
-  scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar-track);
+  scrollbar-color: var(--color-primary) var(--color-scrollbar-track);
 }
 
 // ============================================
@@ -592,23 +595,27 @@
 .price-warning {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  padding: 10px 12px;
-  background: var(--color-warning-bg);
+  gap: 10px;
+  padding: 12px 14px;
+  background: #fff3e0;
   border-radius: 8px;
-  font-size: 11px;
-  color: var(--color-warning-text);
-  line-height: 1.5;
-  margin-top: 8px;
+  font-size: 12px;
+  color: #e65100;
+  line-height: 1.6;
+  margin-top: 12px;
+  border-left: 3px solid #ff9800;
+  box-shadow: 0 2px 6px rgba(255, 152, 0, 0.1);
 
   i {
-    font-size: 14px;
+    font-size: 16px;
     flex-shrink: 0;
-    margin-top: 1px;
+    margin-top: 2px;
+    color: #ff9800;
   }
 
   span {
     flex: 1;
+    font-weight: 500;
   }
 }
 

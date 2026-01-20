@@ -12,34 +12,32 @@
 }
 
 .flight-card-header {
-  display: grid;
-  grid-template-columns: 1fr;
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
   gap: 12px;
-  cursor: pointer;
-  align-items: flex-start;
   position: relative;
 }
 
 .flights-summary {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   flex: 1;
 }
 
 .flight-row {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 10px;
 }
 
 .airline-logo {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
   flex-shrink: 0;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .flight-info {
@@ -49,50 +47,140 @@
   gap: 4px;
 }
 
-.flight-times {
+.flight-times-row {
   display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.time-block {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
+  gap: 4px;
 
   .time {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    white-space: nowrap;
+  }
+
+  .airport {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-gray);
+  }
+
+  .day-offset {
+    font-size: 13px;
+    color: var(--color-text-dark);
+    font-weight: 700;
+    margin-left: 2px;
+  }
+}
+
+.duration-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+
+  .duration {
+    font-size: 11px;
+    color: var(--color-text-gray-medium);
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .stops-info {
+    font-size: 11px;
+    color: var(--color-text-gray-medium);
+    font-weight: 400;
+    white-space: nowrap;
+  }
+}
+
+// Sección de precio con separador
+.price-section {
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border-lighter);
+  margin-top: 4px;
+}
+
+.price-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--color-bg-white);
+  border-radius: 8px;
+
+  .price-label {
+    font-size: 13px;
+    color: var(--color-text-gray);
+    font-weight: 600;
+  }
+
+  .price-value {
     font-size: 18px;
     font-weight: 700;
     color: var(--color-text-dark);
   }
+}
 
-  .duration {
-    font-size: 12px;
-    color: var(--color-text-gray-medium);
-    font-weight: 400;
+// Botón de seleccionar debajo de la info
+.select-button-compact {
+  width: 100%;
+  padding: 10px 16px;
+  background: var(--color-primary);
+  color: var(--color-bg-white);
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 12px;
+
+  &:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--hover-surface);
   }
 
-  .day-offset {
-    font-size: 14px;
-    color: var(--color-text-dark);
-    font-weight: 700;
+  &:active {
+    transform: translateY(0);
   }
 }
 
-.flight-route {
-  font-size: 12px;
-  color: var(--color-text-gray-medium);
-  margin-top: 2px;
-
-  .stops-info {
-    font-weight: 400;
-  }
-}
-
-.flight-airports {
+// Ícono de expansión centrado debajo del botón
+.expand-icon {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--color-text-gray-medium);
+  font-size: 12px;
+  font-weight: 500;
   margin-top: 4px;
 
-  .airport {
+  &:hover {
+    color: var(--color-primary);
+  }
+
+  i {
     font-size: 14px;
-    font-weight: 600;
-    color: var(--color-text-gray);
+    transition: transform 0.3s ease;
+  }
+
+  .expand-text {
+    user-select: none;
   }
 }
 
@@ -131,29 +219,14 @@
   }
 }
 
-.expand-icon {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0;
-
-  i {
-    font-size: 18px;
-    color: var(--color-text-gray);
-    transition: transform 0.3s ease;
-  }
-}
-
 .flight-card-body {
   border-top: 1px solid var(--color-border-lighter);
   padding: 16px;
   animation: slideDown 0.3s ease;
-  background: var(--color-surface-lighter);
+  background: linear-gradient(135deg, #f0f4f8 0%, #e8eef5 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 @keyframes slideDown {
@@ -167,83 +240,88 @@
   }
 }
 
-.pricing-details-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.pricing-detail-item {
+// Secciones del dropdown
+.detail-section {
   background: var(--color-bg-white);
   border-radius: 12px;
-  padding: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  &.total-section {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border: 2px solid var(--color-primary);
+    padding: 12px;
+    gap: 8px;
+  }
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--color-border-lighter);
+
+  i {
+    font-size: 16px;
+    color: var(--color-primary);
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.price-display-large {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  text-align: center;
+  padding: 6px 0;
+
+  &.total {
+    color: var(--color-primary);
+    font-size: 22px;
+    padding: 4px 0;
+  }
+}
+
+.total-subtitle {
+  font-size: 11px;
+  color: var(--color-text-gray-medium);
+  text-align: center;
+  margin-top: -4px;
+}
+
+// Badges section
+.badges-section {
   display: flex;
   flex-direction: column;
   gap: 8px;
-
-  &.pet-price {
-    background: #e3f2fd;
-  }
-
-  .detail-label {
-    font-size: 13px;
-    color: var(--color-text-gray);
-    font-weight: 600;
-  }
-
-  .detail-subtitle {
-    font-size: 11px;
-    color: var(--color-text-gray-medium);
-    margin-top: -4px;
-  }
-
-  .detail-value {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--color-text-dark);
-
-    &.total {
-      font-size: 20px;
-    }
-  }
-
-  .select-button {
-    width: 100%;
-    padding: 12px 20px;
-    background: var(--color-primary);
-    color: var(--color-bg-white);
-    border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    margin-top: 8px;
-
-    &:hover {
-      background: var(--color-primary-dark);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px var(--hover-surface);
-    }
-
-    &:active {
-      transform: translateY(0);
-    }
-  }
+  padding: 12px;
+  background: rgba(74, 144, 226, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid var(--color-primary);
 }
 
-.pet-badges {
-  display: flex;
-  gap: 8px;
-  margin-top: 4px;
+.badges-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-gray);
+  margin-bottom: 4px;
 }
 
 .badges {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin-top: 8px;
 }
 
 .badge {
@@ -291,8 +369,7 @@
   gap: 6px;
   font-size: 11px;
   color: var(--color-text-gray-medium);
-  margin-top: 8px;
-  animation: pulse 2s ease-in-out infinite;
+  margin-top: 4px;
 
   i {
     font-size: 12px;
@@ -300,69 +377,84 @@
   }
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
+// Price breakdown section
+.price-breakdown-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--color-surface-lighter);
+  border-radius: 8px;
+}
+
+.breakdown-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-gray);
+  margin-bottom: 4px;
+}
+
+.breakdown-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--color-bg-white);
+  border-radius: 6px;
+  border-left: 3px solid var(--color-primary);
+
+  .breakdown-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-gray);
   }
-  50% {
-    opacity: 0.6;
+
+  .breakdown-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text-dark);
   }
 }
 
+// Certificate status
 .certificate-status {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-top: 8px;
+  padding: 12px;
+  background: rgba(211, 47, 47, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid #d32f2f;
+}
+
+.status-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-gray);
+  margin-bottom: 4px;
 }
 
 .ae-status {
   color: #d32f2f;
   font-weight: 500;
   font-size: 11px;
-  padding: 4px 8px;
+  padding: 6px 10px;
   background: rgba(211, 47, 47, 0.08);
   border-radius: 4px;
-  border-left: 3px solid #d32f2f;
-}
-
-.pet-price-details {
-  font-size: 11px;
-  color: var(--color-text-gray);
-  margin-top: 4px;
-  line-height: 1.6;
-
-  div {
-    margin-bottom: 2px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  .ae-not-accepted {
-    color: #d32f2f;
-    font-weight: 600;
-  }
-}
-
-.price-breakdown {
-  font-size: 11px;
-  color: var(--color-text-gray);
-  margin-top: 8px;
-  line-height: 1.6;
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 6px;
 
-  span {
-    white-space: nowrap;
-  }
-
-  .separator {
-    color: var(--color-border-light);
+  &::before {
+    content: '✕';
+    font-weight: 700;
+    font-size: 12px;
   }
 }
 
@@ -370,12 +462,13 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 10px 12px;
+  padding: 12px;
   background: #fff3e0;
   border-radius: 8px;
   font-size: 12px;
   color: #e65100;
   line-height: 1.5;
+  border-left: 3px solid #ff9800;
 
   i {
     font-size: 16px;

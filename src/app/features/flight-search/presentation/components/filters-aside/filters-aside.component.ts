@@ -155,6 +155,7 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(resolvedTexts => {
         this.texts = resolvedTexts as unknown as ResolvedFiltersAsideTexts;
+        this.cdr.markForCheck();
       });
   }
 

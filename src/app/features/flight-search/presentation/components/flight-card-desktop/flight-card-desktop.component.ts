@@ -10,6 +10,8 @@ import {
   FlightCardDesktopConfig,
   ResolvedFlightCardDesktopTexts,
 } from './flight-card-desktop.config';
+import { PetflyInteractor } from '@flight-search/core/interactor/petfly.interactor';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'petfly-flight-card-desktop',
@@ -23,11 +25,16 @@ export class FlightCardDesktopComponent implements OnInit, OnDestroy {
 
   public texts: ResolvedFlightCardDesktopTexts = {} as ResolvedFlightCardDesktopTexts;
   public isExpanded = false;
+  public isLoadingBooking = false;
   public readonly config = FlightCardDesktopConfig;
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private readonly i18nService: I18nService) {}
+  constructor(
+    private readonly i18nService: I18nService,
+    private readonly petflyInteractor: PetflyInteractor,
+    private readonly messageService: MessageService
+  ) {}
 
   public ngOnInit(): void {
     this.setupReactiveTexts();
@@ -44,6 +51,37 @@ export class FlightCardDesktopComponent implements OnInit, OnDestroy {
 
   public onSelectFlight(event: Event): void {
     event.stopPropagation();
+    
+    const agencyLink = this.flightTicket.flights[0]?.flightItems[0]?.agencyLink;
+    
+    if (!agencyLink) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'No se pudo obtener el enlace de reserva. Por favor, intenta de nuevo.',
+      });
+      return;
+    }
+
+    this.isLoadingBooking = true;
+
+    this.petflyInteractor
+      .getBookingLink(agencyLink)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: response => {
+          this.isLoadingBooking = false;
+          window.open(response.url, '_blank');
+        },
+        error: () => {
+          this.isLoadingBooking = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'No se pudo obtener el enlace de reserva. Por favor, intenta de nuevo.',
+          });
+        },
+      });
   }
 
   public get outboundFlight() {
@@ -138,37 +176,35 @@ export class FlightCardDesktopComponent implements OnInit, OnDestroy {
   }
 
   public get isAENotAccepted(): boolean {
-    return (
-      !this.flightTicket.aePrice ||
-      (this.flightTicket.aePrice.min === 0 && this.flightTicket.aePrice.max === 0)
-    );
+    return this.flightTicket.aePrice === null;
   }
 
   public get isPSNotAccepted(): boolean {
-    return (
-      !this.flightTicket.psPrice ||
-      (this.flightTicket.psPrice.min === 0 && this.flightTicket.psPrice.max === 0)
-    );
+    return this.flightTicket.psPrice === null;
   }
 
   public get isMRNotAccepted(): boolean {
-    return !this.flightTicket.mrPrice;
+    return this.flightTicket.mrPrice === null;
   }
 
   public get hasAEPrice(): boolean {
-    return (
-      this.flightTicket.aePrice !== null &&
-      this.flightTicket.aePrice.min > 0 &&
-      this.flightTicket.aePrice.max > 0
-    );
+    return this.flightTicket.aePrice !== null;
   }
 
   public get hasPSPrice(): boolean {
-    return (
-      this.flightTicket.psPrice !== null &&
-      this.flightTicket.psPrice.min > 0 &&
-      this.flightTicket.psPrice.max > 0
-    );
+    return this.flightTicket.psPrice !== null;
+  }
+
+  public getPetPriceMin(): number {
+    return this.flightTicket.totalPetPrice?.min ?? 0;
+  }
+
+  public getPetPriceMax(): number {
+    return this.flightTicket.totalPetPrice?.max ?? 0;
+  }
+
+  public get hasTotalPetPrice(): boolean {
+    return this.flightTicket.totalPetPrice !== null;
   }
 
   private setupReactiveTexts(): void {
