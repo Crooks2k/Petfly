@@ -9,3 +9,4 @@ export * from './search-flights-response.entity';
 export * from './flight-search-form.entity';
 export * from './filter-flights-request.entity';
 export * from './filter-flights-response.entity';
+export * from './booking-link.entity';
