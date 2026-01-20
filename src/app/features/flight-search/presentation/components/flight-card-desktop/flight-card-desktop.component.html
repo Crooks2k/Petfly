@@ -146,9 +146,10 @@
       <div class="price-box pet-box">
         <div class="price-label">{{ texts.petPrice }}</div>
         <div class="price-value">
-          ${{ formatPrice(flightTicket.mrPrice?.min || 0) }}-{{
-            formatPrice(flightTicket.mrPrice?.max || 200)
-          }}
+          <span *ngIf="hasTotalPetPrice"
+            >${{ formatPrice(getPetPriceMin()) }}-{{ formatPrice(getPetPriceMax()) }}</span
+          >
+          <span *ngIf="!hasTotalPetPrice">N/A</span>
         </div>
         <div class="badges" *ngIf="hasPSPrice || hasAEPrice || hasMRPrice">
           <a
@@ -184,7 +185,9 @@
         </div>
         <div class="price-breakdown">
           <span *ngIf="hasMRPrice">
-            {{ texts.mrLabel }}: ${{ formatPrice(flightTicket.mrPrice!.min) }}
+            {{ texts.mrLabel }}: ${{ formatPrice(flightTicket.mrPrice!.min) }}-{{
+              formatPrice(flightTicket.mrPrice!.max)
+            }}
           </span>
           <span *ngIf="hasMRPrice" class="separator">|</span>
           <span *ngIf="hasAEPrice">
@@ -193,9 +196,11 @@
             }}
           </span>
           <span *ngIf="hasAEPrice && hasPSPrice" class="separator">|</span>
-          <span *ngIf="hasPSPrice"
-            >{{ texts.psLabel }}: ${{ formatPrice(flightTicket.psPrice!.min) }}</span
-          >
+          <span *ngIf="hasPSPrice">
+            {{ texts.psLabel }}: ${{ formatPrice(flightTicket.psPrice!.min) }}-{{
+              formatPrice(flightTicket.psPrice!.max)
+            }}
+          </span>
         </div>
       </div>
 

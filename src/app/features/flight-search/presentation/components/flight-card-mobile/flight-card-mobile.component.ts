@@ -19,7 +19,6 @@ import { MessageService } from 'primeng/api';
 export class FlightCardMobileComponent implements OnInit, OnDestroy {
   @Input() flightTicket!: FlightTicketEntity;
   @Input() isRoundTrip: boolean = false;
-  @Input() searchId: string | null = null;
 
   public texts: ResolvedFlightCardMobileTexts = {} as ResolvedFlightCardMobileTexts;
   public isExpanded = false;
@@ -50,9 +49,9 @@ export class FlightCardMobileComponent implements OnInit, OnDestroy {
   public onSelectFlight(event: Event): void {
     event.stopPropagation();
     
-    const termsUrl = this.flightTicket.terms?.url;
+    const agencyLink = this.flightTicket.flights[0]?.flightItems[0]?.agencyLink;
     
-    if (!this.searchId || !termsUrl) {
+    if (!agencyLink) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
@@ -64,7 +63,7 @@ export class FlightCardMobileComponent implements OnInit, OnDestroy {
     this.isLoadingBooking = true;
 
     this.petflyInteractor
-      .getBookingLink(this.searchId, termsUrl)
+      .getBookingLink(agencyLink)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: response => {
@@ -165,6 +164,18 @@ export class FlightCardMobileComponent implements OnInit, OnDestroy {
 
   public get hasPSPrice(): boolean {
     return this.flightTicket.psPrice !== null;
+  }
+
+  public getPetPriceMin(): number {
+    return this.flightTicket.totalPetPrice?.min ?? 0;
+  }
+
+  public getPetPriceMax(): number {
+    return this.flightTicket.totalPetPrice?.max ?? 0;
+  }
+
+  public get hasTotalPetPrice(): boolean {
+    return this.flightTicket.totalPetPrice !== null;
   }
 
   private setupReactiveTexts(): void {

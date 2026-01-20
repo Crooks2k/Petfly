@@ -144,9 +144,10 @@
         <span class="section-title">{{ texts.petPrice }}</span>
       </div>
       <div class="price-display-large">
-        ${{ formatPrice(flightTicket.mrPrice?.min || 0) }}-{{
-          formatPrice(flightTicket.mrPrice?.max || 200)
-        }}
+        <span *ngIf="hasTotalPetPrice"
+          >${{ formatPrice(getPetPriceMin()) }}-{{ formatPrice(getPetPriceMax()) }}</span
+        >
+        <span *ngIf="!hasTotalPetPrice">N/A</span>
       </div>
 
       <!-- Badges de certificados -->

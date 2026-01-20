@@ -17,15 +17,13 @@ export class BookingLinkRepositoryImpl extends BookingLinkRepository {
     super();
   }
 
-  getBookingLink(searchId: string, termsUrl: string): Observable<BookingLinkEntity> {
-    const url = `${this.baseUrl}flight_searches/${searchId}/clicks/${termsUrl}.json`;
-    
+  getBookingLink(agencyLink: string): Observable<BookingLinkEntity> {
     const headers = new HttpHeaders({
       'Accept-Encoding': 'gzip,deflate,sdch',
     });
 
     return this.http
-      .get<BookingLinkApiResponse>(url, { headers })
+      .get<BookingLinkApiResponse>(agencyLink, { headers })
       .pipe(map(response => BookingLinkMapper.toDomain(response)));
   }
 }

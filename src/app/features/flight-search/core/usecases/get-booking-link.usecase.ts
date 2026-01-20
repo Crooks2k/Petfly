@@ -9,7 +9,7 @@ import { BookingLinkEntity } from '../entities';
 export class GetBookingLinkUseCase {
   constructor(private readonly bookingLinkRepository: BookingLinkRepository) {}
 
-  execute(searchId: string, termsUrl: string): Observable<BookingLinkEntity> {
-    return this.bookingLinkRepository.getBookingLink(searchId, termsUrl);
+  execute(agencyLink: string): Observable<BookingLinkEntity> {
+    return this.bookingLinkRepository.getBookingLink(agencyLink);
   }
 }
