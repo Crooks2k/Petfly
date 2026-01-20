@@ -22,6 +22,7 @@
   position: relative;
   overflow-x: auto;
   overflow-y: visible;
+  scroll-behavior: smooth;
 
   @media (min-width: 1400px) {
     gap: 32px;
@@ -62,24 +63,6 @@
   /* Firefox */
   scrollbar-width: thin;
   scrollbar-color: var(--color-primary) var(--color-scrollbar-track);
-
-  /* Indicador de scroll con gradiente */
-  &::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 40px;
-    background: linear-gradient(to left, rgba(255, 255, 255, 0.9), transparent);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  &:hover::after {
-    opacity: 1;
-  }
 }
 
 // ============================================

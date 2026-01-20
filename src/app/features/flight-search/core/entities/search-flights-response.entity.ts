@@ -14,8 +14,8 @@ export interface FlightTicketEntity {
   mrPrice: PriceRangeEntity | null;
   aePrice: PriceRangeEntity | null;
   psPrice: PriceRangeEntity | null;
+  totalPetPrice: PriceRangeEntity | null;
   total: PriceRangeEntity;
-  terms?: { url: string }; // Objeto terms con URL para obtener el link de booking
 }
 
 export interface FlightGroupEntity {
@@ -32,6 +32,7 @@ export interface FlightItemEntity {
   duration: number;
   tripClass: string;
   imageUrl: string;
+  agencyLink: string;
 }
 
 export interface PriceRangeEntity {

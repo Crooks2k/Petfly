@@ -75,7 +75,7 @@ export class PetflyInteractor {
     return this.filterFlightsUseCase.execute({ formData, searchId, currency, locale, options });
   }
 
-  public getBookingLink(searchId: string, termsUrl: string): Observable<BookingLinkEntity> {
-    return this.getBookingLinkUseCase.execute(searchId, termsUrl);
+  public getBookingLink(agencyLink: string): Observable<BookingLinkEntity> {
+    return this.getBookingLinkUseCase.execute(agencyLink);
   }
 }
