@@ -244,28 +244,6 @@
       </petfly-passenger-selector>
     </div>
 
-    <div class="filter-section">
-      <label class="filter-label">{{ texts.airlinesStopsLabel }}</label>
-      <div class="stops-options">
-        <button
-          type="button"
-          class="stop-btn"
-          [class.active]="filtersForm.get('permitirEscalas')?.value === true"
-          (click)="filtersForm.patchValue({ permitirEscalas: true })"
-        >
-          {{ texts.allowStops }}
-        </button>
-        <button
-          type="button"
-          class="stop-btn"
-          [class.active]="filtersForm.get('permitirEscalas')?.value === false"
-          (click)="filtersForm.patchValue({ permitirEscalas: false })"
-        >
-          {{ texts.noStops }}
-        </button>
-      </div>
-    </div>
-
     <h2 class="filters-title">
       {{ texts.priceLabel }}
     </h2>
@@ -292,6 +270,33 @@
         prefix="$"
       >
       </petfly-input-number>
+    </div>
+
+    <h2 class="filters-title">
+      <i class="pi pi-plane"></i>
+      {{ texts.airlineSectionTitle }}
+    </h2>
+
+    <div class="filter-section">
+      <label class="filter-label">{{ texts.airlinesStopsLabel }}</label>
+      <div class="stops-options">
+        <button
+          type="button"
+          class="stop-btn"
+          [class.active]="filtersForm.get('permitirEscalas')?.value === true"
+          (click)="filtersForm.patchValue({ permitirEscalas: true })"
+        >
+          {{ texts.allowStops }}
+        </button>
+        <button
+          type="button"
+          class="stop-btn"
+          [class.active]="filtersForm.get('permitirEscalas')?.value === false"
+          (click)="filtersForm.patchValue({ permitirEscalas: false })"
+        >
+          {{ texts.noStops }}
+        </button>
+      </div>
     </div>
 
     <div class="filter-section">
