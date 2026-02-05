@@ -48,14 +48,14 @@ export class FlightCardMobileComponent implements OnInit, OnDestroy {
 
   public onSelectFlight(event: Event): void {
     event.stopPropagation();
-    
+
     const agencyLink = this.flightTicket.flights[0]?.flightItems[0]?.agencyLink;
-    
+
     if (!agencyLink) {
       this.messageService.add({
         severity: 'error',
-        summary: 'Error',
-        detail: 'No se pudo obtener el enlace de reserva. Por favor, intenta de nuevo.',
+        summary: this.texts.bookingLinkErrorSummary,
+        detail: this.texts.bookingLinkErrorDetail,
       });
       return;
     }
@@ -68,14 +68,22 @@ export class FlightCardMobileComponent implements OnInit, OnDestroy {
       .subscribe({
         next: response => {
           this.isLoadingBooking = false;
-          window.open(response.url, '_blank');
+          this.messageService.add({
+            severity: 'info',
+            summary: this.texts.bookingRedirectSummary,
+            detail: this.texts.bookingRedirectDetail,
+            life: 3500,
+          });
+          setTimeout(() => {
+            window.open(response.url, '_blank');
+          }, 3000);
         },
         error: () => {
           this.isLoadingBooking = false;
           this.messageService.add({
             severity: 'error',
-            summary: 'Error',
-            detail: 'No se pudo obtener el enlace de reserva. Por favor, intenta de nuevo.',
+            summary: this.texts.bookingLinkErrorSummary,
+            detail: this.texts.bookingLinkErrorDetail,
           });
         },
       });
@@ -89,6 +97,17 @@ export class FlightCardMobileComponent implements OnInit, OnDestroy {
     return this.isRoundTrip && this.flightTicket.flights.length > 1
       ? this.flightTicket.flights[1]
       : null;
+  }
+
+  public get airlineComment(): string | null {
+    for (const flight of this.flightTicket.flights || []) {
+      for (const item of flight.flightItems || []) {
+        if (item.comments != null && item.comments.trim() !== '') {
+          return item.comments;
+        }
+      }
+    }
+    return null;
   }
 
   public formatTime(isoString: string): string {

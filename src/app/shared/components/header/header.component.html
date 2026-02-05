@@ -7,7 +7,7 @@
       tabindex="0"
       (keydown.enter)="navigateToHome()"
     >
-      <img src="assets/images/petfly-logo.png" alt="Petfly - Viaja con tu mascota" class="logo" />
+      <img src="assets/images/petfly-logo.png" [attr.alt]="texts.logoAlt" class="logo" />
     </div>
 
     <div class="nav-icons">
@@ -15,12 +15,17 @@
         class="nav-icon-btn"
         type="button"
         (click)="op.toggle($event)"
-        aria-label="Cambiar idioma"
+        [attr.aria-label]="texts.changeLanguageAriaLabel"
       >
         <i class="pi pi-globe"></i>
       </button>
 
-      <button class="nav-icon-btn" type="button" (click)="openWhatsApp()" aria-label="WhatsApp">
+      <button
+        class="nav-icon-btn"
+        type="button"
+        (click)="openWhatsApp()"
+        [attr.aria-label]="texts.whatsappAriaLabel"
+      >
         <i class="pi pi-whatsapp"></i>
       </button>
 
@@ -28,7 +33,7 @@
         class="nav-icon-btn"
         type="button"
         (click)="opCurrency.toggle($event)"
-        aria-label="Cambiar divisa"
+        [attr.aria-label]="texts.changeCurrencyAriaLabel"
       >
         <i class="pi pi-dollar"></i>
       </button>

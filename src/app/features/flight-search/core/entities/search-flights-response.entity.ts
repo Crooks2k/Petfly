@@ -33,6 +33,7 @@ export interface FlightItemEntity {
   tripClass: string;
   imageUrl: string;
   agencyLink: string;
+  comments?: string | null;
 }
 
 export interface PriceRangeEntity {

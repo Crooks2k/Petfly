@@ -17,10 +17,12 @@ export interface FlightSearchFormEntity {
   edadMascota: number;
   pesoMascota: number;
   razaMascota: string;
-  // Campos adicionales para filtros
   altura?: number | null;
   largo?: number | null;
   ancho?: number | null;
+  length?: number | null;
+  width?: number | null;
+  height?: number | null;
   sinTransportador?: boolean | null;
   certificados?: string[];
   permitirEscalas?: boolean | null;

@@ -1,10 +1,21 @@
 <div class="flight-card-desktop" [class.expanded]="isExpanded">
-  <!-- Icono de expansión (arriba a la derecha) -->
   <div class="expand-icon" (click)="toggleExpanded()">
     <i class="pi" [class.pi-chevron-down]="!isExpanded" [class.pi-chevron-up]="isExpanded"></i>
   </div>
 
-  <!-- Header cerrado -->
+  <button
+    *ngIf="airlineComment"
+    type="button"
+    class="airline-comment-icon"
+    (click)="commentOverlay.toggle($event); $event.stopPropagation()"
+    aria-label="Información de la aerolínea"
+  >
+    <i class="pi pi-info-circle"></i>
+  </button>
+  <p-overlayPanel #commentOverlay [appendTo]="'body'" styleClass="airline-comment-overlay">
+    <div class="airline-comment-content">{{ airlineComment }}</div>
+  </p-overlayPanel>
+
   <div class="card-header">
     <!-- Columna izquierda: Vuelos -->
     <div class="flights-column">
@@ -130,8 +141,8 @@
       <div class="person-box">
         <div class="price-label">{{ texts.pricePerPerson }}</div>
         <div class="price-value">${{ formatPrice(flightTicket.price) }}</div>
-        <button 
-          class="select-button" 
+        <button
+          class="select-button"
           (click)="onSelectFlight($event)"
           [disabled]="isLoadingBooking"
         >
@@ -147,21 +158,12 @@
         <div class="price-label">{{ texts.petPrice }}</div>
         <div class="price-value">
           <span *ngIf="hasTotalPetPrice"
-            >${{ formatPrice(getPetPriceMin()) }}-{{ formatPrice(getPetPriceMax()) }}</span
+            >${{ formatPrice(getPetPriceMin()) }}-${{ formatPrice(getPetPriceMax()) }}</span
           >
-          <span *ngIf="!hasTotalPetPrice">N/A</span>
+          <span *ngIf="!hasTotalPetPrice">{{ texts.notAvailable }}</span>
         </div>
         <div class="badges" *ngIf="hasPSPrice || hasAEPrice || hasMRPrice">
-          <a
-            *ngIf="hasPSPrice"
-            href="https://petfly.io/certificados-de-perro-de-servicio/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="badge badge-ps"
-            (click)="$event.stopPropagation()"
-          >
-            {{ texts.psBadge }}
-          </a>
+          <span *ngIf="hasMRPrice" class="badge badge-mr">{{ texts.mrBadge }}</span>
           <a
             *ngIf="hasAEPrice"
             href="https://petfly.io/certificado-de-apoyo-emocional/"
@@ -172,7 +174,16 @@
           >
             {{ texts.aeBadge }}
           </a>
-          <span *ngIf="hasMRPrice" class="badge badge-mr">{{ texts.mrBadge }}</span>
+          <a
+            *ngIf="hasPSPrice"
+            href="https://petfly.io/certificados-de-perro-de-servicio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="badge badge-ps"
+            (click)="$event.stopPropagation()"
+          >
+            {{ texts.psBadge }}
+          </a>
         </div>
         <div class="badge-hint" *ngIf="hasPSPrice || hasAEPrice || hasMRPrice">
           <i class="pi pi-info-circle"></i>
@@ -185,19 +196,19 @@
         </div>
         <div class="price-breakdown">
           <span *ngIf="hasMRPrice">
-            {{ texts.mrLabel }}: ${{ formatPrice(flightTicket.mrPrice!.min) }}-{{
+            {{ texts.mrLabel }}: ${{ formatPrice(flightTicket.mrPrice!.min) }}-${{
               formatPrice(flightTicket.mrPrice!.max)
             }}
           </span>
           <span *ngIf="hasMRPrice" class="separator">|</span>
           <span *ngIf="hasAEPrice">
-            {{ texts.aeLabel }}: ${{ formatPrice(flightTicket.aePrice!.min) }}-{{
+            {{ texts.aeLabel }}: ${{ formatPrice(flightTicket.aePrice!.min) }}-${{
               formatPrice(flightTicket.aePrice!.max)
             }}
           </span>
           <span *ngIf="hasAEPrice && hasPSPrice" class="separator">|</span>
           <span *ngIf="hasPSPrice">
-            {{ texts.psLabel }}: ${{ formatPrice(flightTicket.psPrice!.min) }}-{{
+            {{ texts.psLabel }}: ${{ formatPrice(flightTicket.psPrice!.min) }}-${{
               formatPrice(flightTicket.psPrice!.max)
             }}
           </span>
@@ -208,7 +219,7 @@
       <div class="price-box total-box">
         <div class="price-label">{{ texts.totalPrice }}</div>
         <div class="price-value total">
-          ${{ formatPrice(flightTicket.total.min) }}-{{ formatPrice(flightTicket.total.max) }}
+          ${{ formatPrice(flightTicket.total.min) }}-${{ formatPrice(flightTicket.total.max) }}
         </div>
         <div class="price-warning">
           <i class="pi pi-exclamation-triangle"></i>
