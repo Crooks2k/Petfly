@@ -271,10 +271,24 @@ body {
   z-index: 1 !important;
 }
 
+.airline-comment-overlay .p-overlaypanel-content {
+  padding: 0;
+  background: var(--color-bg-white);
+  border: 1px solid var(--color-border-lighter);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px var(--shadow-card-hover);
+  overflow: hidden;
+}
+
 .airline-comment-overlay .airline-comment-content {
-  padding: 12px 16px;
-  max-width: 300px;
-  font-size: 14px;
+  padding: 14px 18px;
+  max-width: 320px;
+  min-width: 200px;
+  font-size: 0.875rem;
   line-height: 1.5;
-  color: var(--color-text-primary);
+  color: var(--color-text-gray-darker);
+  background: var(--color-surface-lightest);
+  border-left: 4px solid var(--color-primary);
+  margin: 0;
+  font-weight: 500;
 }
