@@ -10,37 +10,37 @@
     .p-inputtext {
       width: 100%;
       padding: 0.875rem 1rem;
-      border: 1px solid #d1d5db;
+      border: 1px solid var(--color-border-light);
       border-radius: 8px;
       font-size: 0.95rem;
-      background: white;
-      color: #374151;
+      background: var(--color-bg-white);
+      color: var(--color-text-gray-darker);
       transition: all 0.2s ease;
       min-height: 48px;
 
       &:focus {
         outline: none;
-        border-color: #2563eb;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        border-color: var(--color-primary-dark);
+        box-shadow: 0 0 0 3px var(--focus-ring-primary);
       }
 
       &:hover:not(:focus) {
-        border-color: #9ca3af;
+        border-color: var(--color-text-gray-light);
       }
 
       &::placeholder {
-        color: #9ca3af;
+        color: var(--color-text-gray-light);
       }
 
       &:disabled {
-        background-color: #f9fafb;
-        color: #6b7280;
+        background-color: var(--color-surface-lightest);
+        color: var(--color-text-gray-medium);
         cursor: not-allowed;
         opacity: 0.6;
       }
 
       &:read-only {
-        background-color: #f9fafb;
+        background-color: var(--color-surface-lightest);
         cursor: default;
       }
     }
@@ -49,22 +49,22 @@
     &.p-inputnumber-buttons-stacked {
       .p-inputnumber-button-group {
         .p-inputnumber-button {
-          background-color: #f8fafc;
-          border: 1px solid #d1d5db;
-          color: #64748b;
+          background-color: var(--color-surface-lighter);
+          border: 1px solid var(--color-border-light);
+          color: var(--color-text-gray-slate);
           width: 2rem;
           transition: all 0.2s ease;
 
           &:hover {
-            background-color: #f1f5f9;
-            border-color: #94a3b8;
-            color: #475569;
+            background-color: var(--color-surface-gray);
+            border-color: var(--color-border-light);
+            color: var(--color-text-gray-dark);
           }
 
           &:focus {
             outline: none;
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
-            border-color: #2563eb;
+            box-shadow: 0 0 0 2px var(--focus-ring-primary);
+            border-color: var(--color-primary-dark);
             z-index: 1;
           }
 
@@ -93,21 +93,21 @@
 
     &.p-inputnumber-buttons-horizontal {
       .p-inputnumber-button {
-        background-color: #f8fafc;
-        border: 1px solid #d1d5db;
-        color: #64748b;
+        background-color: var(--color-surface-lighter);
+        border: 1px solid var(--color-border-light);
+        color: var(--color-text-gray-slate);
         padding: 0.5rem;
 
         &:hover {
-          background-color: #f1f5f9;
-          border-color: #94a3b8;
-          color: #475569;
+          background-color: var(--color-surface-gray);
+          border-color: var(--color-border-light);
+          color: var(--color-text-gray-dark);
         }
 
         &:focus {
           outline: none;
-          box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
-          border-color: #2563eb;
+          box-shadow: 0 0 0 2px var(--focus-ring-primary);
+          border-color: var(--color-primary-dark);
           z-index: 1;
         }
 
@@ -134,11 +134,11 @@
     // Error state
     &.ng-invalid.ng-touched {
       .p-inputtext {
-        border-color: #ef4444;
+        border-color: var(--color-danger);
 
         &:focus {
-          box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-          border-color: #ef4444;
+          box-shadow: 0 0 0 3px var(--focus-ring-error);
+          border-color: var(--color-danger);
         }
       }
     }
@@ -146,11 +146,11 @@
     // Success state
     &.ng-valid.ng-touched {
       .p-inputtext {
-        border-color: #10b981;
+        border-color: var(--color-success);
 
         &:focus {
-          box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-          border-color: #10b981;
+          box-shadow: 0 0 0 3px var(--focus-ring-success);
+          border-color: var(--color-success);
         }
       }
     }

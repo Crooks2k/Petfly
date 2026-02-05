@@ -1,9 +1,13 @@
 {
   "header": {
-    "languageLabel": "Language",
+    "languageLabel": "Idioma",
     "whatsappLabel": "WhatsApp",
-    "pricesLabel": "Prices",
-    "whatsappMessage": "¡Hola! Vi un vuelo ideal en el buscador y necesito un certificado para viajar con mi mascota en cabina."
+    "pricesLabel": "Precios",
+    "whatsappMessage": "¡Hola! Vi un vuelo ideal en el buscador y necesito un certificado para viajar con mi mascota en cabina.",
+    "changeLanguageAriaLabel": "Cambiar idioma",
+    "whatsappAriaLabel": "WhatsApp",
+    "changeCurrencyAriaLabel": "Cambiar divisa",
+    "logoAlt": "Petfly - Viaja con tu mascota"
   },
   "flightSearch": {
     "title": "Encuentra vuelos para ti y tu mascota",
@@ -69,7 +73,9 @@
     "searchSuccessTitle": "¡Búsqueda exitosa!",
     "searchSuccessMessage": "Encontramos vuelos disponibles para tu viaje",
     "searchErrorTitle": "Sin resultados",
-    "searchErrorMessage": "No encontramos vuelos con los parámetros seleccionados. Intenta ajustar tus fechas o destinos."
+    "searchErrorMessage": "No encontramos vuelos con los parámetros seleccionados. Intenta ajustar tus fechas o destinos.",
+    "searchingCities": "Buscando ciudades...",
+    "loadingBreeds": "Cargando razas..."
   },
   "flightResults": {
     "title": "Resultados de Búsqueda",
@@ -159,9 +165,17 @@
     "regularPetBadge": "MR",
     "emotionalSupportBadge": "AE",
     "serviceDogBadge": "PS",
-    "regularPetDescription": "Viaja en bodega según políticas de la aerolínea",
+    "regularPetDescription": "Viaja en cabina según políticas de la aerolínea",
     "emotionalSupportDescription": "Viaja en cabina contigo con certificado de apoyo emocional",
-    "serviceDogDescription": "Viaja en cabina contigo con certificado de perro de asistencia"
+    "serviceDogDescription": "Viaja en cabina contigo con certificado de perro de servicio",
+    "certificateAELinkText": "Más información sobre Apoyo emocional",
+    "certificatePSLinkText": "Más información sobre Perro de servicio",
+    "expandFiltersLabel": "Expandir filtros",
+    "collapseFiltersLabel": "Colapsar filtros",
+    "loadMoreFlightsLabel": "Cargar más vuelos",
+    "remainingLabel": "restantes",
+    "currencyChangeApplyFiltersSummary": "Moneda actualizada",
+    "currencyChangeApplyFiltersDetail": "Haz clic en «Aplicar filtros» para ver los precios con la nueva moneda."
   },
   "flightCard": {
     "pricePerPerson": "Precio por persona",
@@ -191,7 +205,12 @@
     "psLabel": "PS",
     "aeNotAccepted": "AE no aceptado",
     "psNotAccepted": "PS no aceptado",
-    "mrNotAccepted": "MR no aceptado"
+    "mrNotAccepted": "MR no aceptado",
+    "bookingLinkErrorSummary": "Error",
+    "bookingLinkErrorDetail": "No se pudo obtener el enlace de reserva. Por favor, intenta de nuevo.",
+    "bookingRedirectSummary": "Redirigiendo",
+    "bookingRedirectDetail": "Serás redirigido al sitio del comercio para ver el vuelo y completar tu reserva en unos segundos.",
+    "notAvailable": "N/A"
   },
   "filtersAside": {
     "mainTitle": "Filtros",
@@ -230,7 +249,7 @@
     "emotionalSupport": "Apoyo emocional",
     "emotionalSupportDescription": "Viaja con tu mascota de apoyo emocional en cabina",
     "serviceAnimal": "Perro de servicio",
-    "serviceAnimalDescription": "Certificado oficial para perros de asistencia",
+    "serviceAnimalDescription": "Certificado oficial para perros de servicio",
     "airlinesStopsLabel": "Aerolíneas y escalas",
     "allowStops": "Permitir escalas",
     "noStops": "Sin escalas",
@@ -245,8 +264,20 @@
     "filterButton": "Filtrar",
     "breedLabel": "Raza",
     "breedPlaceholder": "Selecciona la raza",
+    "loadingBreeds": "Cargando razas...",
     "originLabel": "Origen",
-    "destinationLabel": "Destino"
+    "destinationLabel": "Destino",
+    "searchingCities": "Buscando ciudades...",
+    "weightPlaceholder": "7.5",
+    "minPriceLabel": "Precio mínimo",
+    "minPricePlaceholder": "0",
+    "maxPriceLabel": "Precio máximo",
+    "maxPricePlaceholder": "999999",
+    "airlinesPlaceholder": "Todas las aerolíneas",
+    "dimensionsLabel": "Dimensiones",
+    "lengthLabel": "Largo",
+    "widthLabel": "Ancho",
+    "heightLabel": "Altura"
   },
   "pageNotFound": {
     "title": "¡Vuelo no encontrado!",

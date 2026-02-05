@@ -77,28 +77,20 @@
     </div>
 
     <div class="filter-section">
-      <label class="filter-label">{{ texts.breedLabel || 'Raza' }}</label>
+      <label class="filter-label">{{ texts.breedLabel }}</label>
       <petfly-input-select
         formControlName="razaMascota"
         [options]="razasOptions"
-        [placeholder]="
-          isLoadingBreeds ? 'Cargando razas...' : texts.breedPlaceholder || 'Selecciona la raza'
-        "
+        [placeholder]="isLoadingBreeds ? texts.loadingBreeds : texts.breedPlaceholder"
         [filter]="true"
       >
       </petfly-input-select>
     </div>
 
     <div class="filter-section">
-      <label class="filter-label">{{ texts.petAgeLabel || 'Edad de la mascota' }}</label>
-      <p class="filter-subtitle">{{ texts.petAgeSubtitle || 'En años' }}</p>
-      <petfly-input-number
-        formControlName="edadMascota"
-        [min]="0"
-        [max]="30"
-        [step]="1"
-        placeholder="3"
-      >
+      <label class="filter-label">{{ texts.petAgeLabel }}</label>
+      <p class="filter-subtitle">{{ texts.petAgeSubtitle }}</p>
+      <petfly-input-number formControlName="edadMascota" [min]="0" [max]="30" [step]="1">
       </petfly-input-number>
     </div>
 
@@ -110,7 +102,7 @@
         [min]="0.5"
         [max]="50"
         [step]="0.5"
-        placeholder="7.5"
+        [placeholder]="texts.weightPlaceholder"
       >
       </petfly-input-number>
     </div>
@@ -137,6 +129,38 @@
       </div>
     </div>
 
+    <div class="filter-section">
+      <label class="filter-label">{{ texts.dimensionsLabel }}</label>
+      <div class="dimensions-grid">
+        <petfly-input-number
+          formControlName="length"
+          [min]="0"
+          [step]="1"
+          [placeholder]="texts.minPricePlaceholder"
+        >
+        </petfly-input-number>
+        <petfly-input-number
+          formControlName="width"
+          [min]="0"
+          [step]="1"
+          [placeholder]="texts.minPricePlaceholder"
+        >
+        </petfly-input-number>
+        <petfly-input-number
+          formControlName="height"
+          [min]="0"
+          [step]="1"
+          [placeholder]="texts.minPricePlaceholder"
+        >
+        </petfly-input-number>
+      </div>
+      <div class="dimensions-labels-row">
+        <span class="dimension-field-label">{{ texts.lengthLabel }}</span>
+        <span class="dimension-field-label">{{ texts.widthLabel }}</span>
+        <span class="dimension-field-label">{{ texts.heightLabel }}</span>
+      </div>
+    </div>
+
     <h2 class="filters-title">
       <i class="pi pi-plane"></i>
       {{ texts.travelDetailsTitle }}
@@ -151,9 +175,7 @@
           (completeMethod)="onOrigenSearch($event)"
           (selectionChange)="onOrigenSelect($event)"
           field="label"
-          [placeholder]="
-            isLoadingCitiesOrigen ? 'Buscando ciudades...' : texts.originLabel || 'Origen'
-          "
+          [placeholder]="isLoadingCitiesOrigen ? texts.searchingCities : texts.originLabel"
           [forceSelection]="true"
           optionValue="value"
           [minLength]="2"
@@ -167,9 +189,7 @@
           (completeMethod)="onDestinoSearch($event)"
           (selectionChange)="onDestinoSelect($event)"
           field="label"
-          [placeholder]="
-            isLoadingCitiesDestino ? 'Buscando ciudades...' : texts.destinationLabel || 'Destino'
-          "
+          [placeholder]="isLoadingCitiesDestino ? texts.searchingCities : texts.destinationLabel"
           [forceSelection]="true"
           optionValue="value"
           [minLength]="2"
@@ -249,39 +269,39 @@
     </div>
 
     <h2 class="filters-title">
-      {{ texts.priceLabel || 'Precio' }}
+      {{ texts.priceLabel }}
     </h2>
 
     <div class="filter-section">
-      <label class="filter-label">Precio mínimo</label>
+      <label class="filter-label">{{ texts.minPriceLabel }}</label>
       <petfly-input-number
         formControlName="precioMinimo"
         [min]="0"
         [step]="1000"
-        placeholder="0"
+        [placeholder]="texts.minPricePlaceholder"
         prefix="$"
       >
       </petfly-input-number>
     </div>
 
     <div class="filter-section">
-      <label class="filter-label">Precio máximo</label>
+      <label class="filter-label">{{ texts.maxPriceLabel }}</label>
       <petfly-input-number
         formControlName="precioMaximo"
         [min]="0"
         [step]="1000"
-        placeholder="999999"
+        [placeholder]="texts.maxPricePlaceholder"
         prefix="$"
       >
       </petfly-input-number>
     </div>
 
     <div class="filter-section">
-      <label class="filter-label">{{ texts.airlinesLabel || 'Aerolínea' }}</label>
+      <label class="filter-label">{{ texts.airlinesLabel }}</label>
       <petfly-input-select
         formControlName="aerolinea"
         [options]="airlinesOptions"
-        placeholder="Todas las aerolíneas"
+        [placeholder]="texts.airlinesPlaceholder"
         [filter]="true"
         [showClear]="true"
       >
@@ -293,7 +313,7 @@
   <div class="filters-footer">
     <button type="button" class="filter-button" (click)="onUpdateFilters()">
       <i class="pi pi-search"></i>
-      <span>{{ texts.filterButton || 'Filtrar' }}</span>
+      <span>{{ texts.filterButton }}</span>
     </button>
   </div>
 </form>

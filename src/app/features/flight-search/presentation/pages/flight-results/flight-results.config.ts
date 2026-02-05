@@ -93,6 +93,14 @@ export const FlightResultsConfig = {
     filterErrorMessage: 'flightResults.filterErrorMessage',
     filterSuccessTitle: 'flightResults.filterSuccessTitle',
     filterSuccessMessage: 'flightResults.filterSuccessMessage',
+    certificateAELinkText: 'flightResults.certificateAELinkText',
+    certificatePSLinkText: 'flightResults.certificatePSLinkText',
+    expandFiltersLabel: 'flightResults.expandFiltersLabel',
+    collapseFiltersLabel: 'flightResults.collapseFiltersLabel',
+    loadMoreFlightsLabel: 'flightResults.loadMoreFlightsLabel',
+    remainingLabel: 'flightResults.remainingLabel',
+    currencyChangeApplyFiltersSummary: 'flightResults.currencyChangeApplyFiltersSummary',
+    currencyChangeApplyFiltersDetail: 'flightResults.currencyChangeApplyFiltersDetail',
   },
 } as const satisfies I18nConfigEntity;
 

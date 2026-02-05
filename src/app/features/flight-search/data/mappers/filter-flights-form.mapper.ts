@@ -1,16 +1,32 @@
 import { FlightSearchFormEntity } from '@flight-search/core/entities/flight-search-form.entity';
-import { FilterFlightsRequestEntity } from '@flight-search/core/entities/filter-flights-request.entity';
+import {
+  FilterFlightsRequestEntity,
+  FilterFlightsParametersEntity,
+  FilterFlightsDimensionsEntity,
+  FilterFlightsPassengersEntity,
+  FilterFlightsSegmentEntity,
+} from '@flight-search/core/entities';
 import { FlightSearchFormMapper, MapperOptions } from './flight-search-form.mapper';
 
+const DEFAULT_CODE_ALL = 'all';
+
+function defaultNumber(value: number | null | undefined): number {
+  const n = Number(value);
+  return value != null && !Number.isNaN(n) ? n : 0;
+}
+
+function defaultString(value: string | null | undefined): string | null {
+  if (value == null) return null;
+  const s = String(value).trim();
+  return s === '' ? null : s;
+}
+
+function defaultCode(value: string | null | undefined): string {
+  const s = defaultString(value);
+  return s ?? DEFAULT_CODE_ALL;
+}
+
 export class FilterFlightsFormMapper {
-  /**
-   * Convierte los datos del formulario de filtros al formato requerido por el API de filtros
-   * @param formData - Datos del formulario
-   * @param searchId - ID de la búsqueda original
-   * @param currency - Código de moneda
-   * @param locale - Código de idioma
-   * @param options - Opciones adicionales para el mapper
-   */
   static toApiRequest(
     formData: FlightSearchFormEntity,
     searchId: string,
@@ -18,46 +34,63 @@ export class FilterFlightsFormMapper {
     locale: string,
     options: MapperOptions = {}
   ): FilterFlightsRequestEntity {
-    // Reutilizar el mapper de búsqueda para los datos base
     const searchRequest = FlightSearchFormMapper.toApiRequest(formData, currency, locale, options);
 
-    // Construir filterParameters - SIEMPRE incluir con valores por defecto
-    const filterParameters: FilterFlightsRequestEntity['filterParameters'] = {
-      isDirect: formData.permitirEscalas === false, // Si permitirEscalas es false, isDirect es true
-      minPrice: formData.precioMinimo ?? 0,
-      maxPrice: formData.precioMaximo ?? 999999,
-      airlineCode: formData.aerolinea || 'LA', // Por defecto LATAM (LA) si no hay aerolínea seleccionada
+    const dimensions: FilterFlightsDimensionsEntity = {
+      length: defaultNumber(formData.length),
+      width: defaultNumber(formData.width),
+      height: defaultNumber(formData.height),
     };
 
-    // Certificados: emotional -> AE, service -> PS
-    if (formData.certificados && formData.certificados.length > 0) {
-      const certMap: Record<string, string> = {
-        emotional: 'AE', // Apoyo emocional
-        service: 'PS', // Perro de servicio
-      };
-      filterParameters.certificateType =
-        certMap[formData.certificados[0]] || formData.certificados[0];
-    }
+    const filterParameters: FilterFlightsParametersEntity = {
+      isDirect: formData.permitirEscalas === false,
+      minPrice: defaultNumber(formData.precioMinimo),
+      maxPrice: defaultNumber(formData.precioMaximo),
+      dimensions,
+      airlineCode: defaultCode(formData.aerolinea),
+      certificateType: getCertificateType(formData),
+    };
 
-    // Construir el request completo con valores por defecto
-    const filterRequest: FilterFlightsRequestEntity = {
+    const passengers: FilterFlightsPassengersEntity = {
+      adults: defaultNumber(searchRequest.passengers?.adults),
+      children: defaultNumber(searchRequest.passengers?.children),
+      infants: defaultNumber(searchRequest.passengers?.infants),
+    };
+
+    const segments: FilterFlightsSegmentEntity[] = (searchRequest.segments ?? []).map(seg => ({
+      origin: seg.origin,
+      origin_country: seg.origin_country,
+      destination: seg.destination,
+      destination_country: seg.destination_country,
+      date: seg.date,
+    }));
+
+    const request: FilterFlightsRequestEntity = {
       searchId,
-      filterParameters, // SIEMPRE incluir
-      age: searchRequest.age || 0,
-      weight: searchRequest.weight || 0,
-      breed: searchRequest.breed || '',
-      currency: searchRequest.currency,
+      filterParameters,
+      age: defaultNumber(searchRequest.age),
+      weight: defaultNumber(searchRequest.weight),
+      breed: defaultString(searchRequest.breed),
+      currency: searchRequest.currency || 'COP',
       petType: searchRequest.petType || 'Dog',
-      locale: searchRequest.locale,
+      locale: defaultString(searchRequest.locale) ?? null,
       tripClass: searchRequest.tripClass || 'Y',
-      passengers: searchRequest.passengers || {
-        adults: 1,
-        children: 0,
-        infants: 0,
-      },
-      segments: searchRequest.segments || [],
+      passengers,
+      segments,
     };
 
-    return filterRequest;
+    return request;
   }
+}
+
+function getCertificateType(formData: FlightSearchFormEntity): string {
+  if (formData.certificados && formData.certificados.length > 0) {
+    const certMap: Record<string, string> = {
+      emotional: 'AE',
+      service: 'PS',
+    };
+    const first = formData.certificados[0];
+    return certMap[first] ?? first;
+  }
+  return DEFAULT_CODE_ALL;
 }

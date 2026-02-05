@@ -35,12 +35,11 @@ export abstract class FlightFormBaseViewModel {
     protected readonly i18nService: I18nService,
     config: Partial<FlightFormConfig> = {}
   ) {
-    // Configuración por defecto (para búsqueda)
     this.config = {
       requireOrigin: true,
       requireDestination: true,
       requireDepartureDate: true,
-      requireReturnDate: false, // Se valida dinámicamente
+      requireReturnDate: false,
       requirePassengers: true,
       requirePetType: false,
       requirePetWeight: false,
@@ -87,6 +86,9 @@ export abstract class FlightFormBaseViewModel {
       altura: [null],
       largo: [null],
       ancho: [null],
+      length: [null],
+      width: [null],
+      height: [null],
       sinTransportador: [null],
       certificados: [[]],
       permitirEscalas: [null],
@@ -97,7 +99,6 @@ export abstract class FlightFormBaseViewModel {
   }
 
   protected setupFormSubscriptions(): void {
-    // Solo configurar suscripciones si están habilitadas
     if (this.config.enableTripTypeValidation) {
       this.setupTripTypeValidation();
     }
@@ -161,16 +162,10 @@ export abstract class FlightFormBaseViewModel {
     return this.form.value;
   }
 
-  /**
-   * Obtiene el código de moneda actual
-   */
   public getCurrentCurrency(): string {
     return this.currencyService.getCurrentCurrencyCode();
   }
 
-  /**
-   * Obtiene el idioma actual
-   */
   public getCurrentLocale(): string {
     return this.i18nService.getCurrentLanguage();
   }
@@ -207,6 +202,9 @@ export abstract class FlightFormBaseViewModel {
       altura: null,
       largo: null,
       ancho: null,
+      length: null,
+      width: null,
+      height: null,
       sinTransportador: null,
       certificados: [],
       permitirEscalas: null,
@@ -223,7 +221,6 @@ export abstract class FlightFormBaseViewModel {
     this.destroy$.complete();
   }
 
-  // Método para actualizar validaciones dinámicamente
   protected updateFieldValidation(fieldName: string, validators: ValidatorFn[]): void {
     const control = this.form.get(fieldName);
     if (control) {

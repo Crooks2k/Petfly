@@ -1,13 +1,64 @@
 .flight-card {
+  position: relative;
   background: var(--color-bg-white);
   border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px var(--shadow-card);
   margin-bottom: 16px;
-  overflow: hidden;
+  overflow: visible;
   transition: all 0.3s ease;
 
   &:hover {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 20px var(--shadow-card-hover);
+  }
+}
+
+.airline-comment-icon {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  background: var(--color-bg-white);
+  border: 1.5px solid var(--color-primary);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+  animation: commentBreathMobile 2.2s ease-in-out infinite;
+  box-shadow: 0 1px 3px var(--shadow-sm);
+
+  &:hover {
+    background: var(--color-primary);
+    border-color: var(--color-primary-dark);
+
+    i {
+      color: var(--color-bg-white);
+    }
+  }
+
+  i {
+    font-size: 12px;
+    color: var(--color-primary);
+    transition: color 0.2s ease;
+  }
+}
+
+@keyframes commentBreathMobile {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.04);
   }
 }
 
@@ -133,6 +184,10 @@
 
 // Botón de seleccionar debajo de la info
 .select-button-compact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   width: 100%;
   padding: 10px 16px;
   background: var(--color-primary);
@@ -223,7 +278,11 @@
   border-top: 1px solid var(--color-border-lighter);
   padding: 16px;
   animation: slideDown 0.3s ease;
-  background: linear-gradient(135deg, #f0f4f8 0%, #e8eef5 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-surface-gradient-start) 0%,
+    var(--color-surface-gradient-end) 100%
+  );
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -248,10 +307,10 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px var(--shadow-card-subtle);
 
   &.total-section {
-    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    background: linear-gradient(135deg, var(--color-info-bg) 0%, var(--color-info-bg-dark) 100%);
     border: 2px solid var(--color-primary);
     padding: 12px;
     gap: 8px;
@@ -306,7 +365,7 @@
   flex-direction: column;
   gap: 8px;
   padding: 12px;
-  background: rgba(74, 144, 226, 0.05);
+  background: var(--color-primary-alpha-05);
   border-radius: 8px;
   border-left: 3px solid var(--color-primary);
 }
@@ -339,26 +398,26 @@
   cursor: pointer;
 
   &.badge-mr {
-    background: #457dd0;
+    background: var(--color-badge-mr);
   }
 
   &.badge-ps {
-    background: #1e9503;
+    background: var(--color-badge-ps);
 
     &:hover {
-      background: #166d02;
+      background: var(--color-badge-ps-hover);
       transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(30, 149, 3, 0.3);
+      box-shadow: 0 4px 8px var(--color-success-shadow);
     }
   }
 
   &.badge-ae {
-    background: #ff9800;
+    background: var(--color-badge-ae);
 
     &:hover {
-      background: #f57c00;
+      background: var(--color-badge-ae-hover);
       transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
+      box-shadow: 0 4px 8px var(--color-warning-shadow);
     }
   }
 }
@@ -428,9 +487,9 @@
   flex-direction: column;
   gap: 6px;
   padding: 12px;
-  background: rgba(211, 47, 47, 0.05);
+  background: var(--color-error-alpha-05);
   border-radius: 8px;
-  border-left: 3px solid #d32f2f;
+  border-left: 3px solid var(--color-error);
 }
 
 .status-title {
@@ -441,11 +500,11 @@
 }
 
 .ae-status {
-  color: #d32f2f;
+  color: var(--color-error);
   font-weight: 500;
   font-size: 11px;
   padding: 6px 10px;
-  background: rgba(211, 47, 47, 0.08);
+  background: var(--color-error-alpha-08);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -463,12 +522,12 @@
   align-items: flex-start;
   gap: 10px;
   padding: 12px;
-  background: #fff3e0;
+  background: var(--color-warning-bg);
   border-radius: 8px;
   font-size: 12px;
-  color: #e65100;
+  color: var(--color-warning-text);
   line-height: 1.5;
-  border-left: 3px solid #ff9800;
+  border-left: 3px solid var(--color-badge-ae);
 
   i {
     font-size: 16px;
