@@ -219,7 +219,7 @@
     "catLabel": "Cat",
     "petTypeLabel": "Dog or cat",
     "petAgeLabel": "Pet age",
-    "petAgeSubtitle": "In months",
+    "petAgeSubtitle": "In weeks",
     "petWeightLabel": "Pet weight (kg)",
     "petWeightSubtitle": "Includes carrier if applicable",
     "noCarrierLabel": "No carrier (dogs)",

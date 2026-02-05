@@ -219,7 +219,7 @@
     "catLabel": "Gato",
     "petTypeLabel": "Perro o gato",
     "petAgeLabel": "Edad de la mascota",
-    "petAgeSubtitle": "En meses",
+    "petAgeSubtitle": "En semanas",
     "petWeightLabel": "Peso de la mascota (kg)",
     "petWeightSubtitle": "Incluye el transportador si aplica",
     "noCarrierLabel": "Sin transportador (perros)",

@@ -59,6 +59,9 @@ export class FlightResultsPage implements OnInit, OnDestroy {
   public readonly LOAD_MORE_COUNT = 25;
   public currentDisplayCount = this.INITIAL_DISPLAY_COUNT;
 
+  private lastSearchTravelClass: string | null = null;
+  private lastSearchOriginCode: string | null = null;
+  private lastSearchDestCode: string | null = null;
   private readonly destroy$ = new Subject<void>();
 
   constructor(
@@ -113,6 +116,11 @@ export class FlightResultsPage implements OnInit, OnDestroy {
       this.searchLocale = state.locale;
       this.searchId = state.searchId;
 
+      const params = state.searchParams;
+      this.lastSearchTravelClass = params?.pasajeros?.travelClass ?? 'economy';
+      this.lastSearchOriginCode = this.getCityCode(params?.origen);
+      this.lastSearchDestCode = this.getCityCode(params?.destino);
+
       this.sortedFlightTickets = [...(this.searchResults?.flightTickets || [])];
       this.updateDisplayedFlights();
 
@@ -144,8 +152,9 @@ export class FlightResultsPage implements OnInit, OnDestroy {
 
       const petType = this.searchParams.tipoMascota;
       const breedValue = this.searchParams.razaMascota;
-      // No precargar edad si es 24 (valor por defecto cuando no se especifica)
-      const petAge = this.searchParams.edadMascota === 24 ? null : this.searchParams.edadMascota;
+      const rawAge = this.searchParams.edadMascota;
+      const petAge =
+        rawAge === 24 || rawAge == null ? null : Math.min(24, rawAge);
 
       // Primero seteamos todos los valores incluyendo la raza
       this.viewModel.form.patchValue(
@@ -227,13 +236,31 @@ export class FlightResultsPage implements OnInit, OnDestroy {
   }
 
   private hasRouteChanged(): boolean {
-    if (!this.searchParams) return false;
     const formData = this.viewModel.getFormData();
     const currentOrigin = this.getCityCode(formData.origen);
     const currentDest = this.getCityCode(formData.destino);
-    const savedOrigin = this.getCityCode(this.searchParams.origen);
-    const savedDest = this.getCityCode(this.searchParams.destino);
+    const savedOrigin = this.lastSearchOriginCode ?? this.getCityCode(this.searchParams?.origen);
+    const savedDest = this.lastSearchDestCode ?? this.getCityCode(this.searchParams?.destino);
     return currentOrigin !== savedOrigin || currentDest !== savedDest;
+  }
+
+  private hasTravelClassChanged(): boolean {
+    const formData = this.viewModel.getFormData();
+    const current = formData.pasajeros?.travelClass ?? 'economy';
+    const saved = this.lastSearchTravelClass ?? 'economy';
+    return current !== saved;
+  }
+
+  private copyFormDataForSearchParams(formData: FlightSearchFormEntity): FlightSearchFormEntity {
+    const pasajeros = formData.pasajeros;
+    return {
+      ...formData,
+      pasajeros: pasajeros
+        ? { ...pasajeros, childrenAges: [...(pasajeros.childrenAges || [])] }
+        : formData.pasajeros,
+      origenCity: formData.origenCity ? { ...formData.origenCity } : null,
+      destinoCity: formData.destinoCity ? { ...formData.destinoCity } : null,
+    };
   }
 
   private applySearchResponse(
@@ -247,8 +274,11 @@ export class FlightResultsPage implements OnInit, OnDestroy {
     if (newSearchId) this.viewModel.setSearchId(newSearchId);
 
     this.searchResults = response;
-    this.searchParams = formData;
+    this.searchParams = this.copyFormDataForSearchParams(formData);
     this.searchId = newSearchId;
+    this.lastSearchTravelClass = formData.pasajeros?.travelClass ?? 'economy';
+    this.lastSearchOriginCode = this.getCityCode(formData.origen);
+    this.lastSearchDestCode = this.getCityCode(formData.destino);
     this.sortedFlightTickets = [...(response?.flightTickets || [])];
     this.currentDisplayCount = this.INITIAL_DISPLAY_COUNT;
     this.updateDisplayedFlights();
@@ -258,7 +288,7 @@ export class FlightResultsPage implements OnInit, OnDestroy {
   public onFiltersApplied(): void {
     const formData = this.viewModel.getFormData();
 
-    if (this.hasRouteChanged()) {
+    if (this.hasRouteChanged() || this.hasTravelClassChanged()) {
       const searchObservable = this.viewModel.runNewSearch();
       searchObservable.pipe(takeUntil(this.destroy$)).subscribe({
         next: response => {
@@ -351,7 +381,7 @@ export class FlightResultsPage implements OnInit, OnDestroy {
   public applyFilters(): void {
     const formData = this.viewModel.getFormData();
 
-    if (this.hasRouteChanged()) {
+    if (this.hasRouteChanged() || this.hasTravelClassChanged()) {
       const searchObservable = this.viewModel.runNewSearch();
       searchObservable.pipe(takeUntil(this.destroy$)).subscribe({
         next: response => {
@@ -475,8 +505,9 @@ export class FlightResultsPage implements OnInit, OnDestroy {
 
     if (this.currentSort === 'price') {
       tickets.sort((a, b) => {
-        const priceA = a.price || 0;
-        const priceB = b.price || 0;
+        const nullSentinel = this.sortDirection === 'asc' ? Infinity : -Infinity;
+        const priceA = a.total != null ? a.total.min : nullSentinel;
+        const priceB = b.total != null ? b.total.min : nullSentinel;
         return this.sortDirection === 'asc' ? priceA - priceB : priceB - priceA;
       });
     } else if (this.currentSort === 'duration') {

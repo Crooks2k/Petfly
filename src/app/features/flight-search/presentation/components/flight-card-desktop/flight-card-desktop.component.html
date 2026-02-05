@@ -219,7 +219,10 @@
       <div class="price-box total-box">
         <div class="price-label">{{ texts.totalPrice }}</div>
         <div class="price-value total">
-          ${{ formatPrice(flightTicket.total.min) }}-${{ formatPrice(flightTicket.total.max) }}
+          <ng-container *ngIf="flightTicket.total; else naTotal">
+            ${{ formatPrice(flightTicket.total.min) }}-${{ formatPrice(flightTicket.total.max) }}
+          </ng-container>
+          <ng-template #naTotal>N/A</ng-template>
         </div>
         <div class="price-warning">
           <i class="pi pi-exclamation-triangle"></i>

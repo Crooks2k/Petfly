@@ -15,7 +15,7 @@ export interface FlightTicketEntity {
   aePrice: PriceRangeEntity | null;
   psPrice: PriceRangeEntity | null;
   totalPetPrice: PriceRangeEntity | null;
-  total: PriceRangeEntity;
+  total: PriceRangeEntity | null;
 }
 
 export interface FlightGroupEntity {
