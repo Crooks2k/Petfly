@@ -38,6 +38,7 @@ export const FiltersAsideConfig = {
     emotionalSupportDescription: 'filtersAside.emotionalSupportDescription',
     serviceAnimal: 'filtersAside.serviceAnimal',
     serviceAnimalDescription: 'filtersAside.serviceAnimalDescription',
+    airlineSectionTitle: 'filtersAside.airlineSectionTitle',
     airlinesStopsLabel: 'filtersAside.airlinesStopsLabel',
     allowStops: 'filtersAside.allowStops',
     noStops: 'filtersAside.noStops',
