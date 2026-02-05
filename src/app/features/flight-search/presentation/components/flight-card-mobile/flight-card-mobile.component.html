@@ -211,7 +211,10 @@
       </div>
       <div class="total-subtitle">{{ texts.totalPriceSubtitle }}</div>
       <div class="price-display-large total">
-        ${{ formatPrice(flightTicket.total.min) }}-${{ formatPrice(flightTicket.total.max) }}
+        <ng-container *ngIf="flightTicket.total; else naTotal">
+          ${{ formatPrice(flightTicket.total.min) }}-${{ formatPrice(flightTicket.total.max) }}
+        </ng-container>
+        <ng-template #naTotal>N/A</ng-template>
       </div>
     </div>
 

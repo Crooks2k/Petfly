@@ -73,7 +73,7 @@ export class FlightSearchFormMapper {
 
     // Construir request con valores por defecto inteligentes
     return {
-      age: this.getDefaultValue(formData.edadMascota, 24, useDefaults), // Default: 24 semanas (adulto)
+      age: Math.min(24, this.getDefaultValue(formData.edadMascota, 24, useDefaults)),
       weight: this.formatWeight(formData.pesoMascota) || (useDefaults ? 5 : 0), // Default: 5kg
       breed: formData.razaMascota || (useDefaults ? 'Mixed' : ''), // Default: Mixed breed
       currency: currency || 'COP',

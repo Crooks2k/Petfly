@@ -68,7 +68,7 @@ export class FilterFlightsFormMapper {
     const request: FilterFlightsRequestEntity = {
       searchId,
       filterParameters,
-      age: defaultNumber(searchRequest.age),
+      age: Math.min(24, defaultNumber(searchRequest.age)),
       weight: defaultNumber(searchRequest.weight),
       breed: defaultString(searchRequest.breed),
       currency: searchRequest.currency || 'COP',
@@ -84,13 +84,14 @@ export class FilterFlightsFormMapper {
 }
 
 function getCertificateType(formData: FlightSearchFormEntity): string {
-  if (formData.certificados && formData.certificados.length > 0) {
-    const certMap: Record<string, string> = {
-      emotional: 'AE',
-      service: 'PS',
-    };
-    const first = formData.certificados[0];
-    return certMap[first] ?? first;
+  const list = Array.isArray(formData.certificados) ? formData.certificados : [];
+  if (list.length === 0) {
+    return DEFAULT_CODE_ALL;
   }
-  return DEFAULT_CODE_ALL;
+  const certMap: Record<string, string> = {
+    emotional: 'AE',
+    service: 'PS',
+  };
+  const first = list[0];
+  return certMap[first] ?? first;
 }

@@ -152,6 +152,9 @@ export class PassengerSelectorComponent implements ControlValueAccessor, AfterVi
   public selectClass(travelClass: TravelClass): void {
     const target = this.getTargetValue();
     target.travelClass = travelClass;
+    if (!this.isMobile || !this.showMobileDialog) {
+      this.onChange(this.value);
+    }
   }
 
   private getTargetValue(): PassengerSelectionEntity {
