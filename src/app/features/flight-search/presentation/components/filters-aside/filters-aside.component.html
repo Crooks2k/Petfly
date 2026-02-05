@@ -1,12 +1,10 @@
 <form [formGroup]="filtersForm">
   <div class="filters-scrollable-content">
-    <!-- TÍTULO PRINCIPAL DE FILTROS -->
     <h1 class="main-filters-title">
       <i class="pi pi-filter"></i>
       {{ texts.mainTitle }}
     </h1>
 
-    <!-- SECCIÓN DE CERTIFICADOS - DESTACADA AL INICIO -->
     <div class="certificates-highlight-section">
       <div class="certificates-header">
         <i class="pi pi-certificate"></i>
@@ -309,7 +307,6 @@
     </div>
   </div>
 
-  <!-- Botón de filtrar siempre visible (sticky) -->
   <div class="filters-footer">
     <button type="button" class="filter-button" (click)="onUpdateFilters()">
       <i class="pi pi-search"></i>

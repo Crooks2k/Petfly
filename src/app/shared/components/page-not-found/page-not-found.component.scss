@@ -14,7 +14,6 @@
   animation: fadeInUp 0.6s ease-out;
 }
 
-// Ilustración
 .illustration {
   position: relative;
   margin-bottom: 2rem;
@@ -45,7 +44,6 @@
   }
 }
 
-// Contenido de texto
 .text-content {
   margin-bottom: 2.5rem;
 
@@ -65,7 +63,6 @@
   }
 }
 
-// Botones de acción
 .actions {
   display: flex;
   flex-direction: column;
@@ -124,7 +121,6 @@
   }
 }
 
-// Animaciones
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -146,7 +142,6 @@
   }
 }
 
-// Responsive - Tablet y Desktop
 @media (min-width: 768px) {
   .not-found-content {
     max-width: 600px;
@@ -192,7 +187,6 @@
   }
 }
 
-// Desktop grande
 @media (min-width: 1024px) {
   .not-found-container {
     padding: 2rem;

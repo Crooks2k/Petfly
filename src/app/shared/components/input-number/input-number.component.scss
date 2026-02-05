@@ -45,7 +45,6 @@
       }
     }
 
-    // Spinner buttons styles
     &.p-inputnumber-buttons-stacked {
       .p-inputnumber-button-group {
         .p-inputnumber-button {
@@ -131,7 +130,6 @@
       }
     }
 
-    // Error state
     &.ng-invalid.ng-touched {
       .p-inputtext {
         border-color: var(--color-danger);
@@ -143,7 +141,6 @@
       }
     }
 
-    // Success state
     &.ng-valid.ng-touched {
       .p-inputtext {
         border-color: var(--color-success);

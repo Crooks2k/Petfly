@@ -14,7 +14,6 @@
 
   <div class="flight-card-header">
     <div class="flights-summary">
-      <!-- Vuelo de ida -->
       <div class="flight-row">
         <img
           [src]="outboundFlight.flightItems[0].imageUrl"
@@ -68,7 +67,6 @@
         </div>
       </div>
 
-      <!-- Vuelo de regreso (si existe) -->
       <div class="flight-row" *ngIf="returnFlight">
         <img
           [src]="returnFlight.flightItems[0].imageUrl"
@@ -121,7 +119,6 @@
       </div>
     </div>
 
-    <!-- Separador y precio -->
     <div class="price-section">
       <div class="price-info">
         <span class="price-label">{{ texts.pricePerPerson }}</span>
@@ -129,7 +126,6 @@
       </div>
     </div>
 
-    <!-- Botón de seleccionar -->
     <button
       class="select-button-compact"
       (click)="onSelectFlight($event)"
@@ -140,16 +136,13 @@
       <span *ngIf="isLoadingBooking">{{ texts.loading }}</span>
     </button>
 
-    <!-- Icono de expansión debajo del botón -->
     <div class="expand-icon" (click)="toggleExpanded()">
       <i class="pi" [class.pi-chevron-down]="!isExpanded" [class.pi-chevron-up]="isExpanded"></i>
       <span class="expand-text">{{ isExpanded ? texts.viewLess : texts.viewDetails }}</span>
     </div>
   </div>
 
-  <!-- Contenido expandido (precios detallados) -->
   <div class="flight-card-body" *ngIf="isExpanded">
-    <!-- Precio mascota -->
     <div class="detail-section">
       <div class="section-header">
         <i class="pi pi-tag"></i>
@@ -162,7 +155,6 @@
         <span *ngIf="!hasTotalPetPrice">{{ texts.notAvailable }}</span>
       </div>
 
-      <!-- Badges de certificados -->
       <div class="badges-section" *ngIf="hasPSPrice || hasAEPrice || hasMRPrice">
         <div class="badges-label">{{ texts.certificatesAccepted }}</div>
         <div class="badges">
@@ -194,7 +186,6 @@
         </div>
       </div>
 
-      <!-- Certificados no aceptados -->
       <div class="certificate-status" *ngIf="isAENotAccepted || isPSNotAccepted || isMRNotAccepted">
         <div class="status-title">{{ texts.certificatesNotAccepted }}</div>
         <div class="ae-status" *ngIf="isAENotAccepted">{{ texts.aeNotAccepted }}</div>
@@ -203,7 +194,6 @@
       </div>
     </div>
 
-    <!-- Precio total -->
     <div class="detail-section total-section">
       <div class="section-header">
         <i class="pi pi-calculator"></i>
@@ -218,7 +208,6 @@
       </div>
     </div>
 
-    <!-- Advertencia -->
     <div class="price-warning">
       <i class="pi pi-exclamation-triangle"></i>
       <span>{{ texts.priceEstimationWarning }}</span>

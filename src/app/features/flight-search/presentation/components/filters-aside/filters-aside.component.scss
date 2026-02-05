@@ -12,7 +12,6 @@ form {
   min-height: 0;
 }
 
-// Contenedor con scroll para el contenido de los filtros
 .filters-scrollable-content {
   flex: 1;
   overflow-y: scroll;
@@ -25,7 +24,6 @@ form {
     direction: ltr;
   }
 
-  /* Scroll personalizado azul - igual al de results-list */
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -298,7 +296,6 @@ form {
   }
 }
 
-// Footer con botón de filtrar (solo visible en mobile dentro del modal)
 .filters-footer {
   position: sticky;
   bottom: 0;
@@ -308,7 +305,7 @@ form {
   border-top: 1px solid var(--color-border-lighter);
   box-shadow: 0 -2px 8px var(--shadow-overlay-light);
   z-index: 10;
-  display: none; // Oculto por defecto (desktop usa el footer del aside)
+  display: none;
 }
 
 .filter-button {
@@ -355,7 +352,6 @@ form {
   }
 }
 
-// ===== SECCIÓN DE CERTIFICADOS DESTACADA =====
 .certificates-highlight-section {
   background: linear-gradient(
     135deg,
@@ -417,7 +413,7 @@ form {
 
     &:hover {
       background: rgba(255, 255, 255, 0.25);
-      border-color: rgba(255, 255, 255, 0.4); /* 0.4 sin variable para contraste */
+      border-color: rgba(255, 255, 255, 0.4);
       transform: translateY(-2px);
       box-shadow: 0 4px 12px var(--shadow-button);
     }

@@ -7,20 +7,13 @@ import {
 } from '@flight-search/core/constants';
 
 export interface MapperOptions {
-  useDefaults?: boolean; // Si true, usa valores por defecto para campos null/undefined
+  useDefaults?: boolean;
   defaultOrigin?: string;
   defaultDestination?: string;
   defaultDepartureDate?: Date;
 }
 
 export class FlightSearchFormMapper {
-  /**
-   * Convierte los datos del formulario al formato requerido por el API
-   * @param formData - Datos del formulario
-   * @param currency - Código de moneda (ej: 'COP', 'USD')
-   * @param locale - Código de idioma (ej: 'es', 'en')
-   * @param options - Opciones adicionales para el mapper
-   */
   static toApiRequest(
     formData: FlightSearchFormEntity,
     currency: string,
@@ -29,14 +22,12 @@ export class FlightSearchFormMapper {
   ): SearchFlightsRequestEntity {
     const useDefaults = options.useDefaults ?? false;
 
-    // Extraer códigos de ciudad con fallbacks
     const origenCode =
       this.extractCityCode(formData.origen) || (useDefaults ? options.defaultOrigin || 'BOG' : '');
     const destinoCode =
       this.extractCityCode(formData.destino) ||
       (useDefaults ? options.defaultDestination || 'MDE' : '');
 
-    // Construir segmentos con valores por defecto si es necesario
     const segments: SearchFlightsRequestEntity['segments'] = [];
     const fechaSalida =
       formData.fechaSalida || (useDefaults ? options.defaultDepartureDate || new Date() : null);
@@ -51,7 +42,6 @@ export class FlightSearchFormMapper {
       });
     }
 
-    // Agregar segmento de regreso si es roundtrip
     if (formData.tipoViaje === 'roundtrip' && formData.fechaRegreso) {
       segments.push({
         origin: destinoCode,
@@ -62,7 +52,6 @@ export class FlightSearchFormMapper {
       });
     }
 
-    // Calcular pasajeros con valores por defecto
     const pasajeros = formData.pasajeros || {
       adults: 1,
       children: 0,
@@ -71,13 +60,12 @@ export class FlightSearchFormMapper {
     };
     const { infants, children } = this.calculatePassengersByAge(pasajeros.childrenAges || []);
 
-    // Construir request con valores por defecto inteligentes
     return {
       age: Math.min(24, this.getDefaultValue(formData.edadMascota, 24, useDefaults)),
-      weight: this.formatWeight(formData.pesoMascota) || (useDefaults ? 5 : 0), // Default: 5kg
-      breed: formData.razaMascota || (useDefaults ? 'Mixed' : ''), // Default: Mixed breed
+      weight: this.formatWeight(formData.pesoMascota) || (useDefaults ? 5 : 0),
+      breed: formData.razaMascota || (useDefaults ? 'Mixed' : ''),
       currency: currency || 'COP',
-      petType: PET_TYPE_MAP[formData.tipoMascota as string] || (useDefaults ? 'Dog' : ''), // Default: Dog
+      petType: PET_TYPE_MAP[formData.tipoMascota as string] || (useDefaults ? 'Dog' : ''),
       locale: locale || 'es',
       tripClass:
         TRIP_CLASS_MAP[pasajeros.travelClass] || FLIGHT_SEARCH_CONSTANTS.TRIP_CLASS.ECONOMY,
@@ -90,9 +78,6 @@ export class FlightSearchFormMapper {
     };
   }
 
-  /**
-   * Obtiene un valor con fallback a default si useDefaults es true
-   */
   private static getDefaultValue<T>(
     value: T | null | undefined,
     defaultValue: T,

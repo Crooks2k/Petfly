@@ -474,7 +474,6 @@
   }
 }
 
-// Estilos globales para el dropdown de razas
 ::ng-deep {
   .p-dropdown-panel {
     z-index: 1100 !important;
@@ -491,7 +490,6 @@
     }
   }
 
-  // Asegurar que el input-select no se desborde
   petfly-input-select {
     display: block;
     width: 100%;
@@ -517,7 +515,6 @@
     }
   }
 
-  // Ajustar altura del input-number para que coincida
   petfly-input-number {
     .p-inputnumber {
       .p-inputtext {

@@ -34,7 +34,6 @@
     padding: 28px 32px;
   }
 
-  /* Scroll horizontal personalizado azul - SIEMPRE VISIBLE */
   &::-webkit-scrollbar {
     height: 8px;
   }
@@ -60,14 +59,9 @@
     }
   }
 
-  /* Firefox */
   scrollbar-width: thin;
   scrollbar-color: var(--color-primary) var(--color-scrollbar-track);
 }
-
-// ============================================
-// COLUMNA IZQUIERDA: VUELOS
-// ============================================
 
 .flights-column {
   display: flex;
@@ -184,7 +178,7 @@
   }
 
   i {
-    display: none; // Ocultar el icono del avión
+    display: none;
   }
 }
 
@@ -226,10 +220,6 @@
   }
 }
 
-// ============================================
-// SEPARADOR VERTICAL
-// ============================================
-
 .vertical-separator {
   width: 1px;
   height: 170px;
@@ -237,10 +227,6 @@
   align-self: center;
   margin-left: 1.5rem;
 }
-
-// ============================================
-// COLUMNA DERECHA: PRECIOS
-// ============================================
 
 .prices-column {
   display: flex;
@@ -619,10 +605,6 @@
   }
 }
 
-// ============================================
-// ICONO COMENTARIO AEROLÍNEA (arriba a la izquierda)
-// ============================================
-
 .airline-comment-icon {
   position: absolute;
   top: 12px;
@@ -673,10 +655,6 @@
   }
 }
 
-// ============================================
-// ICONO DE EXPANSIÓN (arriba a la derecha)
-// ============================================
-
 .expand-icon {
   position: absolute;
   top: 12px;
@@ -711,10 +689,6 @@
     transition: all 0.3s ease;
   }
 }
-
-// ============================================
-// CONTENIDO EXPANDIDO
-// ============================================
 
 .card-body {
   border-top: 1px solid var(--color-border-lighter);

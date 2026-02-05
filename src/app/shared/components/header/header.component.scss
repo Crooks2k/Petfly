@@ -144,7 +144,6 @@
   overflow-y: auto !important;
   overflow-x: hidden;
 
-  /* Scroll personalizado azul */
   &::-webkit-scrollbar {
     width: 8px;
   }
@@ -169,7 +168,6 @@
     }
   }
 
-  /* Firefox */
   scrollbar-width: thin;
   scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar-track);
 

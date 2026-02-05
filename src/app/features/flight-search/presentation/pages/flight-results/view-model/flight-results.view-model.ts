@@ -27,7 +27,6 @@ export class FlightResultsViewModel extends FlightFormBaseViewModel {
   public flightResults: SearchFlightsResponseEntity | null = null;
   public searchId: string | null = null;
 
-  // Subject para notificar cambios
   private readonly resultsUpdated$ = new Subject<void>();
   public onResultsUpdated$ = this.resultsUpdated$.asObservable();
 

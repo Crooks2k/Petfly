@@ -4,11 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-//Import component reutilizables
+
 import { FooterComponent } from '@shared/components/footer/footer.component';
 import { PageNotFoundComponent } from '@shared/components/page-not-found/page-not-found.component';
 import { LayoutComponent } from './layout.component';
-//Import modules
+
 import { ServiceProviderModule } from '../core/service-providers/service-provider.module';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { I18nService } from '@core/i18n/i18n.service';
