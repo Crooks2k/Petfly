@@ -43,7 +43,7 @@
     background: var(--color-primary);
     color: white;
     border: 2px solid white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 8px var(--shadow-button);
     cursor: pointer;
     display: none;
     align-items: center;
@@ -149,7 +149,7 @@
   .filters-aside-footer {
     background: var(--color-bg-white);
     border-top: 1px solid var(--color-border-lighter);
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 -2px 8px var(--shadow-overlay-light);
     border-radius: 0 0 16px 16px;
     margin-bottom: 4rem;
     padding: 1rem;
@@ -158,6 +158,10 @@
   }
 
   .filter-button-desktop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     width: 100%;
     max-width: 350px;
     padding: 1rem;
@@ -173,7 +177,7 @@
     &:hover {
       background: var(--color-primary-dark);
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px var(--shadow-button);
     }
 
     &:active {
@@ -230,7 +234,7 @@
   padding: 0.875rem 1.25rem;
   font-size: 0.95rem;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--shadow-button);
   cursor: pointer;
   transition: all 0.3s ease;
   z-index: 100;
@@ -242,7 +246,7 @@
   &:hover {
     background: var(--color-primary-dark);
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 16px var(--shadow-lg);
   }
 
   &:active {
@@ -274,7 +278,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--shadow-overlay);
     animation: fadeIn 0.3s ease;
   }
 
@@ -374,6 +378,10 @@
     background: var(--color-bg-white);
 
     .apply-filters-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       width: 100%;
       padding: 1rem;
       background: var(--color-primary);
@@ -388,7 +396,7 @@
       &:hover {
         background: var(--color-primary-dark);
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 12px var(--shadow-button);
       }
 
       &:active {
@@ -966,15 +974,15 @@
         flex-shrink: 0;
 
         &.badge-blue {
-          background: #457dd0;
+          background: var(--color-badge-mr);
         }
 
         &.badge-orange {
-          background: #ffb20d;
+          background: var(--color-badge-ae-alt);
         }
 
         &.badge-green {
-          background: #1e9503;
+          background: var(--color-badge-ps);
         }
       }
 
@@ -1061,7 +1069,7 @@
         &:hover {
           background: var(--color-primary-dark);
           transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+          box-shadow: 0 4px 12px var(--hover-surface);
         }
 
         &:active {
@@ -1244,7 +1252,7 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.875rem 2rem;
-  background: var(--primary-color);
+  background: var(--color-primary);
   color: white;
   border: none;
   border-radius: 8px;
@@ -1254,9 +1262,9 @@
   transition: all 0.2s ease;
 
   &:hover {
-    background: var(--primary-dark-color);
+    background: var(--color-primary-dark);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px var(--shadow-button);
   }
 
   &:active {

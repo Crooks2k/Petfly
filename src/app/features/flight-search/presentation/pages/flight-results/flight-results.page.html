@@ -9,8 +9,10 @@
         type="button"
         class="collapse-toggle-btn"
         (click)="toggleFiltersAside()"
-        [attr.aria-label]="isFiltersAsideCollapsed ? 'Expandir filtros' : 'Colapsar filtros'"
-        [title]="isFiltersAsideCollapsed ? 'Expandir filtros' : 'Colapsar filtros'"
+        [attr.aria-label]="
+          isFiltersAsideCollapsed ? texts.expandFiltersLabel : texts.collapseFiltersLabel
+        "
+        [title]="isFiltersAsideCollapsed ? texts.expandFiltersLabel : texts.collapseFiltersLabel"
       >
         <i
           class="pi"
@@ -46,26 +48,13 @@
           [disabled]="viewModel.isLoadingResults"
         >
           <i class="pi pi-spin pi-spinner" *ngIf="viewModel.isLoadingResults"></i>
-          <span *ngIf="!viewModel.isLoadingResults">{{
-            texts.applyFiltersLabel || 'Aplicar filtros'
-          }}</span>
+          <span *ngIf="!viewModel.isLoadingResults">{{ texts.applyFiltersLabel }}</span>
           <span *ngIf="viewModel.isLoadingResults">{{ texts.applyingFilters }}</span>
         </button>
       </div>
     </aside>
 
     <main class="results-content">
-      <!-- <div class="sort-container">
-        <button class="sort-button active">
-          <i class="pi pi-sort-amount-down"></i>
-          <span>{{ texts.sortByPrice }}</span>
-        </button>
-        <button class="sort-button">
-          <i class="pi pi-clock"></i>
-          <span>{{ texts.sortByDuration }}</span>
-        </button>
-      </div> -->
-
       <div class="pet-price-info" [class.collapsed]="!isPetPriceInfoOpen">
         <!-- Header: en mobile es clickeable, en desktop es solo título -->
         <div class="info-header" (click)="togglePetPriceInfo()">
@@ -112,7 +101,7 @@
                 class="certificate-link"
               >
                 <i class="pi pi-external-link"></i>
-                <span>Más información sobre certificado AE</span>
+                <span>{{ texts.certificateAELinkText }}</span>
               </a>
             </div>
           </details>
@@ -136,7 +125,7 @@
                 class="certificate-link"
               >
                 <i class="pi pi-external-link"></i>
-                <span>Más información sobre certificado PS</span>
+                <span>{{ texts.certificatePSLinkText }}</span>
               </a>
             </div>
           </details>
@@ -180,8 +169,8 @@
           <!-- Mensaje cuando no hay resultados -->
           <div *ngIf="!sortedFlightTickets || sortedFlightTickets.length === 0" class="no-results">
             <i class="pi pi-inbox"></i>
-            <h3>{{ texts.noResultsTitle || 'No se encontraron vuelos' }}</h3>
-            <p>{{ texts.noResultsMessage || 'Intenta ajustar tus filtros de búsqueda' }}</p>
+            <h3>{{ texts.noResultsTitle }}</h3>
+            <p>{{ texts.noResultsMessage }}</p>
           </div>
 
           <!-- Cards de vuelos -->
@@ -209,10 +198,10 @@
           <div *ngIf="hasMoreFlights" class="load-more-container">
             <button class="load-more-button" (click)="loadMoreFlights()">
               <span
-                >Cargar más vuelos ({{
+                >{{ texts.loadMoreFlightsLabel }} ({{
                   sortedFlightTickets.length - currentDisplayCount
                 }}
-                restantes)</span
+                {{ texts.remainingLabel }})</span
               >
               <i class="pi pi-chevron-down"></i>
             </button>
@@ -224,14 +213,14 @@
 
   <button class="mobile-filter-button" (click)="openFiltersModal()">
     <i class="pi pi-filter"></i>
-    <span>{{ texts.filtersLabel || 'Filtros' }}</span>
+    <span>{{ texts.filtersLabel }}</span>
   </button>
 
   <div class="filters-modal" [class.active]="isFiltersModalOpen">
     <div class="modal-overlay" (click)="closeFiltersModal()"></div>
     <div class="modal-content">
       <div class="modal-header">
-        <h2>{{ texts.filtersLabel || 'Filtros' }}</h2>
+        <h2>{{ texts.filtersLabel }}</h2>
         <button class="close-button" (click)="closeFiltersModal()">
           <i class="pi pi-times"></i>
         </button>
@@ -260,9 +249,7 @@
           [disabled]="viewModel.isLoadingResults"
         >
           <i class="pi pi-spin pi-spinner" *ngIf="viewModel.isLoadingResults"></i>
-          <span *ngIf="!viewModel.isLoadingResults">{{
-            texts.applyFiltersLabel || 'Aplicar filtros'
-          }}</span>
+          <span *ngIf="!viewModel.isLoadingResults">{{ texts.applyFiltersLabel }}</span>
           <span *ngIf="viewModel.isLoadingResults">{{ texts.applyingFilters }}</span>
         </button>
       </div>

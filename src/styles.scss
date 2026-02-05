@@ -7,10 +7,18 @@
 :root {
   // Primary Colors (Blues)
   --color-primary: #3b82f6;
+  --color-primary-rgb: 59, 130, 246;
   --color-primary-dark: #2563eb;
   --color-primary-darker: #1d4ed8;
   --color-primary-light: #457dd0;
   --color-primary-navy: #1e40af;
+  --color-primary-hero-start: #4a90e2;
+  --color-primary-hero-end: #357abd;
+  --color-primary-alpha-05: rgba(59, 130, 246, 0.05);
+  --color-primary-hero-shadow: rgba(74, 144, 226, 0.2);
+  --color-primary-hero-ring: rgba(74, 144, 226, 0.3);
+  --color-primary-bg-subtle: #dbeafe;
+  --color-text-muted: #cbd5e1;
 
   // Background Colors
   --color-bg-primary: #f3f8ff;
@@ -27,6 +35,7 @@
   --color-text-gray-dark: #475569;
   --color-text-gray-darker: #374151;
   --color-text-gray-darkest: #1f2937;
+  --color-text-gray-light: #9ca3af;
 
   // Border Colors
   --color-border-light: #d1d5db;
@@ -38,6 +47,8 @@
   --color-surface-lighter: #f8fafc;
   --color-surface-lightest: #f9fafb;
   --color-surface-gray: #f1f5f9;
+  --color-surface-gradient-start: #f0f4f8;
+  --color-surface-gradient-end: #e8eef5;
 
   // Success Colors (Greens)
   --color-success: #059669;
@@ -57,6 +68,8 @@
   --color-danger-darker: #c62828;
   --color-danger-light: #ffebee;
   --color-error: #d32f2f;
+  --color-error-alpha-05: rgba(211, 47, 47, 0.05);
+  --color-error-alpha-08: rgba(211, 47, 47, 0.08);
 
   // Badge Colors
   --color-badge-mr: #457dd0;
@@ -64,9 +77,11 @@
   --color-badge-ps-hover: #166d02;
   --color-badge-ae: #ff9800;
   --color-badge-ae-hover: #f57c00;
+  --color-badge-ae-alt: #ffb20d;
 
   // Info Colors
   --color-info-bg: #e3f2fd;
+  --color-info-bg-dark: #bbdefb;
   --color-info-text: #1976d2;
 
   // Warning specific
@@ -82,14 +97,31 @@
   // Shadow Colors (with opacity)
   --shadow-sm: rgba(0, 0, 0, 0.1);
   --shadow-md: rgba(0, 0, 0, 0.14);
+  --shadow-button: rgba(0, 0, 0, 0.15);
   --shadow-lg: rgba(0, 0, 0, 0.2);
   --shadow-overlay: rgba(0, 0, 0, 0.5);
+  --shadow-overlay-light: rgba(0, 0, 0, 0.05);
+  --shadow-card: rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: rgba(0, 0, 0, 0.12);
+  --shadow-card-subtle: rgba(0, 0, 0, 0.06);
+  --color-success-shadow: rgba(30, 149, 3, 0.3);
+  --color-warning-shadow: rgba(255, 152, 0, 0.1);
+  --color-accent-gold: #ffd700;
+  --color-white-alpha-95: rgba(255, 255, 255, 0.95);
+  --color-white-alpha-90: rgba(255, 255, 255, 0.9);
+  --color-white-alpha-30: rgba(255, 255, 255, 0.3);
+  --color-white-alpha-25: rgba(255, 255, 255, 0.25);
+  --color-white-alpha-20: rgba(255, 255, 255, 0.2);
+  --color-white-alpha-15: rgba(255, 255, 255, 0.15);
 
   // Focus/Hover Colors (with opacity)
   --focus-ring-primary: rgba(37, 99, 235, 0.2);
   --focus-ring-light: rgba(37, 99, 235, 0.3);
   --hover-primary: rgba(37, 99, 235, 0.04);
   --hover-surface: rgba(59, 130, 246, 0.3);
+  --hover-surface-strong: rgba(59, 130, 246, 0.4);
+  --focus-ring-error: rgba(239, 68, 68, 0.1);
+  --focus-ring-success: rgba(16, 185, 129, 0.1);
 }
 
 // ============================================
@@ -129,10 +161,10 @@ body {
 // PrimeNG Dropdown Global Overrides
 // ============================================
 .p-dropdown-panel {
-  border: 1px solid #e5e7eb !important;
+  border: 1px solid var(--color-border-lighter) !important;
   border-radius: 8px !important;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
-  background: white !important;
+  box-shadow: 0 10px 25px var(--shadow-sm) !important;
+  background: var(--color-bg-white) !important;
   z-index: 1100 !important;
   width: auto !important;
   min-width: 200px !important;
@@ -178,20 +210,20 @@ body {
   .p-dropdown-item {
     padding: 0.75rem 1rem !important;
     font-size: 0.95rem !important;
-    color: #374151 !important;
+    color: var(--color-text-gray-darker) !important;
     white-space: normal !important;
     word-wrap: break-word !important;
     line-height: 1.4 !important;
     transition: all 0.15s ease !important;
 
     &:hover:not(.p-highlight) {
-      background-color: #f3f4f6 !important;
-      color: #111827 !important;
+      background-color: var(--color-surface-light) !important;
+      color: var(--color-text-gray-darkest) !important;
     }
 
     &.p-highlight {
-      background-color: #3b82f6 !important;
-      color: #ffffff !important;
+      background-color: var(--color-primary) !important;
+      color: var(--color-bg-white) !important;
       font-weight: 600 !important;
     }
 
@@ -203,22 +235,22 @@ body {
 
   .p-dropdown-filter-container {
     padding: 0.75rem !important;
-    border-bottom: 1px solid #f3f4f6 !important;
-    background: #fafbfc !important;
+    border-bottom: 1px solid var(--color-surface-light) !important;
+    background: var(--color-surface-lighter) !important;
 
     .p-dropdown-filter {
       width: 100% !important;
       padding: 0.75rem 1rem !important;
-      border: 1px solid #e5e7eb !important;
+      border: 1px solid var(--color-border-lighter) !important;
       border-radius: 8px !important;
       font-size: 0.875rem !important;
-      background: white !important;
-      color: #374151 !important;
+      background: var(--color-bg-white) !important;
+      color: var(--color-text-gray-darker) !important;
 
       &:focus {
         outline: none !important;
-        border-color: #3b82f6 !important;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+        border-color: var(--color-primary) !important;
+        box-shadow: 0 0 0 3px var(--focus-ring-primary) !important;
       }
     }
   }
@@ -228,13 +260,21 @@ body {
 // PrimeNG Calendar Global Overrides
 // ============================================
 .p-datepicker {
-  z-index: 1200 !important; // Mayor que el dropdown (1100)
-  border: 1px solid #e5e7eb !important;
+  z-index: 1200 !important;
+  border: 1px solid var(--color-border-lighter) !important;
   border-radius: 8px !important;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
-  background: white !important;
+  box-shadow: 0 10px 25px var(--shadow-sm) !important;
+  background: var(--color-bg-white) !important;
 }
 
 .p-datepicker-trigger {
   z-index: 1 !important;
+}
+
+.airline-comment-overlay .airline-comment-content {
+  padding: 12px 16px;
+  max-width: 300px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-primary);
 }

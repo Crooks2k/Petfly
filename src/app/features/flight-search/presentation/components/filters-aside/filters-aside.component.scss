@@ -171,6 +171,26 @@ form {
   gap: 0.75rem;
 }
 
+.dimensions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.dimensions-labels-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 0.35rem;
+  padding: 0 0.25rem;
+
+  .dimension-field-label {
+    font-size: 0.75rem;
+    color: var(--color-text-gray-dark);
+    text-align: center;
+  }
+}
+
 .certificates {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -286,7 +306,7 @@ form {
   padding: 1rem;
   background: var(--color-bg-white);
   border-top: 1px solid var(--color-border-lighter);
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 -2px 8px var(--shadow-overlay-light);
   z-index: 10;
   display: none; // Oculto por defecto (desktop usa el footer del aside)
 }
@@ -320,7 +340,7 @@ form {
   &:hover {
     background: var(--color-primary-dark);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 12px var(--hover-surface);
   }
 
   &:active {
@@ -337,11 +357,15 @@ form {
 
 // ===== SECCIÓN DE CERTIFICADOS DESTACADA =====
 .certificates-highlight-section {
-  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-hero-start) 0%,
+    var(--color-primary-hero-end) 100%
+  );
   border-radius: 12px;
   padding: 1rem 1.25rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+  box-shadow: 0 4px 12px var(--color-primary-hero-shadow);
   color: white;
 
   .certificates-header {
@@ -352,7 +376,7 @@ form {
 
     i {
       font-size: 1.25rem;
-      color: #ffd700;
+      color: var(--color-accent-gold);
     }
 
     .certificates-title {
@@ -378,9 +402,9 @@ form {
   }
 
   .certificate-card {
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--color-white-alpha-15);
     backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid var(--color-white-alpha-20);
     border-radius: 10px;
     padding: 0.75rem;
     display: flex;
@@ -393,29 +417,37 @@ form {
 
     &:hover {
       background: rgba(255, 255, 255, 0.25);
-      border-color: rgba(255, 255, 255, 0.4);
+      border-color: rgba(255, 255, 255, 0.4); /* 0.4 sin variable para contraste */
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px var(--shadow-button);
     }
 
     &.active {
-      background: rgba(255, 255, 255, 0.95);
-      border-color: #4a90e2;
-      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
+      background: var(--color-white-alpha-95);
+      border-color: var(--color-primary-hero-start);
+      box-shadow: 0 0 0 3px var(--color-primary-hero-ring);
 
       .certificate-icon {
-        background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+        background: linear-gradient(
+          135deg,
+          var(--color-primary-hero-start) 0%,
+          var(--color-primary-hero-end) 100%
+        );
         color: white;
       }
 
       .certificate-content {
         .certificate-name,
         .certificate-desc {
-          color: #333;
+          color: var(--color-text-gray-darkest);
         }
 
         .certificate-badge {
-          background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+          background: linear-gradient(
+            135deg,
+            var(--color-primary-hero-start) 0%,
+            var(--color-primary-hero-end) 100%
+          );
           color: white;
         }
       }
@@ -425,7 +457,7 @@ form {
       width: 40px;
       height: 40px;
       border-radius: 10px;
-      background: rgba(255, 255, 255, 0.2);
+      background: var(--color-white-alpha-20);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -455,13 +487,13 @@ form {
       .certificate-desc {
         font-size: 0.75rem;
         margin: 0;
-        color: rgba(255, 255, 255, 0.9);
+        color: var(--color-white-alpha-90);
         transition: color 0.3s ease;
       }
 
       .certificate-badge {
         display: inline-block;
-        background: rgba(255, 255, 255, 0.3);
+        background: var(--color-white-alpha-30);
         color: white;
         padding: 0.2rem 0.6rem;
         border-radius: 20px;

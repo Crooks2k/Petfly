@@ -3,6 +3,10 @@ export interface HeaderTexts {
   whatsappLabel: string;
   pricesLabel: string;
   whatsappMessage: string;
+  changeLanguageAriaLabel: string;
+  whatsappAriaLabel: string;
+  changeCurrencyAriaLabel: string;
+  logoAlt: string;
 }
 
 export const HeaderConfig = Object.freeze({
@@ -11,6 +15,10 @@ export const HeaderConfig = Object.freeze({
     whatsappLabel: 'header.whatsappLabel',
     pricesLabel: 'header.pricesLabel',
     whatsappMessage: 'header.whatsappMessage',
+    changeLanguageAriaLabel: 'header.changeLanguageAriaLabel',
+    whatsappAriaLabel: 'header.whatsappAriaLabel',
+    changeCurrencyAriaLabel: 'header.changeCurrencyAriaLabel',
+    logoAlt: 'header.logoAlt',
   },
   whatsapp: {
     phoneNumber: '+573183207294',

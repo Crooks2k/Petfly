@@ -1,5 +1,17 @@
 <div class="flight-card" [class.expanded]="isExpanded">
-  <!-- Header: Siempre visible (cerrado por defecto) -->
+  <button
+    *ngIf="airlineComment"
+    type="button"
+    class="airline-comment-icon"
+    (click)="commentOverlay.toggle($event); $event.stopPropagation()"
+    aria-label="Información de la aerolínea"
+  >
+    <i class="pi pi-info-circle"></i>
+  </button>
+  <p-overlayPanel #commentOverlay [appendTo]="'body'" styleClass="airline-comment-overlay">
+    <div class="airline-comment-content">{{ airlineComment }}</div>
+  </p-overlayPanel>
+
   <div class="flight-card-header">
     <div class="flights-summary">
       <!-- Vuelo de ida -->
@@ -118,8 +130,8 @@
     </div>
 
     <!-- Botón de seleccionar -->
-    <button 
-      class="select-button-compact" 
+    <button
+      class="select-button-compact"
       (click)="onSelectFlight($event)"
       [disabled]="isLoadingBooking"
     >
@@ -145,25 +157,16 @@
       </div>
       <div class="price-display-large">
         <span *ngIf="hasTotalPetPrice"
-          >${{ formatPrice(getPetPriceMin()) }}-{{ formatPrice(getPetPriceMax()) }}</span
+          >${{ formatPrice(getPetPriceMin()) }}-${{ formatPrice(getPetPriceMax()) }}</span
         >
-        <span *ngIf="!hasTotalPetPrice">N/A</span>
+        <span *ngIf="!hasTotalPetPrice">{{ texts.notAvailable }}</span>
       </div>
 
       <!-- Badges de certificados -->
       <div class="badges-section" *ngIf="hasPSPrice || hasAEPrice || hasMRPrice">
         <div class="badges-label">{{ texts.certificatesAccepted }}</div>
         <div class="badges">
-          <a
-            *ngIf="hasPSPrice"
-            href="https://petfly.io/certificados-de-perro-de-servicio/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="badge badge-ps"
-            (click)="$event.stopPropagation()"
-          >
-            {{ texts.psBadge }}
-          </a>
+          <span *ngIf="hasMRPrice" class="badge badge-mr">{{ texts.mrBadge }}</span>
           <a
             *ngIf="hasAEPrice"
             href="https://petfly.io/certificado-de-apoyo-emocional/"
@@ -174,7 +177,16 @@
           >
             {{ texts.aeBadge }}
           </a>
-          <span *ngIf="hasMRPrice" class="badge badge-mr">{{ texts.mrBadge }}</span>
+          <a
+            *ngIf="hasPSPrice"
+            href="https://petfly.io/certificados-de-perro-de-servicio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="badge badge-ps"
+            (click)="$event.stopPropagation()"
+          >
+            {{ texts.psBadge }}
+          </a>
         </div>
         <div class="badge-hint">
           <i class="pi pi-info-circle"></i>
@@ -199,7 +211,7 @@
       </div>
       <div class="total-subtitle">{{ texts.totalPriceSubtitle }}</div>
       <div class="price-display-large total">
-        ${{ formatPrice(flightTicket.total.min) }}-{{ formatPrice(flightTicket.total.max) }}
+        ${{ formatPrice(flightTicket.total.min) }}-${{ formatPrice(flightTicket.total.max) }}
       </div>
     </div>
 

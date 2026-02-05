@@ -8,8 +8,9 @@ import {
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { I18nService } from '@core/i18n/i18n.service';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, skip, take, takeUntil } from 'rxjs';
 import { MessageService } from 'primeng/api';
+import { CurrencyService } from '@shared/services/currency/currency.service';
 import { FlightResultsViewModel } from './view-model/flight-results.view-model';
 import { PetType } from '@flight-search/core/types';
 import { FlightResultsConfig, ResolvedFlightResultsTexts } from './flight-results.config';
@@ -65,7 +66,8 @@ export class FlightResultsPage implements OnInit, OnDestroy {
     private readonly i18nService: I18nService,
     private readonly router: Router,
     private readonly cdr: ChangeDetectorRef,
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
+    private readonly currencyService: CurrencyService
   ) {
     this.filtersForm = this.viewModel.filtersForm;
     this.loadSearchData();
@@ -75,10 +77,29 @@ export class FlightResultsPage implements OnInit, OnDestroy {
     this.setupReactiveTexts();
     this.initializeFiltersFromSearch();
 
-    // Suscribirse a cambios en los resultados
     this.viewModel.onResultsUpdated$.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.cdr.markForCheck();
     });
+
+    let previousCurrencyCode: string | undefined;
+    this.currencyService.currentCurrency$
+      .pipe(take(1), takeUntil(this.destroy$))
+      .subscribe(currency => {
+        previousCurrencyCode = currency.code;
+      });
+    this.currencyService.currentCurrency$
+      .pipe(skip(1), takeUntil(this.destroy$))
+      .subscribe(currency => {
+        if (previousCurrencyCode !== undefined && currency.code !== previousCurrencyCode) {
+          this.messageService.add({
+            severity: 'info',
+            summary: this.texts.currencyChangeApplyFiltersSummary,
+            detail: this.texts.currencyChangeApplyFiltersDetail,
+            life: 6000,
+          });
+        }
+        previousCurrencyCode = currency.code;
+      });
   }
 
   private loadSearchData(): void {
@@ -197,27 +218,106 @@ export class FlightResultsPage implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
+  private getCityCode(value: unknown): string {
+    if (typeof value === 'string') return value;
+    if (value && typeof value === 'object' && 'value' in value) {
+      return (value as { value: string }).value ?? '';
+    }
+    return '';
+  }
+
+  private hasRouteChanged(): boolean {
+    if (!this.searchParams) return false;
+    const formData = this.viewModel.getFormData();
+    const currentOrigin = this.getCityCode(formData.origen);
+    const currentDest = this.getCityCode(formData.destino);
+    const savedOrigin = this.getCityCode(this.searchParams.origen);
+    const savedDest = this.getCityCode(this.searchParams.destino);
+    return currentOrigin !== savedOrigin || currentDest !== savedDest;
+  }
+
+  private applySearchResponse(
+    response: SearchFlightsResponseEntity,
+    formData: FlightSearchFormEntity
+  ): void {
+    const newSearchId = response.searchId ?? this.searchId ?? '';
+
+    this.viewModel.flightResults = response;
+    this.viewModel.isLoadingResults = false;
+    if (newSearchId) this.viewModel.setSearchId(newSearchId);
+
+    this.searchResults = response;
+    this.searchParams = formData;
+    this.searchId = newSearchId;
+    this.sortedFlightTickets = [...(response?.flightTickets || [])];
+    this.currentDisplayCount = this.INITIAL_DISPLAY_COUNT;
+    this.updateDisplayedFlights();
+    this.cdr.detectChanges();
+  }
+
   public onFiltersApplied(): void {
-    if (!this.searchId) {
+    const formData = this.viewModel.getFormData();
+
+    if (this.hasRouteChanged()) {
+      const searchObservable = this.viewModel.runNewSearch();
+      searchObservable.pipe(takeUntil(this.destroy$)).subscribe({
+        next: response => {
+          if (!response) {
+            this.viewModel.isLoadingResults = false;
+            this.messageService.add({
+              severity: 'warn',
+              summary: this.texts.filterErrorTitle,
+              detail: this.texts.filterErrorMessage,
+              life: 5000,
+            });
+            this.cdr.detectChanges();
+            return;
+          }
+          this.applySearchResponse(response, formData);
+          if (!response.flightTickets || response.flightTickets.length === 0) {
+            this.messageService.add({
+              severity: 'warn',
+              summary: this.texts.filterErrorTitle,
+              detail: this.texts.filterErrorMessage,
+              life: 5000,
+            });
+          } else {
+            this.messageService.add({
+              severity: 'success',
+              summary: this.texts.filterSuccessTitle,
+              detail: this.texts.filterSuccessMessage,
+              life: 3000,
+            });
+          }
+        },
+        error: () => {
+          this.viewModel.isLoadingResults = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: this.texts.filterErrorTitle,
+            detail: this.texts.filterErrorMessage,
+            life: 5000,
+          });
+          this.cdr.detectChanges();
+        },
+      });
       return;
     }
 
+    if (!this.searchId) return;
+
     const filterObservable = this.viewModel.applyFiltersToSearch();
-    if (!filterObservable) {
-      return;
-    }
+    if (!filterObservable) return;
 
     filterObservable.pipe(takeUntil(this.destroy$)).subscribe({
       next: response => {
         this.viewModel.flightResults = response;
         this.viewModel.isLoadingResults = false;
-
-        // Actualizar los resultados mostrados
+        this.searchResults = response;
         this.sortedFlightTickets = [...(response?.flightTickets || [])];
         this.currentDisplayCount = this.INITIAL_DISPLAY_COUNT;
         this.updateDisplayedFlights();
 
-        // Verificar si hay resultados
         if (!response.flightTickets || response.flightTickets.length === 0) {
           this.messageService.add({
             severity: 'warn',
@@ -233,8 +333,7 @@ export class FlightResultsPage implements OnInit, OnDestroy {
             life: 3000,
           });
         }
-
-        this.cdr.markForCheck();
+        this.cdr.detectChanges();
       },
       error: () => {
         this.viewModel.isLoadingResults = false;
@@ -244,32 +343,78 @@ export class FlightResultsPage implements OnInit, OnDestroy {
           detail: this.texts.filterErrorMessage,
           life: 5000,
         });
-        this.cdr.markForCheck();
+        this.cdr.detectChanges();
       },
     });
   }
 
   public applyFilters(): void {
-    if (!this.searchId) {
+    const formData = this.viewModel.getFormData();
+
+    if (this.hasRouteChanged()) {
+      const searchObservable = this.viewModel.runNewSearch();
+      searchObservable.pipe(takeUntil(this.destroy$)).subscribe({
+        next: response => {
+          if (!response) {
+            this.viewModel.isLoadingResults = false;
+            this.messageService.add({
+              severity: 'warn',
+              summary: this.texts.filterErrorTitle,
+              detail: this.texts.filterErrorMessage,
+              life: 5000,
+            });
+            this.closeFiltersModal();
+            this.cdr.detectChanges();
+            return;
+          }
+          this.applySearchResponse(response, formData);
+          if (!response.flightTickets || response.flightTickets.length === 0) {
+            this.messageService.add({
+              severity: 'warn',
+              summary: this.texts.filterErrorTitle,
+              detail: this.texts.filterErrorMessage,
+              life: 5000,
+            });
+          } else {
+            this.messageService.add({
+              severity: 'success',
+              summary: this.texts.filterSuccessTitle,
+              detail: this.texts.filterSuccessMessage,
+              life: 3000,
+            });
+          }
+          this.closeFiltersModal();
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.viewModel.isLoadingResults = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: this.texts.filterErrorTitle,
+            detail: this.texts.filterErrorMessage,
+            life: 5000,
+          });
+          this.closeFiltersModal();
+          this.cdr.detectChanges();
+        },
+      });
       return;
     }
 
+    if (!this.searchId) return;
+
     const filterObservable = this.viewModel.applyFiltersToSearch();
-    if (!filterObservable) {
-      return;
-    }
+    if (!filterObservable) return;
 
     filterObservable.pipe(takeUntil(this.destroy$)).subscribe({
       next: response => {
         this.viewModel.flightResults = response;
         this.viewModel.isLoadingResults = false;
-
-        // Actualizar los resultados mostrados
+        this.searchResults = response;
         this.sortedFlightTickets = [...(response?.flightTickets || [])];
         this.currentDisplayCount = this.INITIAL_DISPLAY_COUNT;
         this.updateDisplayedFlights();
 
-        // Verificar si hay resultados
         if (!response.flightTickets || response.flightTickets.length === 0) {
           this.messageService.add({
             severity: 'warn',
@@ -285,9 +430,8 @@ export class FlightResultsPage implements OnInit, OnDestroy {
             life: 3000,
           });
         }
-
         this.closeFiltersModal();
-        this.cdr.markForCheck();
+        this.cdr.detectChanges();
       },
       error: () => {
         this.viewModel.isLoadingResults = false;
@@ -298,7 +442,7 @@ export class FlightResultsPage implements OnInit, OnDestroy {
           life: 5000,
         });
         this.closeFiltersModal();
-        this.cdr.markForCheck();
+        this.cdr.detectChanges();
       },
     });
   }
@@ -319,7 +463,7 @@ export class FlightResultsPage implements OnInit, OnDestroy {
     }
 
     this.applySorting();
-    this.cdr.markForCheck();
+    this.cdr.detectChanges();
   }
 
   private applySorting(): void {
@@ -346,6 +490,7 @@ export class FlightResultsPage implements OnInit, OnDestroy {
     this.sortedFlightTickets = tickets;
     this.currentDisplayCount = this.INITIAL_DISPLAY_COUNT;
     this.updateDisplayedFlights();
+    this.cdr.detectChanges();
   }
 
   private calculateTotalDuration(ticket: FlightTicketEntity): number {
