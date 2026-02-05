@@ -49,6 +49,8 @@ export const FlightSearchConfig = {
     searchSuccessMessage: 'flightSearch.searchSuccessMessage',
     searchErrorTitle: 'flightSearch.searchErrorTitle',
     searchErrorMessage: 'flightSearch.searchErrorMessage',
+    searchingCities: 'flightSearch.searchingCities',
+    loadingBreeds: 'flightSearch.loadingBreeds',
   },
   animations: {
     slideInOut: trigger('slideInOut', [

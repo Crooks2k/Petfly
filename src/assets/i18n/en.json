@@ -3,7 +3,11 @@
     "languageLabel": "Language",
     "whatsappLabel": "WhatsApp",
     "pricesLabel": "Prices",
-    "whatsappMessage": "Hi! I found an ideal flight on the search tool and need a certificate to travel with my pet in the cabin."
+    "whatsappMessage": "Hi! I found an ideal flight on the search tool and need a certificate to travel with my pet in the cabin.",
+    "changeLanguageAriaLabel": "Change language",
+    "whatsappAriaLabel": "WhatsApp",
+    "changeCurrencyAriaLabel": "Change currency",
+    "logoAlt": "Petfly - Travel with your pet"
   },
   "flightSearch": {
     "title": "Find flights for you and your pet",
@@ -69,7 +73,9 @@
     "searchSuccessTitle": "Search successful!",
     "searchSuccessMessage": "We found available flights for your trip",
     "searchErrorTitle": "No results",
-    "searchErrorMessage": "We couldn't find flights with the selected parameters. Try adjusting your dates or destinations."
+    "searchErrorMessage": "We couldn't find flights with the selected parameters. Try adjusting your dates or destinations.",
+    "searchingCities": "Searching cities...",
+    "loadingBreeds": "Loading breeds..."
   },
   "flightResults": {
     "title": "Search Results",
@@ -159,9 +165,17 @@
     "regularPetBadge": "MR",
     "emotionalSupportBadge": "AE",
     "serviceDogBadge": "PS",
-    "regularPetDescription": "Travels in cargo according to airline policies",
+    "regularPetDescription": "Travels in cabin according to airline policies",
     "emotionalSupportDescription": "Travels in cabin with you with emotional support certificate",
-    "serviceDogDescription": "Travels in cabin with you with service dog certificate"
+    "serviceDogDescription": "Travels in cabin with you with service dog certificate",
+    "certificateAELinkText": "More information about Emotional support",
+    "certificatePSLinkText": "More information about Service dog",
+    "expandFiltersLabel": "Expand filters",
+    "collapseFiltersLabel": "Collapse filters",
+    "loadMoreFlightsLabel": "Load more flights",
+    "remainingLabel": "remaining",
+    "currencyChangeApplyFiltersSummary": "Currency updated",
+    "currencyChangeApplyFiltersDetail": "Click «Apply filters» to see prices in the new currency."
   },
   "flightCard": {
     "pricePerPerson": "Price per person",
@@ -191,7 +205,12 @@
     "psLabel": "PS",
     "aeNotAccepted": "AE not accepted",
     "psNotAccepted": "PS not accepted",
-    "mrNotAccepted": "MR not accepted"
+    "mrNotAccepted": "MR not accepted",
+    "bookingLinkErrorSummary": "Error",
+    "bookingLinkErrorDetail": "Could not get the booking link. Please try again.",
+    "bookingRedirectSummary": "Redirecting",
+    "bookingRedirectDetail": "You will be redirected to the merchant site to view the flight and complete your booking in a few seconds.",
+    "notAvailable": "N/A"
   },
   "filtersAside": {
     "mainTitle": "Filters",
@@ -230,7 +249,7 @@
     "emotionalSupport": "Emotional support",
     "emotionalSupportDescription": "Travel with your emotional support pet in cabin",
     "serviceAnimal": "Service dog",
-    "serviceAnimalDescription": "Official certificate for assistance dogs",
+    "serviceAnimalDescription": "Official certificate for service dogs",
     "airlinesStopsLabel": "Airlines and stops",
     "allowStops": "Allow stops",
     "noStops": "No stops",
@@ -245,8 +264,20 @@
     "filterButton": "Filter",
     "breedLabel": "Breed",
     "breedPlaceholder": "Select breed",
+    "loadingBreeds": "Loading breeds...",
     "originLabel": "Origin",
-    "destinationLabel": "Destination"
+    "destinationLabel": "Destination",
+    "searchingCities": "Searching cities...",
+    "weightPlaceholder": "7.5",
+    "minPriceLabel": "Min price",
+    "minPricePlaceholder": "0",
+    "maxPriceLabel": "Max price",
+    "maxPricePlaceholder": "999999",
+    "airlinesPlaceholder": "All airlines",
+    "dimensionsLabel": "Dimensions",
+    "lengthLabel": "Length",
+    "widthLabel": "Width",
+    "heightLabel": "Height"
   },
   "pageNotFound": {
     "title": "Flight not found!",

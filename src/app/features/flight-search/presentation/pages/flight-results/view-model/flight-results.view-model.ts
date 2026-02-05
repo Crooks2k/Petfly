@@ -56,6 +56,19 @@ export class FlightResultsViewModel extends FlightFormBaseViewModel {
     this.searchId = searchId;
   }
 
+  public runNewSearch() {
+    this.isLoadingResults = true;
+    this.resultsUpdated$.next();
+
+    const formData = this.getFormData();
+    const currency = this.getCurrentCurrency();
+    const locale = this.getCurrentLocale();
+
+    return this.petflyInteractor.searchFlights(formData, currency, locale, {
+      useDefaults: true,
+    });
+  }
+
   public applyFiltersToSearch() {
     if (!this.searchId) {
       return;
@@ -101,6 +114,9 @@ export class FlightResultsViewModel extends FlightFormBaseViewModel {
       altura: null,
       largo: null,
       ancho: null,
+      length: null,
+      width: null,
+      height: null,
       sinTransportador: null,
       certificados: [],
       permitirEscalas: null,

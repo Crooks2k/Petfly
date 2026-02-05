@@ -29,7 +29,7 @@
       color: var(--color-primary);
       transform: rotate(-45deg);
       display: block;
-      filter: drop-shadow(0 4px 12px rgba(59, 130, 246, 0.3));
+      filter: drop-shadow(0 4px 12px var(--hover-surface));
     }
   }
 
@@ -99,7 +99,7 @@
   .btn-primary {
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
     color: var(--color-bg-white);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 12px var(--hover-surface);
 
     &:hover {
       background: linear-gradient(
@@ -107,7 +107,7 @@
         var(--color-primary-dark) 0%,
         var(--color-primary-darker) 100%
       );
-      box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+      box-shadow: 0 6px 16px var(--hover-surface-strong);
       transform: translateY(-2px);
     }
   }

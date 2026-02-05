@@ -12,33 +12,33 @@
     .p-autocomplete-input {
       width: 100% !important;
       padding: 0.875rem 1rem !important;
-      border: 1px solid #d1d5db !important;
+      border: 1px solid var(--color-border-light) !important;
       border-radius: 8px !important;
       font-size: 0.95rem !important;
-      background: white !important;
-      color: #374151 !important;
+      background: var(--color-bg-white) !important;
+      color: var(--color-text-gray-darker) !important;
       transition: all 0.2s ease !important;
       min-height: 48px !important;
 
       &::placeholder {
-        color: #9ca3af !important;
+        color: var(--color-text-gray-light) !important;
       }
 
       &:focus {
         outline: none !important;
-        border-color: #2563eb !important;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+        border-color: var(--color-primary-dark) !important;
+        box-shadow: 0 0 0 3px var(--focus-ring-primary) !important;
       }
 
       &:hover:not(:focus) {
-        border-color: #9ca3af !important;
+        border-color: var(--color-text-gray-light) !important;
       }
     }
 
     &.p-disabled {
       .p-autocomplete-input {
-        background-color: #f9fafb !important;
-        border-color: #e5e7eb !important;
+        background-color: var(--color-surface-lightest) !important;
+        border-color: var(--color-border-lighter) !important;
         opacity: 0.6 !important;
         cursor: not-allowed !important;
       }
@@ -46,11 +46,11 @@
   }
 
   .p-autocomplete-panel {
-    border: 1px solid #e5e7eb !important;
+    border: 1px solid var(--color-border-lighter) !important;
     border-radius: 8px !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 10px 25px var(--shadow-sm) !important;
     margin-top: 4px !important;
-    background: white !important;
+    background: var(--color-bg-white) !important;
     z-index: 1100 !important;
     min-width: 200px !important;
 
@@ -65,46 +65,46 @@
       }
 
       &::-webkit-scrollbar-track {
-        background: #e2e8f0;
+        background: var(--color-scrollbar-track);
         border-radius: 10px;
         margin: 4px 0;
       }
 
       &::-webkit-scrollbar-thumb {
-        background: #3b82f6;
+        background: var(--color-scrollbar-thumb);
         border-radius: 10px;
         transition: background 0.2s ease;
 
         &:hover {
-          background: #2563eb;
+          background: var(--color-scrollbar-hover);
         }
 
         &:active {
-          background: #1e40af;
+          background: var(--color-scrollbar-active);
         }
       }
 
       /* Firefox */
       scrollbar-width: thin;
-      scrollbar-color: #3b82f6 #e2e8f0;
+      scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar-track);
 
       .p-autocomplete-item {
         padding: 0.75rem 1rem !important;
         font-size: 0.95rem !important;
-        color: #374151 !important;
+        color: var(--color-text-gray-darker) !important;
         white-space: normal !important;
         word-wrap: break-word !important;
         line-height: 1.4 !important;
         transition: all 0.15s ease !important;
 
         &:hover:not(.p-highlight) {
-          background-color: #f3f4f6 !important;
-          color: #111827 !important;
+          background-color: var(--color-surface-light) !important;
+          color: var(--color-text-gray-darkest) !important;
         }
 
         &.p-highlight {
-          background-color: #3b82f6 !important;
-          color: #ffffff !important;
+          background-color: var(--color-primary) !important;
+          color: var(--color-bg-white) !important;
           font-weight: 600 !important;
         }
 
@@ -117,7 +117,7 @@
 
     .p-autocomplete-empty-message {
       padding: 0.75rem 1rem !important;
-      color: #9ca3af !important;
+      color: var(--color-text-gray-light) !important;
       font-size: 0.875rem !important;
     }
   }

@@ -42,17 +42,14 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
   public texts: ResolvedFiltersAsideTexts = {} as ResolvedFiltersAsideTexts;
   public readonly config = FiltersAsideConfig;
 
-  // Cities
   public ciudadesOrigenOptions: CityOption[] = [];
   public ciudadesDestinoOptions: CityOption[] = [];
   public isLoadingCitiesOrigen = false;
   public isLoadingCitiesDestino = false;
 
-  // Breeds
   public razasOptions: { label: string; value: string }[] = [];
   public isLoadingBreeds = false;
 
-  // Airlines
   public airlinesOptions: { label: string; value: string }[] = [];
 
   private readonly destroy$ = new Subject<void>();
@@ -77,12 +74,10 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
     this.setupCitiesSearch();
     this.setupPetAgeValidation();
 
-    // Cargar razas si ya hay un tipo de mascota seleccionado
     if (this.selectedPetType) {
       this.loadBreedsByPetType(this.selectedPetType);
     }
 
-    // Inicializar opciones de aerolíneas (esto debería venir de filtersBoundary de la API)
     this.initializeAirlines();
   }
 
@@ -114,7 +109,6 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
   }
 
   public onUpdateFilters(): void {
-    // Validar que origen y destino no sean iguales antes de aplicar
     const origenValue = this.filtersForm.get('origen')?.value;
     const destinoValue = this.filtersForm.get('destino')?.value;
 
@@ -126,7 +120,6 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
     this.filtersApplied.emit();
   }
 
-  // Cities methods
   public onOrigenSearch(event: { query: string }): void {
     this.origenSearchSubject.next(event.query);
   }
@@ -137,15 +130,21 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
 
   public onOrigenSelect(event: unknown): void {
     const cityEvent = event as CitySelectionEvent;
-    if (cityEvent.city) {
-      this.filtersForm.patchValue({ origenCity: cityEvent.city }, { emitEvent: false });
+    if (cityEvent?.city) {
+      this.filtersForm.patchValue(
+        { origen: cityEvent.city.cityCode, origenCity: cityEvent.city },
+        { emitEvent: false }
+      );
     }
   }
 
   public onDestinoSelect(event: unknown): void {
     const cityEvent = event as CitySelectionEvent;
-    if (cityEvent.city) {
-      this.filtersForm.patchValue({ destinoCity: cityEvent.city }, { emitEvent: false });
+    if (cityEvent?.city) {
+      this.filtersForm.patchValue(
+        { destino: cityEvent.city.cityCode, destinoCity: cityEvent.city },
+        { emitEvent: false }
+      );
     }
   }
 
@@ -168,6 +167,7 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
           if (!query || query.length < FLIGHT_SEARCH_CONSTANTS.SEARCH.MIN_QUERY_LENGTH) {
             this.ciudadesOrigenOptions = [];
             this.isLoadingCitiesOrigen = false;
+            this.cdr.markForCheck();
             return of([]);
           }
           this.isLoadingCitiesOrigen = true;
@@ -179,6 +179,7 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
             .pipe(
               catchError(() => {
                 this.isLoadingCitiesOrigen = false;
+                this.cdr.markForCheck();
                 return of([]);
               })
             );
@@ -196,6 +197,7 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
               }))
               : [];
           this.isLoadingCitiesOrigen = false;
+          this.cdr.markForCheck();
         },
       });
 
@@ -207,6 +209,7 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
           if (!query || query.length < FLIGHT_SEARCH_CONSTANTS.SEARCH.MIN_QUERY_LENGTH) {
             this.ciudadesDestinoOptions = [];
             this.isLoadingCitiesDestino = false;
+            this.cdr.markForCheck();
             return of([]);
           }
           this.isLoadingCitiesDestino = true;
@@ -218,6 +221,7 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
             .pipe(
               catchError(() => {
                 this.isLoadingCitiesDestino = false;
+                this.cdr.markForCheck();
                 return of([]);
               })
             );
@@ -235,6 +239,7 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
               }))
               : [];
           this.isLoadingCitiesDestino = false;
+          this.cdr.markForCheck();
         },
       });
   }
@@ -265,7 +270,6 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
           this.isLoadingBreeds = false;
           breedControl?.enable();
 
-          // Mantener la raza seleccionada si existe en la nueva lista
           if (currentBreed && this.razasOptions.some(r => r.value === currentBreed)) {
             breedControl?.patchValue(currentBreed, { emitEvent: false });
           }
@@ -286,7 +290,6 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
       .get('edadMascota')
       ?.valueChanges.pipe(takeUntil(this.destroy$))
       .subscribe(age => {
-        // Si la edad es mayor a 24 semanas (6 meses), siempre enviar 24
         if (age && age > 24) {
           this.filtersForm.patchValue({ edadMascota: 24 }, { emitEvent: false });
         }
@@ -294,14 +297,12 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
   }
 
   private initializeAirlines(): void {
-    // Si tenemos filtersBoundary de la API, usar esas aerolíneas
     if (this.filtersBoundary?.airlines && this.filtersBoundary.airlines.length > 0) {
       this.airlinesOptions = this.filtersBoundary.airlines.map(airline => ({
         label: airline.name,
         value: airline.iata,
       }));
     } else {
-      // Fallback: lista estática
       this.airlinesOptions = [
         { label: 'Avianca', value: 'AV' },
         { label: 'LATAM', value: 'LA' },

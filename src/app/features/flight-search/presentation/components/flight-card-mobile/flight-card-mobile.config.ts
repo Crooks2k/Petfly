@@ -26,6 +26,11 @@ export const FlightCardMobileConfig = {
     psNotAccepted: 'flightCard.psNotAccepted',
     mrNotAccepted: 'flightCard.mrNotAccepted',
     priceEstimationWarning: 'flightCard.priceEstimationWarning',
+    bookingLinkErrorSummary: 'flightCard.bookingLinkErrorSummary',
+    bookingLinkErrorDetail: 'flightCard.bookingLinkErrorDetail',
+    bookingRedirectSummary: 'flightCard.bookingRedirectSummary',
+    bookingRedirectDetail: 'flightCard.bookingRedirectDetail',
+    notAvailable: 'flightCard.notAvailable',
   },
 } as const satisfies I18nConfigEntity;
 

@@ -14,6 +14,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TooltipModule } from 'primeng/tooltip';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
@@ -60,6 +61,7 @@ import { PetflyInteractor } from '@flight-search/core/interactor/petfly.interact
     RadioButtonModule,
     SelectButtonModule,
     TooltipModule,
+    OverlayPanelModule,
     ToastModule,
     SharedComponentsModule,
     InputAutocompleteComponent,

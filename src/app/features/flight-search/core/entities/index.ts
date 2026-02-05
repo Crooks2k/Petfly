@@ -7,6 +7,8 @@ export * from './get-breeds-response.entity';
 export * from './search-flights-request.entity';
 export * from './search-flights-response.entity';
 export * from './flight-search-form.entity';
+export * from './filter-flights-dimensions.entity';
+export * from './filter-flights-parameters.entity';
 export * from './filter-flights-request.entity';
 export * from './filter-flights-response.entity';
 export * from './booking-link.entity';
