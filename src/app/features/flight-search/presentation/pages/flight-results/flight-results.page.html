@@ -4,7 +4,6 @@
 <div class="flight-results-page">
   <div class="results-container">
     <aside class="filters-aside" [class.collapsed]="isFiltersAsideCollapsed">
-      <!-- Botón de colapsar/expandir - siempre visible -->
       <button
         type="button"
         class="collapse-toggle-btn"
@@ -21,13 +20,11 @@
         ></i>
       </button>
 
-      <!-- Icono de filtro cuando está colapsado -->
       <div class="collapsed-icon" *ngIf="isFiltersAsideCollapsed">
         <i class="pi pi-filter"></i>
         <span class="collapsed-text">{{ texts.filtersCollapsedLabel }}</span>
       </div>
 
-      <!-- Contenido de filtros - oculto cuando está colapsado -->
       <div class="filters-content" [hidden]="isFiltersAsideCollapsed">
         <app-filters-aside
           [filtersForm]="filtersForm"
@@ -56,7 +53,6 @@
 
     <main class="results-content">
       <div class="pet-price-info" [class.collapsed]="!isPetPriceInfoOpen">
-        <!-- Header: en mobile es clickeable, en desktop es solo título -->
         <div class="info-header" (click)="togglePetPriceInfo()">
           <div class="info-title-wrapper">
             <i class="pi pi-info-circle"></i>
@@ -65,7 +61,6 @@
           <i class="pi pi-chevron-down chevron-icon" [class.rotated]="isPetPriceInfoOpen"></i>
         </div>
 
-        <!-- Contenido: siempre visible en desktop, colapsable en mobile -->
         <div class="price-options">
           <details class="price-option">
             <summary class="option-header">
@@ -166,18 +161,15 @@
         </div>
 
         <div class="results-list">
-          <!-- Mensaje cuando no hay resultados -->
           <div *ngIf="!sortedFlightTickets || sortedFlightTickets.length === 0" class="no-results">
             <i class="pi pi-inbox"></i>
             <h3>{{ texts.noResultsTitle }}</h3>
             <p>{{ texts.noResultsMessage }}</p>
           </div>
 
-          <!-- Cards de vuelos -->
           <ng-container
             *ngFor="let flightTicket of displayedFlightTickets; trackBy: trackByFlightTicket"
           >
-            <!-- Mobile -->
             <petfly-flight-card-mobile
               class="mobile-only"
               [flightTicket]="flightTicket"
@@ -185,7 +177,6 @@
             >
             </petfly-flight-card-mobile>
 
-            <!-- Desktop -->
             <petfly-flight-card-desktop
               class="desktop-only"
               [flightTicket]="flightTicket"
@@ -194,7 +185,6 @@
             </petfly-flight-card-desktop>
           </ng-container>
 
-          <!-- Botón cargar más -->
           <div *ngIf="hasMoreFlights" class="load-more-container">
             <button class="load-more-button" (click)="loadMoreFlights()">
               <span

@@ -156,7 +156,6 @@ export class FlightResultsPage implements OnInit, OnDestroy {
       const petAge =
         rawAge === 24 || rawAge == null ? null : Math.min(24, rawAge);
 
-      // Primero seteamos todos los valores incluyendo la raza
       this.viewModel.form.patchValue(
         {
           origen: this.searchParams.origen,
@@ -174,7 +173,6 @@ export class FlightResultsPage implements OnInit, OnDestroy {
         { emitEvent: false }
       );
 
-      // Si hay tipo de mascota, lo seleccionamos (esto cargará las razas y mantendrá el valor)
       if (petType) {
         this.viewModel.selectPetType(petType as Exclude<PetType, null>);
       }

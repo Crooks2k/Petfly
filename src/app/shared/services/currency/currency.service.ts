@@ -51,8 +51,6 @@ export class CurrencyService {
   public loadCurrenciesFromApi(): void {
     this.petflyInteractor.getCurrencies({}).subscribe({
       next: response => {
-        // Transformar la respuesta del API al formato del servicio
-        // El response es un array directo de CurrencyEntity[]
         const currencies: Currency[] = response.map(curr => ({
           code: curr.symbol,
           symbol: curr.symbol,
@@ -61,7 +59,6 @@ export class CurrencyService {
 
         this.currenciesSubject.next(currencies);
 
-        // Restaurar la moneda guardada o usar la primera
         const savedCurrency = localStorage.getItem('selectedCurrency');
         if (savedCurrency) {
           const currency = currencies.find(c => c.code === savedCurrency);
@@ -75,7 +72,6 @@ export class CurrencyService {
         }
       },
       error: () => {
-        // Fallback a monedas por defecto
         const fallbackCurrencies: Currency[] = [
           { code: 'USD', symbol: 'USD', name: 'United States Dollar' },
           { code: 'EUR', symbol: 'EUR', name: 'Euro' },

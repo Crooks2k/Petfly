@@ -8,6 +8,7 @@ import {
   takeUntil,
   debounceTime,
   distinctUntilChanged,
+  map,
   switchMap,
   of,
   catchError,
@@ -112,7 +113,6 @@ export class FlightSearchPage implements OnInit, OnDestroy {
           next: response => {
             this.isSearching = false;
 
-            // Validar que la respuesta tenga datos
             if (!response) {
               this.messageService.add({
                 severity: 'warn',
@@ -123,7 +123,6 @@ export class FlightSearchPage implements OnInit, OnDestroy {
               return;
             }
 
-            // Verificar si hay vuelos en la respuesta
             if (!response.flightTickets || response.flightTickets.length === 0) {
               this.messageService.add({
                 severity: 'warn',
@@ -136,7 +135,6 @@ export class FlightSearchPage implements OnInit, OnDestroy {
 
             const searchId = response.searchId || 'mock-search-id-123';
 
-            // Navegar a resultados enviando todos los datos (sin toast, se ve en la página de resultados)
             this.router.navigate([FlightSearchConfig.routes.flightResults], {
               state: {
                 searchResults: response,
@@ -247,82 +245,60 @@ export class FlightSearchPage implements OnInit, OnDestroy {
   }
 
   private setupCitiesSearch(): void {
+    const debounceMs = FLIGHT_SEARCH_CONSTANTS.SEARCH.DEBOUNCE_TIME;
+    const minLen = FLIGHT_SEARCH_CONSTANTS.SEARCH.MIN_QUERY_LENGTH;
+    const limit = FLIGHT_SEARCH_CONSTANTS.SEARCH.CITIES_LIMIT;
+
     this.origenSearchSubject
       .pipe(
-        debounceTime(FLIGHT_SEARCH_CONSTANTS.SEARCH.DEBOUNCE_TIME),
+        map((q: string) => (q ?? '').trim()),
+        debounceTime(debounceMs),
         distinctUntilChanged(),
         switchMap(query => {
-          if (!query || query.length < FLIGHT_SEARCH_CONSTANTS.SEARCH.MIN_QUERY_LENGTH) {
-            this.ciudadesOrigenOptions = [];
-            this.isLoadingCitiesOrigen = false;
-            return of([]);
-          }
+          if (query.length < minLen) return of([]);
           this.isLoadingCitiesOrigen = true;
           return this.petflyInteractor
-            .getCities({
-              query,
-              limit: FLIGHT_SEARCH_CONSTANTS.SEARCH.CITIES_LIMIT,
-            })
-            .pipe(
-              catchError(() => {
-                this.isLoadingCitiesOrigen = false;
-                return of([]);
-              })
-            );
+            .getCities({ query, limit })
+            .pipe(catchError(() => of([])));
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe({
-        next: response => {
-          this.ciudadesOrigenOptions =
-            response.length > 0
-              ? response.map(city => ({
+      .subscribe(response => {
+        this.ciudadesOrigenOptions =
+          response.length > 0
+            ? response.map(city => ({
                 label: city.displayName,
                 value: city.cityCode,
                 city: city,
               }))
-              : [];
-          this.isLoadingCitiesOrigen = false;
-        },
+            : [];
+        this.isLoadingCitiesOrigen = false;
       });
 
     this.destinoSearchSubject
       .pipe(
-        debounceTime(FLIGHT_SEARCH_CONSTANTS.SEARCH.DEBOUNCE_TIME),
+        map((q: string) => (q ?? '').trim()),
+        debounceTime(debounceMs),
         distinctUntilChanged(),
         switchMap(query => {
-          if (!query || query.length < FLIGHT_SEARCH_CONSTANTS.SEARCH.MIN_QUERY_LENGTH) {
-            this.ciudadesDestinoOptions = [];
-            this.isLoadingCitiesDestino = false;
-            return of([]);
-          }
+          if (query.length < minLen) return of([]);
           this.isLoadingCitiesDestino = true;
           return this.petflyInteractor
-            .getCities({
-              query,
-              limit: FLIGHT_SEARCH_CONSTANTS.SEARCH.CITIES_LIMIT,
-            })
-            .pipe(
-              catchError(() => {
-                this.isLoadingCitiesDestino = false;
-                return of([]);
-              })
-            );
+            .getCities({ query, limit })
+            .pipe(catchError(() => of([])));
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe({
-        next: response => {
-          this.ciudadesDestinoOptions =
-            response.length > 0
-              ? response.map(city => ({
+      .subscribe(response => {
+        this.ciudadesDestinoOptions =
+          response.length > 0
+            ? response.map(city => ({
                 label: city.displayName,
                 value: city.cityCode,
                 city: city,
               }))
-              : [];
-          this.isLoadingCitiesDestino = false;
-        },
+            : [];
+        this.isLoadingCitiesDestino = false;
       });
   }
 
@@ -351,7 +327,7 @@ export class FlightSearchPage implements OnInit, OnDestroy {
   private setupCitiesValidation(): void {
     this.searchForm
       .get('origen')
-      ?.valueChanges.pipe(takeUntil(this.destroy$))
+      ?.valueChanges.pipe(debounceTime(400), takeUntil(this.destroy$))
       .subscribe(origenValue => {
         const destinoValue = this.searchForm.get('destino')?.value;
         if (origenValue && destinoValue && origenValue === destinoValue) {
@@ -361,7 +337,7 @@ export class FlightSearchPage implements OnInit, OnDestroy {
 
     this.searchForm
       .get('destino')
-      ?.valueChanges.pipe(takeUntil(this.destroy$))
+      ?.valueChanges.pipe(debounceTime(400), takeUntil(this.destroy$))
       .subscribe(destinoValue => {
         const origenValue = this.searchForm.get('origen')?.value;
         if (origenValue && destinoValue && origenValue === destinoValue) {

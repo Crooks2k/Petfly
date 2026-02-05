@@ -4,7 +4,6 @@
     <i class="pi pi-chevron-down"></i>
   </div>
 
-  <!-- Mobile Dialog -->
   <div class="mobile-dialog" *ngIf="showMobileDialog && isMobile">
     <div class="mobile-dialog-overlay" (click)="closeMobileDialog()"></div>
     <div class="mobile-dialog-content">
@@ -69,7 +68,6 @@
           </div>
         </div>
 
-        <!-- Children Ages -->
         <div class="children-ages" *ngIf="currentValue.children > 0">
           <div
             class="age-row"
@@ -118,7 +116,6 @@
     </div>
   </div>
 
-  <!-- Desktop Overlay -->
   <p-overlayPanel #overlayPanel styleClass="passenger-overlay">
     <div class="overlay-content">
       <h3 class="overlay-title">{{ passengersLabel }}</h3>
@@ -175,7 +172,6 @@
         </div>
       </div>
 
-      <!-- Children Ages -->
       <div class="children-ages" *ngIf="currentValue.children > 0">
         <div
           class="age-row"

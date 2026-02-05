@@ -72,7 +72,6 @@ export class InputNumberComponent implements ControlValueAccessor {
 
   value: number | null = null;
 
-  // ControlValueAccessor implementation
   private onChange = (value: any) => {};
   private onTouched = () => {};
 

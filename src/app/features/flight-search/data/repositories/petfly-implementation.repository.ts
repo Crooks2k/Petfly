@@ -33,7 +33,6 @@ export class PetflyImplementationRepository extends PetflyRepository {
     return this.http.get<GetCitiesResponseEntity>(`${this.apiUrl}cities`, { params });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getCurrencies(_request: GetCurrenciesRequestEntity): Observable<GetCurrenciesResponseEntity> {
     return this.http.get<GetCurrenciesResponseEntity>(`${this.apiUrl}currencies`);
   }

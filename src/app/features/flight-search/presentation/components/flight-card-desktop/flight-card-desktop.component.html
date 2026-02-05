@@ -17,9 +17,7 @@
   </p-overlayPanel>
 
   <div class="card-header">
-    <!-- Columna izquierda: Vuelos -->
     <div class="flights-column">
-      <!-- Vuelo de ida -->
       <div class="flight-row">
         <img
           [src]="outboundFlight.flightItems[0].imageUrl"
@@ -75,7 +73,6 @@
         </div>
       </div>
 
-      <!-- Vuelo de regreso -->
       <div class="flight-row" *ngIf="returnFlight">
         <img
           [src]="returnFlight.flightItems[0].imageUrl"
@@ -132,12 +129,9 @@
       </div>
     </div>
 
-    <!-- Separador vertical -->
     <div class="vertical-separator"></div>
 
-    <!-- Columna derecha: Precios -->
     <div class="prices-column">
-      <!-- Precio por persona -->
       <div class="person-box">
         <div class="price-label">{{ texts.pricePerPerson }}</div>
         <div class="price-value">${{ formatPrice(flightTicket.price) }}</div>
@@ -153,7 +147,6 @@
         </button>
       </div>
 
-      <!-- Precio mascota -->
       <div class="price-box pet-box">
         <div class="price-label">{{ texts.petPrice }}</div>
         <div class="price-value">
@@ -215,7 +208,6 @@
         </div>
       </div>
 
-      <!-- Precio total -->
       <div class="price-box total-box">
         <div class="price-label">{{ texts.totalPrice }}</div>
         <div class="price-value total">
@@ -232,16 +224,13 @@
     </div>
   </div>
 
-  <!-- Contenido expandido: Timeline detallado -->
   <div class="card-body" *ngIf="isExpanded">
-    <!-- Vuelo de ida -->
     <div class="timeline-section">
       <h4 class="timeline-title">
         {{ texts.outboundFlight }} {{ formatDate(outboundFlight.flightItems[0].departureTime) }}
       </h4>
 
       <div class="timeline" *ngFor="let segment of outboundFlight.flightItems; let i = index">
-        <!-- Salida -->
         <div class="timeline-point">
           <div class="point-dot"></div>
           <div class="point-content">
@@ -252,7 +241,6 @@
           </div>
         </div>
 
-        <!-- Vuelo -->
         <div class="timeline-flight">
           <div class="flight-line"></div>
           <div class="flight-info">
@@ -267,7 +255,6 @@
           </div>
         </div>
 
-        <!-- Llegada -->
         <div class="timeline-point">
           <div class="point-dot"></div>
           <div class="point-content">
@@ -278,7 +265,6 @@
           </div>
         </div>
 
-        <!-- Escala -->
         <div class="timeline-layover" *ngIf="i < outboundFlight.flightItems.length - 1">
           <div class="layover-duration">
             {{
@@ -293,14 +279,12 @@
       </div>
     </div>
 
-    <!-- Vuelo de regreso -->
     <div class="timeline-section" *ngIf="returnFlight">
       <h4 class="timeline-title">
         {{ texts.returnFlight }} {{ formatDate(returnFlight.flightItems[0].departureTime) }}
       </h4>
 
       <div class="timeline" *ngFor="let segment of returnFlight.flightItems; let i = index">
-        <!-- Salida -->
         <div class="timeline-point">
           <div class="point-dot"></div>
           <div class="point-content">
@@ -311,7 +295,6 @@
           </div>
         </div>
 
-        <!-- Vuelo -->
         <div class="timeline-flight">
           <div class="flight-line"></div>
           <div class="flight-info">
@@ -326,7 +309,6 @@
           </div>
         </div>
 
-        <!-- Llegada -->
         <div class="timeline-point">
           <div class="point-dot"></div>
           <div class="point-content">
@@ -337,7 +319,6 @@
           </div>
         </div>
 
-        <!-- Escala -->
         <div class="timeline-layover" *ngIf="i < returnFlight.flightItems.length - 1">
           <div class="layover-duration">
             {{

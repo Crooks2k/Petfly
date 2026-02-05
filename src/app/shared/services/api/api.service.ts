@@ -10,7 +10,6 @@ import { ApiConfig } from '@shared/services/api/api.config';
 import { SessionProviderService } from '@shared/services/session/session-provider.service';
 import { Observable, catchError, map, throwError } from 'rxjs';
 
-// Tipos para el API Service
 type ApiResponse<T = unknown> = T;
 type ApiRequestData = Record<string, unknown> | FormData | string | null;
 

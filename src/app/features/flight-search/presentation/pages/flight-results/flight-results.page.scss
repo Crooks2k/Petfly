@@ -219,7 +219,6 @@
   overflow: hidden;
 }
 
-// Botón flotante de filtros (Solo Mobile)
 .mobile-filter-button {
   display: flex;
   align-items: center;
@@ -258,7 +257,6 @@
   }
 }
 
-// Modal de filtros (Solo Mobile)
 .filters-modal {
   display: none;
   position: fixed;
@@ -785,7 +783,6 @@
   box-shadow: 0 2px 8px var(--shadow-sm);
   margin-bottom: 1rem;
 
-  // Desktop: siempre visible, no colapsable
   @media (min-width: 768px) {
     .info-header {
       cursor: default;
@@ -804,7 +801,6 @@
     }
   }
 
-  // Mobile: colapsable
   @media (max-width: 767px) {
     padding: 0;
 
@@ -1093,6 +1089,7 @@
 
   @media (min-width: 768px) {
     padding: 1.5rem;
+    zoom: 0.9;
   }
 
   .results-header {
@@ -1190,10 +1187,6 @@
   }
 }
 
-// ============================================
-// Utility classes for responsive cards
-// ============================================
-
 .mobile-only {
   display: block;
 
@@ -1210,7 +1203,6 @@
   }
 }
 
-// No results message
 .no-results {
   display: flex;
   flex-direction: column;

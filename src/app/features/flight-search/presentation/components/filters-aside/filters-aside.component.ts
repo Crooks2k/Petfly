@@ -17,6 +17,7 @@ import {
   takeUntil,
   debounceTime,
   distinctUntilChanged,
+  map,
   switchMap,
   of,
   catchError,
@@ -159,88 +160,68 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
   }
 
   private setupCitiesSearch(): void {
+    const minLen = FLIGHT_SEARCH_CONSTANTS.SEARCH.MIN_QUERY_LENGTH;
+    const debounceMs = FLIGHT_SEARCH_CONSTANTS.SEARCH.DEBOUNCE_TIME;
+    const limit = FLIGHT_SEARCH_CONSTANTS.SEARCH.CITIES_LIMIT;
+
     this.origenSearchSubject
       .pipe(
-        debounceTime(FLIGHT_SEARCH_CONSTANTS.SEARCH.DEBOUNCE_TIME),
+        debounceTime(debounceMs),
+        map((q: string) => (q ?? '').trim()),
         distinctUntilChanged(),
         switchMap(query => {
-          if (!query || query.length < FLIGHT_SEARCH_CONSTANTS.SEARCH.MIN_QUERY_LENGTH) {
-            this.ciudadesOrigenOptions = [];
-            this.isLoadingCitiesOrigen = false;
-            this.cdr.markForCheck();
+          if (query.length < minLen) {
             return of([]);
           }
           this.isLoadingCitiesOrigen = true;
-          return this.petflyInteractor
-            .getCities({
-              query,
-              limit: FLIGHT_SEARCH_CONSTANTS.SEARCH.CITIES_LIMIT,
-            })
-            .pipe(
-              catchError(() => {
-                this.isLoadingCitiesOrigen = false;
-                this.cdr.markForCheck();
-                return of([]);
-              })
-            );
+          this.cdr.markForCheck();
+          return this.petflyInteractor.getCities({ query, limit }).pipe(
+            catchError(() => of([]))
+          );
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe({
-        next: response => {
-          this.ciudadesOrigenOptions =
-            response.length > 0
-              ? response.map(city => ({
+      .subscribe(response => {
+        this.ciudadesOrigenOptions =
+          response.length > 0
+            ? response.map(city => ({
                 label: city.displayName,
                 value: city.cityCode,
                 city: city,
               }))
-              : [];
-          this.isLoadingCitiesOrigen = false;
-          this.cdr.markForCheck();
-        },
+            : [];
+        this.isLoadingCitiesOrigen = false;
+        this.cdr.markForCheck();
       });
 
     this.destinoSearchSubject
       .pipe(
-        debounceTime(FLIGHT_SEARCH_CONSTANTS.SEARCH.DEBOUNCE_TIME),
+        debounceTime(debounceMs),
+        map((q: string) => (q ?? '').trim()),
         distinctUntilChanged(),
         switchMap(query => {
-          if (!query || query.length < FLIGHT_SEARCH_CONSTANTS.SEARCH.MIN_QUERY_LENGTH) {
-            this.ciudadesDestinoOptions = [];
-            this.isLoadingCitiesDestino = false;
-            this.cdr.markForCheck();
+          if (query.length < minLen) {
             return of([]);
           }
           this.isLoadingCitiesDestino = true;
-          return this.petflyInteractor
-            .getCities({
-              query,
-              limit: FLIGHT_SEARCH_CONSTANTS.SEARCH.CITIES_LIMIT,
-            })
-            .pipe(
-              catchError(() => {
-                this.isLoadingCitiesDestino = false;
-                this.cdr.markForCheck();
-                return of([]);
-              })
-            );
+          this.cdr.markForCheck();
+          return this.petflyInteractor.getCities({ query, limit }).pipe(
+            catchError(() => of([]))
+          );
         }),
         takeUntil(this.destroy$)
       )
-      .subscribe({
-        next: response => {
-          this.ciudadesDestinoOptions =
-            response.length > 0
-              ? response.map(city => ({
+      .subscribe(response => {
+        this.ciudadesDestinoOptions =
+          response.length > 0
+            ? response.map(city => ({
                 label: city.displayName,
                 value: city.cityCode,
                 city: city,
               }))
-              : [];
-          this.isLoadingCitiesDestino = false;
-          this.cdr.markForCheck();
-        },
+            : [];
+        this.isLoadingCitiesDestino = false;
+        this.cdr.markForCheck();
       });
   }
 
@@ -288,9 +269,9 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
   private setupPetAgeValidation(): void {
     this.filtersForm
       .get('edadMascota')
-      ?.valueChanges.pipe(takeUntil(this.destroy$))
+      ?.valueChanges.pipe(debounceTime(150), takeUntil(this.destroy$))
       .subscribe(age => {
-        if (age && age > 24) {
+        if (age != null && age > 24) {
           this.filtersForm.patchValue({ edadMascota: 24 }, { emitEvent: false });
         }
       });
