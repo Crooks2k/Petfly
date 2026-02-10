@@ -49,6 +49,8 @@ export class FilterFlightsFormMapper {
       dimensions,
       airlineCode: defaultCode(formData.aerolinea),
       certificateType: getCertificateType(formData),
+      isCarrierRequired:
+        typeof formData.isCarrierRequired === 'boolean' ? formData.isCarrierRequired : null,
     };
 
     const passengers: FilterFlightsPassengersEntity = {

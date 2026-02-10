@@ -249,6 +249,71 @@ export class FlightResultsPage implements OnInit, OnDestroy {
     return current !== saved;
   }
 
+  private hasTripTypeChanged(): boolean {
+    const formData = this.viewModel.getFormData();
+    const saved = this.searchParams;
+    if (!saved) return false;
+    return formData.tipoViaje !== saved.tipoViaje;
+  }
+
+  private hasDatesChanged(): boolean {
+    const formData = this.viewModel.getFormData();
+    const saved = this.searchParams;
+    if (!saved) return false;
+
+    const normalize = (value: unknown): number | null => {
+      if (!value) return null;
+      if (value instanceof Date) return value.getTime();
+      const d = new Date(value as string);
+      return Number.isNaN(d.getTime()) ? null : d.getTime();
+    };
+
+    const currentDeparture = normalize(formData.fechaSalida);
+    const currentReturn = normalize(formData.fechaRegreso);
+    const savedDeparture = normalize(saved.fechaSalida);
+    const savedReturn = normalize(saved.fechaRegreso);
+
+    return currentDeparture !== savedDeparture || currentReturn !== savedReturn;
+  }
+
+  private hasPassengersChanged(): boolean {
+    const formData = this.viewModel.getFormData();
+    const current = formData.pasajeros;
+    const saved = this.searchParams?.pasajeros;
+
+    if (!current && !saved) return false;
+    if (!current || !saved) return true;
+
+    const currentAges = current.childrenAges || [];
+    const savedAges = saved.childrenAges || [];
+
+    if (
+      current.adults !== saved.adults ||
+      current.children !== saved.children ||
+      currentAges.length !== savedAges.length
+    ) {
+      return true;
+    }
+
+    for (let i = 0; i < currentAges.length; i++) {
+      if (currentAges[i] !== savedAges[i]) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private hasSearchParametersChanged(): boolean {
+    return (
+      this.hasRouteChanged() ||
+      this.hasTravelClassChanged() ||
+      this.hasTripTypeChanged() ||
+      this.hasDatesChanged() ||
+      this.hasPassengersChanged()
+    );
+  }
+
   private copyFormDataForSearchParams(formData: FlightSearchFormEntity): FlightSearchFormEntity {
     const pasajeros = formData.pasajeros;
     return {
@@ -286,7 +351,7 @@ export class FlightResultsPage implements OnInit, OnDestroy {
   public onFiltersApplied(): void {
     const formData = this.viewModel.getFormData();
 
-    if (this.hasRouteChanged() || this.hasTravelClassChanged()) {
+    if (this.hasSearchParametersChanged()) {
       const searchObservable = this.viewModel.runNewSearch();
       searchObservable.pipe(takeUntil(this.destroy$)).subscribe({
         next: response => {
@@ -379,7 +444,7 @@ export class FlightResultsPage implements OnInit, OnDestroy {
   public applyFilters(): void {
     const formData = this.viewModel.getFormData();
 
-    if (this.hasRouteChanged() || this.hasTravelClassChanged()) {
+    if (this.hasSearchParametersChanged()) {
       const searchObservable = this.viewModel.runNewSearch();
       searchObservable.pipe(takeUntil(this.destroy$)).subscribe({
         next: response => {

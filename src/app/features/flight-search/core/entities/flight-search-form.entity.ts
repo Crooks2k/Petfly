@@ -24,6 +24,7 @@ export interface FlightSearchFormEntity {
   width?: number | null;
   height?: number | null;
   sinTransportador?: boolean | null;
+  isCarrierRequired?: boolean | null;
   certificados?: string[];
   permitirEscalas?: boolean | null;
   precioMinimo?: number | null;

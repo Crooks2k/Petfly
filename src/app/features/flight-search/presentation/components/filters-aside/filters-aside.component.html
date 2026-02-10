@@ -111,16 +111,16 @@
         <button
           type="button"
           class="pet-type-btn"
-          [class.active]="filtersForm.get('sinTransportador')?.value === true"
-          (click)="filtersForm.patchValue({ sinTransportador: true })"
+          [class.active]="filtersForm.get('isCarrierRequired')?.value === true"
+          (click)="filtersForm.patchValue({ isCarrierRequired: true })"
         >
           <span>{{ texts.yesLabel }}</span>
         </button>
         <button
           type="button"
           class="pet-type-btn"
-          [class.active]="filtersForm.get('sinTransportador')?.value === false"
-          (click)="filtersForm.patchValue({ sinTransportador: false })"
+          [class.active]="filtersForm.get('isCarrierRequired')?.value === false"
+          (click)="filtersForm.patchValue({ isCarrierRequired: false })"
         >
           <span>{{ texts.noLabel }}</span>
         </button>
