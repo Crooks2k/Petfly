@@ -7,4 +7,5 @@ export interface FilterFlightsParametersEntity {
   dimensions: FilterFlightsDimensionsEntity;
   airlineCode: string;
   certificateType: string;
+  isCarrierRequired: boolean | null;
 }
