@@ -12,6 +12,7 @@ import {
 } from './flight-card-desktop.config';
 import { PetflyInteractor } from '@flight-search/core/interactor/petfly.interactor';
 import { MessageService } from 'primeng/api';
+import { CurrencyService } from '@shared/services/currency/currency.service';
 
 @Component({
   selector: 'petfly-flight-card-desktop',
@@ -22,6 +23,7 @@ import { MessageService } from 'primeng/api';
 export class FlightCardDesktopComponent implements OnInit, OnDestroy {
   @Input() flightTicket!: FlightTicketEntity;
   @Input() isRoundTrip: boolean = false;
+  @Input() displayCurrency: string | null = null;
 
   public texts: ResolvedFlightCardDesktopTexts = {} as ResolvedFlightCardDesktopTexts;
   public isExpanded = false;
@@ -33,7 +35,8 @@ export class FlightCardDesktopComponent implements OnInit, OnDestroy {
   constructor(
     private readonly i18nService: I18nService,
     private readonly petflyInteractor: PetflyInteractor,
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
+    private readonly currencyService: CurrencyService
   ) {}
 
   public ngOnInit(): void {
@@ -187,7 +190,20 @@ export class FlightCardDesktopComponent implements OnInit, OnDestroy {
   }
 
   public formatPrice(price: number): string {
-    return new Intl.NumberFormat('es-ES').format(Math.round(price));
+    const currencyCode =
+      this.displayCurrency ?? this.currencyService.getCurrentCurrencyCode() ?? 'USD';
+    const locale = this.i18nService.getCurrentLanguage() === 'en' ? 'en-US' : 'es-ES';
+    const formatter = new Intl.NumberFormat(locale, {
+      style: 'currency',
+      currency: currencyCode,
+      maximumFractionDigits: 0,
+      minimumFractionDigits: 0,
+    });
+    const parts = formatter.formatToParts(Math.round(price));
+    const result = parts
+      .map(p => (p.type === 'currency' && p.value === currencyCode ? '$' : p.value))
+      .join('');
+    return result;
   }
 
   public get hasMRPrice(): boolean {
