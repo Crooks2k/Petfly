@@ -122,7 +122,7 @@
     <div class="price-section">
       <div class="price-info">
         <span class="price-label">{{ texts.pricePerPerson }}</span>
-        <span class="price-value">${{ formatPrice(flightTicket.price) }}</span>
+        <span class="price-value">{{ formatPrice(flightTicket.price) }}</span>
       </div>
     </div>
 
@@ -150,7 +150,7 @@
       </div>
       <div class="price-display-large">
         <span *ngIf="hasTotalPetPrice"
-          >${{ formatPrice(getPetPriceMin()) }}-${{ formatPrice(getPetPriceMax()) }}</span
+          >{{ formatPrice(getPetPriceMin()) }}-{{ formatPrice(getPetPriceMax()) }}</span
         >
         <span *ngIf="!hasTotalPetPrice">{{ texts.notAvailable }}</span>
       </div>
@@ -202,7 +202,7 @@
       <div class="total-subtitle">{{ texts.totalPriceSubtitle }}</div>
       <div class="price-display-large total">
         <ng-container *ngIf="flightTicket.total; else naTotal">
-          ${{ formatPrice(flightTicket.total.min) }}-${{ formatPrice(flightTicket.total.max) }}
+          {{ formatPrice(flightTicket.total.min) }}-{{ formatPrice(flightTicket.total.max) }}
         </ng-container>
         <ng-template #naTotal>N/A</ng-template>
       </div>

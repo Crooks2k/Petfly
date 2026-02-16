@@ -339,6 +339,7 @@ export class FlightResultsPage implements OnInit, OnDestroy {
     this.searchResults = response;
     this.searchParams = this.copyFormDataForSearchParams(formData);
     this.searchId = newSearchId;
+    this.searchCurrency = this.currencyService.getCurrentCurrencyCode();
     this.lastSearchTravelClass = formData.pasajeros?.travelClass ?? 'economy';
     this.lastSearchOriginCode = this.getCityCode(formData.origen);
     this.lastSearchDestCode = this.getCityCode(formData.destino);
@@ -407,6 +408,7 @@ export class FlightResultsPage implements OnInit, OnDestroy {
         this.viewModel.flightResults = response;
         this.viewModel.isLoadingResults = false;
         this.searchResults = response;
+        this.searchCurrency = this.currencyService.getCurrentCurrencyCode();
         this.sortedFlightTickets = [...(response?.flightTickets || [])];
         this.currentDisplayCount = this.INITIAL_DISPLAY_COUNT;
         this.updateDisplayedFlights();
@@ -504,6 +506,7 @@ export class FlightResultsPage implements OnInit, OnDestroy {
         this.viewModel.flightResults = response;
         this.viewModel.isLoadingResults = false;
         this.searchResults = response;
+        this.searchCurrency = this.currencyService.getCurrentCurrencyCode();
         this.sortedFlightTickets = [...(response?.flightTickets || [])];
         this.currentDisplayCount = this.INITIAL_DISPLAY_COUNT;
         this.updateDisplayedFlights();
