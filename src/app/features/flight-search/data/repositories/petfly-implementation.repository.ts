@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { timeout } from 'rxjs/operators';
 import {
   GetCitiesRequestEntity,
   GetCitiesResponseEntity,
@@ -43,6 +44,8 @@ export class PetflyImplementationRepository extends PetflyRepository {
     return this.http.get<GetBreedsResponseEntity>(`${this.apiUrl}breeds`, { params });
   }
 
+  private readonly SEARCH_TIMEOUT_MS = 120_000;
+
   searchFlights(
     formData: FlightSearchFormEntity,
     currency: string,
@@ -50,7 +53,9 @@ export class PetflyImplementationRepository extends PetflyRepository {
     options?: { useDefaults?: boolean }
   ): Observable<SearchFlightsResponseEntity> {
     const request = FlightSearchFormMapper.toApiRequest(formData, currency, locale, options);
-    return this.http.post<SearchFlightsResponseEntity>(`${this.apiUrl}search`, request);
+    return this.http
+      .post<SearchFlightsResponseEntity>(`${this.apiUrl}search`, request)
+      .pipe(timeout(this.SEARCH_TIMEOUT_MS));
   }
 
   filterFlights(
