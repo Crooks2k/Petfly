@@ -4,6 +4,7 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  ViewChild,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,6 +20,7 @@ import {
   FlightSearchFormEntity,
   FlightTicketEntity,
 } from '@flight-search/core/entities';
+import { FiltersAsideComponent } from '../../components/filters-aside/filters-aside.component';
 
 export interface FlightResultsState {
   searchResults: SearchFlightsResponseEntity;
@@ -40,6 +42,7 @@ export class FlightResultsPage implements OnInit, OnDestroy {
   public filtersForm!: FormGroup;
   public readonly config = FlightResultsConfig;
   public texts: ResolvedFlightResultsTexts = {} as ResolvedFlightResultsTexts;
+  @ViewChild('modalFiltersAside') modalFiltersAside?: FiltersAsideComponent;
   public isFiltersModalOpen = false;
   public isFiltersAsideCollapsed = false;
 
@@ -213,11 +216,35 @@ export class FlightResultsPage implements OnInit, OnDestroy {
   public openFiltersModal(): void {
     this.isFiltersModalOpen = true;
     document.body.style.overflow = 'hidden';
+    document.body.classList.add('filters-modal-open');
+    this.cdr.detectChanges();
+    this.modalFiltersAside?.refreshCityOptionsForDisplay();
+    this.cdr.detectChanges();
+    this.forceCityControlsEmitForModal();
+  }
+
+  /** Re-emit current city values so the modal's autocompletes (OnPush) receive writeValue and show the correct labels. */
+  private forceCityControlsEmitForModal(): void {
+    const origen = this.filtersForm.get('origen')?.value;
+    const destino = this.filtersForm.get('destino')?.value;
+    const origenCity = this.filtersForm.get('origenCity')?.value;
+    const destinoCity = this.filtersForm.get('destinoCity')?.value;
+    this.filtersForm.patchValue(
+      { origen: null, destino: null, origenCity: null, destinoCity: null },
+      { emitEvent: true }
+    );
+    this.cdr.detectChanges();
+    this.filtersForm.patchValue(
+      { origen, destino, origenCity, destinoCity },
+      { emitEvent: true }
+    );
+    this.cdr.detectChanges();
   }
 
   public closeFiltersModal(): void {
     this.isFiltersModalOpen = false;
     document.body.style.overflow = '';
+    document.body.classList.remove('filters-modal-open');
   }
 
   public toggleFiltersAside(): void {

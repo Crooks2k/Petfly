@@ -140,7 +140,7 @@ body {
   border-radius: 8px !important;
   box-shadow: 0 10px 25px var(--shadow-sm) !important;
   background: var(--color-bg-white) !important;
-  z-index: 1100 !important;
+  z-index: 10001 !important;
   width: auto !important;
   min-width: 200px !important;
 
@@ -227,6 +227,16 @@ body {
       }
     }
   }
+}
+
+.p-autocomplete-panel {
+  z-index: 10001 !important;
+}
+
+body.filters-modal-open .p-overlay,
+body.filters-modal-open .p-dropdown-panel,
+body.filters-modal-open .p-autocomplete-panel {
+  z-index: 10050 !important;
 }
 
 .p-datepicker {
