@@ -366,6 +366,10 @@
           font-size: 1.25rem;
         }
       }
+
+      ::ng-deep .p-dropdown-clear-icon {
+        display: none !important;
+      }
     }
   }
 

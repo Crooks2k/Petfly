@@ -74,6 +74,10 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
     this.setupReactiveTexts();
     this.setupCitiesSearch();
     this.setupPetAgeValidation();
+    this.syncCityOptionsFromForm();
+    this.filtersForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.syncCityOptionsFromForm();
+    });
 
     if (this.selectedPetType) {
       this.loadBreedsByPetType(this.selectedPetType);
@@ -295,6 +299,68 @@ export class FiltersAsideComponent implements OnInit, OnDestroy {
         { label: 'United Airlines', value: 'UA' },
         { label: 'Delta', value: 'DL' },
       ];
+    }
+  }
+
+  /** Call when modal opens so city inputs re-resolve display from current form values (new array refs trigger autocomplete ngOnChanges). */
+  public refreshCityOptionsForDisplay(): void {
+    const origenCity = this.filtersForm.get('origenCity')?.value;
+    const destinoCity = this.filtersForm.get('destinoCity')?.value;
+
+    if (origenCity && typeof origenCity === 'object' && origenCity.displayName && origenCity.cityCode) {
+      const opt: CityOption = {
+        label: origenCity.displayName,
+        value: origenCity.cityCode,
+        city: origenCity,
+      };
+      const hasOrigen = this.ciudadesOrigenOptions.some(o => o.value === origenCity.cityCode);
+      this.ciudadesOrigenOptions = hasOrigen ? [opt, ...this.ciudadesOrigenOptions.filter(o => o.value !== origenCity.cityCode)] : [opt, ...this.ciudadesOrigenOptions];
+    }
+
+    if (destinoCity && typeof destinoCity === 'object' && destinoCity.displayName && destinoCity.cityCode) {
+      const opt: CityOption = {
+        label: destinoCity.displayName,
+        value: destinoCity.cityCode,
+        city: destinoCity,
+      };
+      const hasDestino = this.ciudadesDestinoOptions.some(o => o.value === destinoCity.cityCode);
+      this.ciudadesDestinoOptions = hasDestino ? [opt, ...this.ciudadesDestinoOptions.filter(o => o.value !== destinoCity.cityCode)] : [opt, ...this.ciudadesDestinoOptions];
+    }
+
+    this.cdr.markForCheck();
+  }
+
+  private syncCityOptionsFromForm(): void {
+    const origenCity = this.filtersForm.get('origenCity')?.value;
+    const destinoCity = this.filtersForm.get('destinoCity')?.value;
+    let changed = false;
+
+    if (origenCity && typeof origenCity === 'object' && origenCity.displayName && origenCity.cityCode) {
+      const opt: CityOption = {
+        label: origenCity.displayName,
+        value: origenCity.cityCode,
+        city: origenCity,
+      };
+      if (!this.ciudadesOrigenOptions.some(o => o.value === origenCity.cityCode)) {
+        this.ciudadesOrigenOptions = [opt, ...this.ciudadesOrigenOptions];
+        changed = true;
+      }
+    }
+
+    if (destinoCity && typeof destinoCity === 'object' && destinoCity.displayName && destinoCity.cityCode) {
+      const opt: CityOption = {
+        label: destinoCity.displayName,
+        value: destinoCity.cityCode,
+        city: destinoCity,
+      };
+      if (!this.ciudadesDestinoOptions.some(o => o.value === destinoCity.cityCode)) {
+        this.ciudadesDestinoOptions = [opt, ...this.ciudadesDestinoOptions];
+        changed = true;
+      }
+    }
+
+    if (changed) {
+      this.cdr.markForCheck();
     }
   }
 }

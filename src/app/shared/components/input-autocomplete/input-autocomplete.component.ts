@@ -5,6 +5,9 @@ import {
   EventEmitter,
   forwardRef,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -26,7 +29,7 @@ import { INPUT_AUTOCOMPLETE_CONSTANTS } from '../../constants';
     },
   ],
 })
-export class InputAutocompleteComponent implements ControlValueAccessor {
+export class InputAutocompleteComponent implements ControlValueAccessor, OnChanges {
   @Input() suggestions: unknown[] = [];
   @Input() field = INPUT_AUTOCOMPLETE_CONSTANTS.DEFAULT_FIELD;
   @Input() placeholder = 'Buscar...';
@@ -44,8 +47,23 @@ export class InputAutocompleteComponent implements ControlValueAccessor {
 
   private onChange = (value: unknown) => {};
   private onTouched = () => {};
+  private lastRawValue: unknown = null;
+
+  constructor(private readonly cdr: ChangeDetectorRef) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['suggestions'] && !changes['suggestions'].firstChange && this.lastRawValue != null) {
+      this.resolveAndSetValue(this.lastRawValue);
+      this.cdr.markForCheck();
+    }
+  }
 
   writeValue(value: unknown): void {
+    this.lastRawValue = value;
+    this.resolveAndSetValue(value);
+  }
+
+  private resolveAndSetValue(value: unknown): void {
     if (value && typeof value === 'string' && this.suggestions.length > 0) {
       const found = this.suggestions.find(
         item =>
