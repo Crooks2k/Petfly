@@ -12,7 +12,6 @@ import {
 } from './flight-card-desktop.config';
 import { PetflyInteractor } from '@flight-search/core/interactor/petfly.interactor';
 import { MessageService } from 'primeng/api';
-import { CurrencyService } from '@shared/services/currency/currency.service';
 
 @Component({
   selector: 'petfly-flight-card-desktop',
@@ -35,8 +34,7 @@ export class FlightCardDesktopComponent implements OnInit, OnDestroy {
   constructor(
     private readonly i18nService: I18nService,
     private readonly petflyInteractor: PetflyInteractor,
-    private readonly messageService: MessageService,
-    private readonly currencyService: CurrencyService
+    private readonly messageService: MessageService
   ) {}
 
   public ngOnInit(): void {
@@ -190,20 +188,21 @@ export class FlightCardDesktopComponent implements OnInit, OnDestroy {
   }
 
   public formatPrice(price: number): string {
-    const currencyCode =
-      this.displayCurrency ?? this.currencyService.getCurrentCurrencyCode() ?? 'USD';
+    const currencyCode = this.displayCurrency ?? 'USD';
     const locale = this.i18nService.getCurrentLanguage() === 'en' ? 'en-US' : 'es-ES';
     const formatter = new Intl.NumberFormat(locale, {
       style: 'currency',
       currency: currencyCode,
+      currencyDisplay: 'narrowSymbol',
       maximumFractionDigits: 0,
       minimumFractionDigits: 0,
     });
     const parts = formatter.formatToParts(Math.round(price));
-    const result = parts
-      .map(p => (p.type === 'currency' && p.value === currencyCode ? '$' : p.value))
-      .join('');
-    return result;
+    const currencyPart = parts.find(p => p.type === 'currency');
+    const otherParts = parts.filter(p => p.type !== 'currency');
+    if (!currencyPart) return formatter.format(Math.round(price));
+    const numberStr = otherParts.map(p => p.value).join('');
+    return `${currencyPart.value} ${numberStr}`.trim();
   }
 
   public get hasMRPrice(): boolean {
