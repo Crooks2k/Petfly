@@ -235,7 +235,8 @@ body {
 
 body.filters-modal-open .p-overlay,
 body.filters-modal-open .p-dropdown-panel,
-body.filters-modal-open .p-autocomplete-panel {
+body.filters-modal-open .p-autocomplete-panel,
+body.filters-modal-open .p-datepicker {
   z-index: 10050 !important;
 }
 

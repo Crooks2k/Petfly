@@ -220,22 +220,30 @@ export class FlightResultsPage implements OnInit, OnDestroy {
     this.cdr.detectChanges();
     this.modalFiltersAside?.refreshCityOptionsForDisplay();
     this.cdr.detectChanges();
-    this.forceCityControlsEmitForModal();
+    this.forceFormValuesEmitForModal();
   }
 
-  /** Re-emit current city values so the modal's autocompletes (OnPush) receive writeValue and show the correct labels. */
-  private forceCityControlsEmitForModal(): void {
+  private forceFormValuesEmitForModal(): void {
     const origen = this.filtersForm.get('origen')?.value;
     const destino = this.filtersForm.get('destino')?.value;
     const origenCity = this.filtersForm.get('origenCity')?.value;
     const destinoCity = this.filtersForm.get('destinoCity')?.value;
+    const fechaSalida = this.filtersForm.get('fechaSalida')?.value;
+    const fechaRegreso = this.filtersForm.get('fechaRegreso')?.value;
     this.filtersForm.patchValue(
-      { origen: null, destino: null, origenCity: null, destinoCity: null },
+      {
+        origen: null,
+        destino: null,
+        origenCity: null,
+        destinoCity: null,
+        fechaSalida: null,
+        fechaRegreso: null,
+      },
       { emitEvent: true }
     );
     this.cdr.detectChanges();
     this.filtersForm.patchValue(
-      { origen, destino, origenCity, destinoCity },
+      { origen, destino, origenCity, destinoCity, fechaSalida, fechaRegreso },
       { emitEvent: true }
     );
     this.cdr.detectChanges();
