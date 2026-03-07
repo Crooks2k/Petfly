@@ -43,12 +43,14 @@ export class FilterFlightsFormMapper {
     };
 
     const filterParameters: FilterFlightsParametersEntity = {
-      isDirect: formData.permitirEscalas === false,
       minPrice: defaultNumber(formData.precioMinimo),
       maxPrice: defaultNumber(formData.precioMaximo),
       dimensions,
       airlineCode: defaultCode(formData.aerolinea),
       certificateType: getCertificateType(formData),
+      ...(typeof formData.permitirEscalas === 'boolean' && {
+        isDirect: !formData.permitirEscalas,
+      }),
       ...(typeof formData.isCarrierRequired === 'boolean' && {
         isCarrierRequired: formData.isCarrierRequired,
       }),
