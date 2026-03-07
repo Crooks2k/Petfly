@@ -1,7 +1,7 @@
 import { FilterFlightsDimensionsEntity } from './filter-flights-dimensions.entity';
 
 export interface FilterFlightsParametersEntity {
-  isDirect: boolean;
+  isDirect?: boolean;
   maxPrice: number;
   minPrice: number;
   dimensions: FilterFlightsDimensionsEntity;
